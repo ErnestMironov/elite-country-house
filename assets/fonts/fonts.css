@@ -1,0 +1,32 @@
+@font-face {
+  font-family: 'Avenir Next Cyr';
+  src: url('AvenirNextCyr-Regular.eot');
+  src: local('Avenir Next Cyr Regular'), local('AvenirNextCyr-Regular'),
+    url('AvenirNextCyr-Regular.eot?#iefix') format('embedded-opentype'),
+    url('AvenirNextCyr-Regular.woff') format('woff'),
+    url('AvenirNextCyr-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Avenir Next Cyr';
+  src: url('AvenirNextCyr-Bold.eot');
+  src: local('Avenir Next Cyr Bold'), local('AvenirNextCyr-Bold'),
+    url('AvenirNextCyr-Bold.eot?#iefix') format('embedded-opentype'),
+    url('AvenirNextCyr-Bold.woff') format('woff'),
+    url('AvenirNextCyr-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Avenir Next Cyr';
+  src: url('AvenirNextCyr-Light.eot');
+  src: local('Avenir Next Cyr Light'), local('AvenirNextCyr-Light'),
+    url('AvenirNextCyr-Light.eot?#iefix') format('embedded-opentype'),
+    url('AvenirNextCyr-Light.woff') format('woff'),
+    url('AvenirNextCyr-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}

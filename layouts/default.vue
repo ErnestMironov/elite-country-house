@@ -1,15 +1,15 @@
 <template>
   <div>
-    <HeaderComponent />
+    <TheHeader />
     <Nuxt />
+    <TheFooter />
   </div>
 </template>
 
 <script>
-import HeaderComponent from '~/components/header-component.vue'
-export default {
-  components: { HeaderComponent },
-}
+import TheFooter from '../components/the-footer.vue'
+import TheHeader from '../components/the-header.vue'
+export default { components: { TheHeader, TheFooter } }
 </script>
 
 <style></style>

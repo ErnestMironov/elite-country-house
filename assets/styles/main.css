@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --text-color: #282423;
+}
+
+html {
+  font-family: 'Avenir Next Cyr';
+  color: var(--text-color);
+  font-size: 1.111vw;
+}
