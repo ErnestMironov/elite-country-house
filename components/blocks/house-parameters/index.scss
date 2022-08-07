@@ -1,0 +1,47 @@
+@import '@/assets/styles/scss/_colors';
+// @import '../../../assets/styles/scss/colors';
+
+.parameters{
+  margin-top: 17.25rem;
+  min-height: 27.875rem;
+  background-color: $cPrimaryBrown;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 3.75rem 4rem;
+
+  &-wrapper{
+    display: flex;
+    justify-content: flex-start;
+    align-items:flex-start;
+  }
+
+  &-info{
+    display: flex;
+    justify-content: space-between;
+    margin-left: 15rem;
+    width: 100%;
+  }
+
+  &__property{
+    h3{
+      font-family: Hind;
+      font-size: 3rem;
+      font-weight: 500;
+      line-height: 4.8125rem;
+      letter-spacing: 0em;
+      text-align: left;
+      color: $cBeige
+    }
+
+    span{
+      font-family: Avenir Next Cyr;
+      font-size: 1.5rem;
+      font-weight: 400;
+      line-height: 2rem;
+      letter-spacing: 0em;
+      text-align: left;
+      color: white
+    }
+  }
+}

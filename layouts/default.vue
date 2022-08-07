@@ -13,5 +13,5 @@ export default { components: { TheHeader, TheFooter } }
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/common'
+  @import '@/assets/styles/scss/common'
 </style>

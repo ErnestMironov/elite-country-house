@@ -1,18 +1,28 @@
 <template>
-<section class="container parameters">
-  <div class="parameters-info">
-    <Title></Title>
-  <p class="parameters__text">
-    Situé au reLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat
-  </p>
-  </div>
-</section>
+<div class="house-wrapper">
+
+  <section class="container">
+    <HouseName/>
+  </section>
+
+  <HouseParameters/>
+
+  <section class="container">
+    <HouseAbout/>
+  </section>
+
+  <section class="container">
+    <HouseFunctional/>
+  </section>
+</div>
 </template>
 
 <script setup>
 
-//  import { Swiper, SwiperSlide } from 'swiper/core';
-import Title from '@/components/simple-title'
+import HouseAbout from '@/components/blocks/house-about'
+import HouseName from '@/components/blocks/house-name'
+import HouseParameters from '@/components/blocks/house-parameters'
+import HouseFunctional from '@/components/blocks/house-functional'
 
 // import Swiper from 'swiper/swiper-bundle.min'
 // import 'swiper/swiper-bundle.min.css'

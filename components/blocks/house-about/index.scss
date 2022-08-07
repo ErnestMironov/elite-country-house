@@ -1,0 +1,72 @@
+.about{
+  margin-top: 10.875rem;
+
+  &-wrapper{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 3.75rem;
+  }
+
+  &-info{
+    display: flex;
+    flex-direction: column;
+    max-width: 33.4375rem;
+
+    &__card{
+      position: relative;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      &:not(:last-child){
+        margin-bottom: 3.5rem;
+      }
+
+      span{
+        position: absolute;
+        top: 0;
+        left: 0;
+        font-family: Avenir Next Cyr;
+        font-size: 8rem;
+        font-weight: 750;
+        line-height: 6rem;
+        letter-spacing: 0em;
+        text-align: left;
+        color: #2D2929;
+        opacity: 0.1
+      }
+
+      h4{
+        margin-top: 2.625rem;
+        margin-bottom: 1.5rem;
+      }
+    }
+  }
+
+  &__img{
+    position: absolute;
+    right: -4rem;
+
+    &--1{
+      top: 0;
+      max-width: 45.75rem;
+      height: auto;
+      z-index: 1;
+    }
+    &--2{
+      top: 19.875rem;
+      right: 6.875rem;
+      max-width: 38.625rem;
+      height: auto;
+      z-index: 2;
+    }
+    &--3{
+      bottom: 0;
+      max-width: 32.5rem;
+      height: auto;
+      z-index: 3;
+    }
+  }
+}
