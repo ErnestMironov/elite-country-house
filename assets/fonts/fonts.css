@@ -59,11 +59,46 @@
 
 @font-face {
   font-family: 'Avenir Next Cyr';
+  src: url('AvenirNextCyr-Demi.eot');
+  src: local('Avenir Next Cyr Demi'), local('AvenirNextCyr-Demi'),
+    url('AvenirNextCyr-Demi.eot?#iefix') format('embedded-opentype'),
+    url('AvenirNextCyr-Demi.woff') format('woff'),
+    url('AvenirNextCyr-Demi.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Avenir Next Cyr';
   src: url('AvenirNextCyr-Light.eot');
   src: local('Avenir Next Cyr Light'), local('AvenirNextCyr-Light'),
     url('AvenirNextCyr-Light.eot?#iefix') format('embedded-opentype'),
     url('AvenirNextCyr-Light.woff') format('woff'),
     url('AvenirNextCyr-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Cormorant';
+  src: local('Cormorant Regular'), local('Cormorant-Regular'),
+    url('Cormorant-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Cormorant';
+  src: local('Cormorant Bold'), local('Cormorant-Bold'),
+    url('Cormorant-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Cormorant';
+  src: local('Cormorant Light'), local('Cormorant-Light'),
+    url('Cormorant-Light.ttf') format('truetype');
   font-weight: 300;
   font-style: normal;
 }
