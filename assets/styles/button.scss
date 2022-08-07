@@ -1,0 +1,16 @@
+.btn {
+  border: 0.0625rem solid var(--text-color);
+  background: var(--text-color);
+  color: #fffdfc;
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  padding: 1.125rem;
+  display: inline-block;
+  cursor: pointer;
+  transition: all ease-out 0.15s;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
