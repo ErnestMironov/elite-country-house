@@ -7,9 +7,11 @@
 </template>
 
 <script>
-import TheFooter from '../components/the-footer.vue'
-import TheHeader from '../components/the-header.vue'
+import TheFooter from '@/components/the-footer.vue'
+import TheHeader from '@/components/the-header.vue'
 export default { components: { TheHeader, TheFooter } }
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+@import '@/assets/styles/common'
+</style>

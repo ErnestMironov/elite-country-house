@@ -1,6 +1,7 @@
+
+@tailwind utilities;
 @tailwind base;
 @tailwind components;
-@tailwind utilities;
 
 :root {
   --text-color: #282423;

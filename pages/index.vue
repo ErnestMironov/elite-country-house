@@ -1,5 +1,5 @@
 <template>
-  <h1>Lorem, ipsum.</h1>
+  <h1>hello</h1>
 </template>
 
 <script lang="ts">

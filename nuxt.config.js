@@ -22,10 +22,13 @@ export default {
     '~/assets/styles/reset.css',
     '~/assets/fonts/fonts.css',
     '~/assets/styles/main.css',
+    '~/assets/styles/common.scss',
+    '~/assets/styles/_ui.scss',
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins:[
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,

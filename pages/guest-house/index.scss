@@ -1,0 +1,20 @@
+.parameters{
+  margin-top: 7.5rem;
+  
+  &-info{
+    display: flex;
+    justify-content: start;
+    align-items: flex-start;
+  }
+
+  &__text{
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 2rem;
+    letter-spacing: 0em;
+    text-align: left;
+    width: 40.25rem;
+    margin-left: 6.875rem;
+  }
+}
+
