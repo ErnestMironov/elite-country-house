@@ -22,10 +22,11 @@ export default {
     'swiper/css/swiper.css',
     '~/assets/styles/reset.css',
     '~/assets/fonts/fonts.css',
-    '~/assets/styles/main.css',
+    '~/assets/styles/scss/components.scss',
     '~/assets/styles/scss/common.scss',
     '~/assets/styles/scss/_ui.scss',
-    '~/assets/styles/scss/_colors.scss'
+    '~/assets/styles/scss/_colors.scss',
+    '~/assets/styles/main.css',
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins

@@ -8,11 +8,16 @@ module.exports = {
     "./nuxt.config.{js,ts}",
   ],
   theme: {
+
     extend: {
       fontFamily: {
         'cormorant': ['Cormorant'],
       },
     },
+    container: {
+      padding: '4rem',
+      center: true
+    }
   },
   plugins: [],
 }
