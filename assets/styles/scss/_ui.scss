@@ -1,15 +1,15 @@
 @import '@/assets/styles/scss/_colors';
 
-.title{
+.title {
   color: $cTextBrown;
 
-  &-wrapper{
+  &-wrapper {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     position: relative;
 
-    h2{
+    &__title {
       font-size: 2.25rem;
       font-weight: 600;
       line-height: 3rem;
@@ -17,39 +17,39 @@
       text-align: left;
     }
 
-    svg{
+    svg {
       position: relative;
-      bottom: 0.5rem;
+      bottom: -0.2rem;
       margin-right: 1.5rem;
       width: 5.375rem;
     }
   }
 
-  &-light{
+  &-light {
     color: white;
 
     svg rect {
-      fill: white
+      fill: white;
     }
   }
 }
 
-.info-title{
+.info-title {
   font-family: Cormorant;
   font-size: 2.25rem;
   font-weight: 500;
   line-height: 3rem;
   letter-spacing: 0em;
   text-align: left;
-  color: black
+  color: black;
 }
 
-.info-block{
+.info-block {
   font-family: Avenir Next Cyr;
   font-size: 1.125rem;
   font-weight: 400;
   line-height: 1.75rem;
   letter-spacing: 0em;
   text-align: left;
-  color: black
+  color: black;
 }

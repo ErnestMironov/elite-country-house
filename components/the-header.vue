@@ -1,5 +1,5 @@
 <template>
-  <header class="header">
+  <header class="header container">
     <img class="logo" src="~/assets/icons/logo_black.svg" alt="" />
     <ul class="menu">
       <li v-for="item in menu" :key="item.label" class="menu__item">
@@ -27,7 +27,7 @@ export default {
 
 <style lang="scss" scoped>
 .header {
-  padding: 0.8125rem 4rem;
+  padding-top: 0.8125rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
