@@ -15,6 +15,7 @@
       line-height: 3rem;
       letter-spacing: 0em;
       text-align: left;
+      margin-bottom: 0;
     }
 
     svg {
@@ -58,6 +59,25 @@
   display: flex;
   &__btn {
     padding: 0.6875rem 0.875rem;
-    background: var(--secondary);
+    background: var(--secondary-color);
+    transition: all ease-out 0.15s;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}
+
+.param {
+  &__title {
+    font-weight: 300;
+    font-size: 2.25rem;
+    line-height: 3rem;
+    display: block;
+  }
+
+  &__value {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
   }
 }

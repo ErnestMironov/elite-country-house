@@ -9,23 +9,23 @@
         {{ currentObject.description }}
       </p>
       <ul class="objects__params">
-        <li class="mr-[3.6875rem]">
-          <span class="objects__params-title">{{ currentObject.area }}м²</span>
-          <span>Площадь</span>
+        <li class="mr-[3.6875rem] param">
+          <span class="param__title">{{ currentObject.area }}м²</span>
+          <span class="param__value">Площадь</span>
         </li>
-        <li class="mr-[2.625rem]">
-          <span class="objects__params-title">{{ currentObject.floors }}</span>
-          <span>Этажа</span>
+        <li class="mr-[2.625rem] param">
+          <span class="param__title">{{ currentObject.floors }}</span>
+          <span class="param__value">Этажа</span>
         </li>
-        <li>
-          <span class="objects__params-title">{{
-            currentObject.bedrooms
+        <li class="param">
+          <span class="param__title">{{ currentObject.bedrooms }}</span>
+          <span class="param__value">Спальни</span>
+        </li>
+        <li class="param">
+          <span class="param__title">{{
+            currentObject.price | parseNumber
           }}</span>
-          <span>Спальни</span>
-        </li>
-        <li>
-          <span class="objects__params-title">{{ currentObject.price }}</span>
-          <span>Стоимость аренды</span>
+          <span class="param__value">Стоимость аренды</span>
         </li>
       </ul>
       <h3 class="objects__address-title">Адрес</h3>
@@ -67,40 +67,15 @@ import objImage3 from '~/assets/images/mock/home_objects/object_3.jpg'
 
 export default {
   name: 'TheObjects',
+  filters: {
+    parseNumber(val) {
+      return Number(val).toLocaleString('ru-RU')
+    },
+  },
   data() {
     return {
       activeObject: 0,
       objects: [
-        {
-          image: objImage1,
-          title: 'Апартаменты №1',
-          description:
-            'Здесь нам необходим текст, который в общих чертах расскажет про то, какие качественные услуги представляет компания. Не забыть упомянуть высокотехнологичность домов и апартаментов и премиальный уровень класса.',
-          area: 29,
-          floors: 2,
-          bedrooms: 4,
-          price: 50000,
-        },
-        {
-          image: objImage2,
-          title: 'Апартаменты №2',
-          description:
-            'Здесь нам необходим текст, который в общих чертах расскажет про то, какие качественные услуги представляет компания. Не забыть упомянуть высокотехнологичность домов и апартаментов и премиальный уровень класса.',
-          area: 29,
-          floors: 2,
-          bedrooms: 4,
-          price: 60000,
-        },
-        {
-          image: objImage3,
-          title: 'Апартаменты №7',
-          description:
-            'Здесь нам необходим текст, который в общих чертах расскажет про то, какие качественные услуги представляет компания. Не забыть упомянуть высокотехнологичность домов и апартаментов и премиальный уровень класса.',
-          area: 29,
-          floors: 2,
-          bedrooms: 4,
-          price: 70000,
-        },
         {
           image: objImage1,
           title: 'Апартаменты №1',
@@ -197,13 +172,6 @@ export default {
     li {
       margin-bottom: 1.5rem;
     }
-  }
-
-  &__params-title {
-    font-weight: 300;
-    font-size: 2.25rem;
-    line-height: 3rem;
-    display: block;
   }
 
   &__address-title {
