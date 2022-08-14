@@ -1,16 +1,16 @@
-.functional{
+.functional {
   margin-top: 6.25rem;
   padding-top: 1.625rem;
   position: relative;
   margin-bottom: 11.25rem;
 
-  &__title-wrapper{
+  &__title-wrapper {
     position: absolute;
     top: 0;
     left: 0;
   }
 
-  &__border-top{
+  &__border-top {
     position: absolute;
     top: 1.625rem;
     right: 0;
@@ -18,51 +18,50 @@
     width: 47.1875rem;
   }
 
-  &-wrapper{
+  &-wrapper {
     display: flex;
     flex-direction: column;
   }
 
-  &__img{
+  &__img {
     height: auto;
     width: 27.625rem;
-    transform:scale(0) rotate(0);
+    transform: scale(0) rotate(0);
     transition: transform 0.4s ease-in;
   }
 
-  &__ticker{
+  &__ticker {
     margin-left: 0.625rem;
     margin-bottom: 0.375rem;
     width: 1.875rem;
     height: auto;
   }
-  
-  &__row{
+
+  &__row {
     justify-content: space-between;
     display: flex;
     align-items: center;
     border-bottom: 0.0625rem solid #000;
     padding-top: 1.75rem;
     padding-bottom: 1.125rem;
-    &:hover{
-      .functional__img{
-        transform:scale(1) rotate(-15deg);
+    &:hover {
+      .functional__img {
+        transform: scale(1) rotate(-15deg);
       }
     }
 
-
-    &-info{
+    &-info {
       width: 47.1875rem;
 
-      h4{
+      h4 {
         margin-bottom: 0.75rem;
       }
 
-      p{
+      p {
         margin-bottom: 1.125rem;
       }
 
-      span{
+      span {
         font-family: Hind;
         font-size: 3rem;
         font-weight: 300;

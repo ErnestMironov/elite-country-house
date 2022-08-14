@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { directive, Swiper, SwiperSlide } from 'vue-awesome-swiper'
+import { directive } from 'vue-awesome-swiper'
 
 import firstImg from '~/assets/images/mock/home-page_hero_1.jpg'
 import secondImg from '~/assets/images/mock/home-page_hero_2.jpg'
@@ -38,10 +38,7 @@ export default {
   directives: {
     swiper: directive,
   },
-  components: {
-    Swiper,
-    SwiperSlide,
-  },
+
   data() {
     return {
       banners: [firstImg, secondImg],
