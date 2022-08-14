@@ -10,7 +10,6 @@
           <img class="h-[44rem]" :src="banner" />
         </div>
       </div>
-      <div class="swiper-pagination swiper-pagination-bullets"></div>
     </div>
 
     <div class="hero__text-block">

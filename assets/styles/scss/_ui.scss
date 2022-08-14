@@ -53,3 +53,11 @@
   text-align: left;
   color: black;
 }
+
+.nav {
+  display: flex;
+  &__btn {
+    padding: 0.6875rem 0.875rem;
+    background: var(--secondary);
+  }
+}
