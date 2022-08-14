@@ -17,5 +17,7 @@
   &_light {
     background: #fffdfc;
     color: var(--text-color);
+    border-top: 1px solid var(--text-color);
+    border-bottom: 1px solid var(--text-color);
   }
 }
