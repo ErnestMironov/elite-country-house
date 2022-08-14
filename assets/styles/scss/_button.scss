@@ -1,5 +1,4 @@
 .btn {
-  border: 0.0625rem solid var(--text-color);
   background: var(--text-color);
   color: #fffdfc;
   font-weight: 600;
@@ -8,10 +7,17 @@
   padding: 1.125rem;
   display: inline-block;
   cursor: pointer;
-  transition: all ease-out 0.15s;
   text-align: center;
+  transition: all ease-out 0.15s;
 
   &:hover {
     opacity: 0.8;
+  }
+
+  &_light {
+    background: #fffdfc;
+    color: var(--text-color);
+    border-top: 1px solid var(--text-color);
+    border-bottom: 1px solid var(--text-color);
   }
 }
