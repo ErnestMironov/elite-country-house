@@ -1,5 +1,8 @@
 <template>
 <div class="house-wrapper">
+  <section class="container">
+    <Booking/>
+  </section>
 
   <section class="container">
     <HouseName/>
@@ -23,6 +26,7 @@ import HouseAbout from '@/components/blocks/house-about'
 import HouseName from '@/components/blocks/house-name'
 import HouseParameters from '@/components/blocks/house-parameters'
 import HouseFunctional from '@/components/blocks/house-functional'
+import Booking from '@/components/booking'
 
 // import Swiper from 'swiper/swiper-bundle.min'
 // import 'swiper/swiper-bundle.min.css'
@@ -37,7 +41,5 @@ import HouseFunctional from '@/components/blocks/house-functional'
 </script>
 
 <style lang="scss" scoped>
-@import './index.scss';
-
-
+  @import './index.scss';
 </style>

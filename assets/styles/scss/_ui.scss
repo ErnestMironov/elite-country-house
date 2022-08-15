@@ -1,4 +1,5 @@
 @import '@/assets/styles/scss/_colors';
+@import '@/assets/styles/button';
 
 .title{
   color: $cTextBrown;
@@ -10,8 +11,9 @@
     position: relative;
 
     h2{
+      font-family: Cormorant;
       font-size: 2.25rem;
-      font-weight: 600;
+      font-weight: 500;
       line-height: 3rem;
       letter-spacing: 0em;
       text-align: left;
@@ -36,7 +38,7 @@
 
 .info-title{
   font-family: Cormorant;
-  font-size: 2.25rem;
+  font-size: 1.75rem;
   font-weight: 500;
   line-height: 3rem;
   letter-spacing: 0em;

@@ -16,8 +16,8 @@
     url('AvenirNextCyr-Regular.eot?#iefix') format('embedded-opentype'),
     url('AvenirNextCyr-Regular.woff') format('woff'),
     url('AvenirNextCyr-Regular.ttf') format('truetype'),
-    url('avenirnextcyr-medium.ttf') format('truetype'),
-    url('avenirnextcyr-demi.ttf') format('truetype');
+    url('AvenirNextCyr-Medium.ttf') format('truetype'),
+    url('AvenirNextCyr-Demi.ttf') format('truetype');
   font-weight: 500;
   font-style: normal;
 }

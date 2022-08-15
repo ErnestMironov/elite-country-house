@@ -9,7 +9,6 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue'
   const props = defineProps({
       isLight: {
         type:Boolean,
@@ -24,10 +23,4 @@ import { defineProps } from 'vue'
 </script>
 
 <style scoped lang="scss">
-  .title{
-    &-wrapper{
-      display: flex;
-      align-items: center;
-    }
-  }
 </style>
