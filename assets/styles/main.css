@@ -1,14 +1,18 @@
-
 @tailwind utilities;
 @tailwind base;
 @tailwind components;
 
 :root {
   --text-color: #282423;
+  --secondary-color: #302c26;
 }
 
 html {
   font-family: 'Avenir Next Cyr';
   color: var(--text-color);
   font-size: 1.111vw;
+}
+
+.container {
+  max-width: 100%;
 }

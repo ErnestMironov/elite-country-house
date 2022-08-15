@@ -1,11 +1,17 @@
 <template>
   <div class="hero">
-    <swiper :options="swiperOptions">
-      <swiper-slide v-for="banner in banners" :key="banner" class="hero__slide">
-        <!-- Render original HTML in server, render Swiper in browser (client) -->
-        <img class="h-[44rem]" :src="banner" />
-      </swiper-slide>
-    </swiper>
+    <div v-swiper:mySwiper="swiperOptions" class="hero__slider">
+      <div class="swiper-wrapper">
+        <div
+          v-for="banner in banners"
+          :key="banner"
+          class="swiper-slide hero__slide"
+        >
+          <img class="h-[44rem]" :src="banner" />
+        </div>
+      </div>
+    </div>
+
     <div class="hero__text-block">
       <h2 class="hero__title">
         Элитный загородный <br />
@@ -22,7 +28,7 @@
 </template>
 
 <script>
-import { directive, Swiper, SwiperSlide } from 'vue-awesome-swiper'
+import { directive } from 'vue-awesome-swiper'
 
 import firstImg from '~/assets/images/mock/home-page_hero_1.jpg'
 import secondImg from '~/assets/images/mock/home-page_hero_2.jpg'
@@ -32,17 +38,14 @@ export default {
   directives: {
     swiper: directive,
   },
-  components: {
-    Swiper,
-    SwiperSlide,
-  },
+
   data() {
     return {
       banners: [firstImg, secondImg],
       swiperOptions: {
-        slidesPerView: 'auto',
-        spaceBetween: '30',
         loop: true,
+        slidesPerView: 'auto',
+        spaceBetween: 30,
         autoplay: true,
       },
     }
@@ -56,6 +59,10 @@ export default {
 
   &__slide {
     width: auto;
+  }
+
+  &__slider {
+    width: 100%;
   }
 
   &__text-block {

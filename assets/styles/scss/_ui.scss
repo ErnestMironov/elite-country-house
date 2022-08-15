@@ -1,57 +1,85 @@
 @import '@/assets/styles/scss/_colors';
 @import '@/assets/styles/button';
 
-.title{
+.title {
   color: $cTextBrown;
 
-  &-wrapper{
+  &-wrapper {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     position: relative;
 
-    h2{
+    &__title{
       font-family: Cormorant;
       font-size: 2.25rem;
       font-weight: 500;
       line-height: 3rem;
       letter-spacing: 0em;
       text-align: left;
+      margin-bottom: 0;
     }
 
-    svg{
+    svg {
       position: relative;
-      bottom: 0.5rem;
+      bottom: -0.2rem;
       margin-right: 1.5rem;
       width: 5.375rem;
     }
   }
 
-  &-light{
+  &-light {
     color: white;
 
     svg rect {
-      fill: white
+      fill: white;
     }
   }
 }
 
-.info-title{
+.info-title {
   font-family: Cormorant;
   font-size: 1.75rem;
   font-weight: 500;
   line-height: 3rem;
   letter-spacing: 0em;
   text-align: left;
-  color: black
+  color: black;
 }
 
-.info-block{
+.info-block {
   font-family: Avenir Next Cyr;
   font-size: 1.125rem;
   font-weight: 400;
   line-height: 1.75rem;
   letter-spacing: 0em;
   text-align: left;
-  color: black
+  color: black;
+}
+
+.nav {
+  display: flex;
+  &__btn {
+    padding: 0.6875rem 0.875rem;
+    background: var(--secondary-color);
+    transition: all ease-out 0.15s;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}
+
+.param {
+  &__title {
+    font-weight: 300;
+    font-size: 2.25rem;
+    line-height: 3rem;
+    display: block;
+  }
+
+  &__value {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
 }

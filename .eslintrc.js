@@ -18,5 +18,6 @@ module.exports = {
         ignores: ['default', 'index'],
       },
     ],
+    'import-order': 'off',
   },
 }
