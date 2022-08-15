@@ -17,7 +17,6 @@
 </template>
 
 <script setup>
-<<<<<<< HEAD
   const props = defineProps({
       isLight: {
         type:Boolean,
@@ -33,19 +32,3 @@
 
 <style scoped lang="scss">
 </style>
-=======
-import { defineProps } from 'vue'
-const props = defineProps({
-  isLight: {
-    type: Boolean,
-    default: false,
-  },
-  title: {
-    type: String,
-    default: '',
-  },
-})
-</script>
-
-<style scoped lang="scss"></style>
->>>>>>> master

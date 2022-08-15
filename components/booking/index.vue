@@ -1,48 +1,16 @@
 <template>
   <section class="booking">
     <div class="booking-wrapper">
-<!-- class="booking-calendar" -->
-        <!-- <client-only placeholder="loading..." > -->
-      <!-- <lazy-calendar
-        background-text
-        class-name="select-mode"
-      /> -->
-        <!-- :remarks="remarks" -->
-    <!-- </client-only> -->
 
-    <!-- <client-only>
-      <booking-calendar
-        background-text
-        class-name="select-mode"
-        :remarks="{'2021-1-13': 'some tings'}"
-      /> 
-    </client-only> -->
-
-    <!-- <client-only>
-      <!-- <new-date-picker v-model="value1" type="date" range placeholder="Select date range"></new-date-picker> -->
-      <!-- <new-date-picker v-model="time3" value-type="format"></new-date-picker> -->
-      <!-- <new-date-picker v-model="time2" type="datetime"></new-date-picker> -->
-
-       <!-- <div class="box">
-        <section>
-          <p>date range</p>
-          <new-date-picker v-model="value1" type="date" range placeholder="Select date range"></new-date-picker>
-        </section>
-        <section>
-          <p>datetime range</p>
-          <new-date-picker
-            v-model="value2"
-            type="datetime"
-            range
-            placeholder="Select datetime range"
-          ></new-date-picker>
-        </section>
-      </div>
-    </client-only>  -->
-
-    <!-- <client-only>
-      <date-picker v-model="date_today" placeholder="MM/DD/YYYY" format="MM/dd/yyyy" />
-    </client-only> -->
+    <client-only>
+      <DatePicker
+        range 
+        lang="ru" 
+        :disabled-start-date="{
+        to: new Date('08.08.2022'),
+        from: new Date('20.08.2022')
+      }"/>
+    </client-only>
       
       <div class="booking-parameters">
         <h3 class="booking__header">Основные параметры</h3>
@@ -91,7 +59,6 @@
 </template>
 
 <script>
-// import Calendar from 'mpvue-calendar'
 import { ref } from 'vue';
 
  export default {
@@ -105,11 +72,7 @@ import { ref } from 'vue';
 //           // time3: null,
 //     } 
 // }
-name: 'Range',
-  components: {
-    // 'calendar': () => {if(process.client){ return import('mpvue-calendar')}}
-    // fuckingBooking: () => import('@/assets/fuckingBooking/fuckingBooking.vue')
-  },
+
   setup() {
     
     return {
@@ -128,3 +91,4 @@ name: 'Range',
 
 <style lang="scss" src="./index.scss" scoped>
 </style>
+<!-- <style></style> -->
