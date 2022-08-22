@@ -3,7 +3,7 @@
     <SimpleTitle
     title="Частозадаваемые вопросы"/>
     <div class="questions-wrapper" >
-      <div v-for="question in questions" :key="question.id" class="questions__item">
+      <div v-for="question in questions" :key="question.id" class="questions__item" @click="navigateToQuestion">
         <h3 class="questions__title">{{question.title}}</h3>
       </div>
     </div>
@@ -13,7 +13,9 @@
 
 <script>
 import SimpleTitle from '@/components/ui/simple-title/simple-title.vue';
+import {useRouter}  from 'vue-router'
 
+const router = useRouter()
 
 export default {
   components:{
@@ -65,6 +67,10 @@ export default {
      ]
     }
   },
+}
+
+const navigateToQuestion = (id) => {
+  router.push(`faq/${question.id}`)
 }
 </script>
 
