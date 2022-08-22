@@ -1,15 +1,50 @@
 <template>
   <section class="booking">
+    <div class="booking-info">
+      <div class="booking__info-section booking__">
+        <h5 class="booking__info-title">
+          Дата бронирования
+        </h5>
+        <span class="booking__info-value">16.07.2022</span>
+      </div>
+      <div class="booking__info-section">
+        <h5 class="booking__info-title">
+          Добавление бани
+        </h5>
+        <span class="booking__info-value">16.07.2022</span>
+      </div>
+      <div class="booking__info-section">
+        <h5 class="booking__info-title">
+          Личные данные 
+        </h5>
+        <span class="booking__info-value">16.07.2022</span>
+      </div>
+      <div class="booking__info-section">
+        <h5 class="booking__info-title">
+          Оплата
+        </h5>
+        <span class="booking__info-value">16.07.2022</span>
+      </div>
+    </div>
     <div class="booking-wrapper">
 
     <client-only>
       <DatePicker
         range 
         lang="ru" 
-        :disabled-start-date="{
+        :disabled-end-date="{
+          to: new Date('08.10.2022'),
+        from: new Date('08.15.2022')
+        }"
+      />
+        <!-- :disabled-start-date="{
+          to: new Date('08.01.2022'),
+        from: new Date('08.15.2022')
+        }" -->
+        <!-- :disabled-start-date="{
         to: new Date('08.08.2022'),
-        from: new Date('20.08.2022')
-      }"/>
+        from: new Date('12.08.2022')
+        }" -->
     </client-only>
       
       <div class="booking-parameters">
