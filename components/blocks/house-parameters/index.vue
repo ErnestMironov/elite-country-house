@@ -21,6 +21,7 @@
           >
             <img class="parameters__slide-img" src="~/assets/images/mock/parameters-slider__3.jpg" />
           </swiper-slide>
+       </swiper>
           <!-- <swiper-slide
             v-for="image in images"
             :key="image.id"
@@ -28,7 +29,6 @@
           >
             <img class="parameters__slide-img" :src="image.src" />
           </swiper-slide> -->
-    </swiper>
     </div>
     <div class="parameters__background"></div>
     <div class="parameters-wrapper">
