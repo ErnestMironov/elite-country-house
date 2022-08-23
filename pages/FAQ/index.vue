@@ -3,19 +3,24 @@
     <SimpleTitle
     title="Частозадаваемые вопросы"/>
     <div class="questions-wrapper" >
-      <div v-for="question in questions" :key="question.id" class="questions__item" @click="navigateToQuestion">
+      <NuxtLink
+        v-for="question in questions"
+        :key="question.id"
+        :to="`faq/:${question.id}`" 
+        class="questions__item" 
+      >
         <h3 class="questions__title">{{question.title}}</h3>
-      </div>
+      </NuxtLink>
     </div>
     <img src="@/assets/images/HEDONIST.svg" alt="" class="questions__bg-img">
   </section>
 </template>
 
 <script>
+// import {useRouter}  from 'vue-router'
 import SimpleTitle from '@/components/ui/simple-title/simple-title.vue';
-import {useRouter}  from 'vue-router'
 
-const router = useRouter()
+// const router = useRouter()
 
 export default {
   components:{
@@ -69,9 +74,9 @@ export default {
   },
 }
 
-const navigateToQuestion = (id) => {
-  router.push(`faq/${question.id}`)
-}
+// const navigateToQuestion = (id) => {
+//   router.push(`faq/${question.id}`)
+// }
 </script>
 
 <style lang="scss" scoped>
