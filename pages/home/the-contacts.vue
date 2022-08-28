@@ -14,19 +14,16 @@
       <h3 class="subtitle">Координаты для навигатора</h3>
       <ul class="list">
         <li class="list__item">
-          <a href=""> Lorem ipsum dolor sit amet </a>
-        </li>
-        <li class="list__item">
-          <a href=""> Lorem ipsum dolor sit amet </a>
+          <a href="" class="flex items-start">
+            55.777044 37.555554.
+            <img src="~/assets/icons/copy.svg" alt="скопировать" />
+          </a>
         </li>
       </ul>
       <h3 class="subtitle">Email</h3>
       <ul class="list">
         <li class="list__item">
-          <a href="">
-            55.777044 37.555554.
-            <img src="~/assets/icons/copy.svg" alt="скопировать" />
-          </a>
+          <a href=""> Lorem ipsum dolor sit amet </a>
         </li>
       </ul>
       <h3 class="subtitle">Контактный телефон</h3>
