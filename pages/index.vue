@@ -1,5 +1,6 @@
 <template>
-  <main>
+  <main class="relative pb-[11.25rem] overflow-hidden">
+    <img src="~/assets/images/home-bg.svg" class="decoration" alt="" />
     <TheHero />
     <TheServices />
     <TheObjects />
@@ -43,3 +44,13 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.decoration {
+  position: absolute;
+  bottom: -17.6rem;
+  left: 0;
+  width: 100%;
+  z-index: -1;
+}
+</style>

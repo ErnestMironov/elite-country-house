@@ -1,5 +1,5 @@
 <template>
-  <section class="container flex justify-between mt-[8.3125rem] mb-[11.25rem]">
+  <section class="container flex justify-between mt-[8.3125rem]">
     <div>
       <SimpleTitle title="Как нас найти?" />
       <h3 class="subtitle">Адрес</h3>
