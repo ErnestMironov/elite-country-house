@@ -32,24 +32,29 @@
     </div>
     <div class="parameters__background"></div>
     <div class="parameters-wrapper">
-      <Title :title="'Параметры'" is-light></Title>
+      <Title :title="'Параметры'" is-light class="parameters__title"/>
       <div class="parameters-info">
+
         <div class="parameters__property">
           <h3>{{ mock.cost }}</h3>
           <span>Стоимость аренды</span>
         </div>
-        <div class="parameters__property">
-          <h3>{{ mock.floors }}</h3>
-          <span>{{ createFloorsString(mock.floors) }}</span>
-          <!-- <span>Этажа</span> -->
-        </div>
-        <div class="parameters__property">
-          <h3>{{ mock.rooms }}</h3>
-          <span>Комнаты</span>
-        </div>
-        <div class="parameters__property">
-          <h3>{{ mock.square + ' m²' }}</h3>
-          <span>Площадь</span>
+
+        <div class="parameters__mobile-wrapper">
+
+          <div class="parameters__property">
+            <h3>{{ mock.floors }}</h3>
+            <span>{{ createFloorsString(mock.floors) }}</span>
+          </div>
+          <div class="parameters__property">
+            <h3>{{ mock.rooms }}</h3>
+            <span>Комнаты</span>
+          </div>
+          <div class="parameters__property">
+            <h3>{{ mock.square + ' m²' }}</h3>
+            <span>Площадь</span>
+          </div>
+
         </div>
       </div>
     </div>
@@ -83,8 +88,7 @@ export default{
         },
       ],
       swiperOptions: {
-        slidesPerView: 'auto',
-        // slidesPerView: '2.2',
+        slidesPerView: '1.3',
         loop: true,
         slideToClickedSlide: true,
         spaceBetween: 16,
@@ -92,6 +96,13 @@ export default{
         //   prevEl: '#guestHousesSLiderPrev',
         //   nextEl: '#guestHousesSliderNext',
         // },
+        breakpoints:{
+          648: {
+            slidesPerView: 'auto',
+            spaceBetween: 16,
+            loop: true
+          }
+        }
       },
       mock : {
         cost: 50000,

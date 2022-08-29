@@ -17,7 +17,13 @@
   &_light {
     background: #fffdfc;
     color: var(--text-color);
-    border-top: 1px solid var(--text-color);
-    border-bottom: 1px solid var(--text-color);
+    border-top: 0.0625rem solid var(--text-color);
+    border-bottom: 0.0625rem solid var(--text-color);
+  }
+
+  &_white{
+    background-color: white;
+    border: none;
+    color: var(--text-color)
   }
 }

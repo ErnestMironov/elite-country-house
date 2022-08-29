@@ -1,3 +1,5 @@
+@import '@/assets/styles/scss/mixins.scss';
+
 .house{
   &__slide-img {
     width: 100%;
@@ -12,11 +14,21 @@
     padding: 1rem;
     padding-right: 0;
     margin-top: 1rem;
+
+    @include mobile{
+      min-height: 372px;
+      margin-top: 12px;
+      padding-left: 16px;
+    }
   }
 
   &__slide{
     // width: 29.0625rem;
     width: auto;
     height: 38.125rem;
+
+    @include mobile{
+      height: 372px;
+    }
   }
 }

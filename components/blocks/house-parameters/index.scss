@@ -1,4 +1,5 @@
 @import '@/assets/styles/scss/_colors';
+@import '@/assets/styles/scss/mixins';
 // @import '../../../assets/styles/scss/colors';
 
 .parameters {
@@ -10,6 +11,16 @@
   position: relative;
   padding-right: 0;
 
+  @include mobile{
+    min-height: 596px;
+  }
+
+  &__title{
+    @include mobile{
+      display: none;
+    }
+  }
+
   &__background{
     background-color: $cPrimaryBrown;
     height: 27.875rem;
@@ -18,6 +29,10 @@
     left: 0;
     min-width: 100%;
     z-index: -1;
+
+    @include mobile{
+      height: 464px;
+    }
   }
 
   &-wrapper {
@@ -32,6 +47,26 @@
     justify-content: space-between;
     margin-left: 15rem;
     width: 100%;
+
+    @include mobile{
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-left: 0;
+      width: 250px;
+    }
+  }
+  
+  &__mobile-wrapper{
+    display: flex;
+    justify-content: space-between;
+    width: 61%;
+
+    @include mobile{
+      margin: 24px 0;
+      width: 100%;
+      flex-direction: row-reverse;
+    }
   }
 
   &__property {
@@ -43,6 +78,14 @@
       letter-spacing: 0em;
       text-align: left;
       color: $cBeige;
+
+      @include mobile{
+        font-family: Avenir Next Cyr;
+        font-size: 28px;
+        font-weight: 300;
+        line-height: 36px;
+        color: white;
+      }
     }
 
     span {
@@ -53,6 +96,12 @@
       letter-spacing: 0em;
       text-align: left;
       color: white;
+
+      @include mobile{
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 24px;
+      }
     }
   }
 
@@ -66,12 +115,20 @@
   &__slider {
     height: 100%;
     min-height: 39.375rem;
+
+    @include mobile{
+      min-height: 596px;
+    }
   }
 
   &__slide{
     // width: 29.0625rem;
     width: auto;
     height: 27.5rem;
+
+    @include mobile{
+      height: 375px;
+    }
   }
 }
 
@@ -81,4 +138,9 @@
   width: 100%;
   height: 27.5rem;
   margin-bottom: 3.75rem;
+
+  @include mobile{
+    height: 375px;
+    margin-bottom: 24px;
+  }
 }

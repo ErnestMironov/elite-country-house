@@ -77,14 +77,22 @@ export default {
         },
       ],
       swiperOptions: {
-        slidesPerView: '3',
+        // slidesPerView: '3',
+        slidesPerView: '1.2',
         loop: true,
         slideToClickedSlide: true,
-        spaceBetween: 16,
+        spaceBetween: 21,
         // navigation: {
         //   prevEl: '#guestHousesSLiderPrev',
         //   nextEl: '#guestHousesSliderNext',
         // },
+        breakpoints: {
+          648:{
+            slidesPerView: '3',
+            spaceBetween: 16,
+            loop: true,
+          }
+        }
       },
     }
   },

@@ -1,6 +1,6 @@
 @import '@/assets/styles/scss/_colors';
 @import '@/assets/styles/scss/button';
-// @import 'vue-datepicker-ui/lib/vuedatepickerui.css';
+@import '@/assets/styles/scss/mixins';
 
 .title {
   color: $cTextBrown;
@@ -19,6 +19,12 @@
       letter-spacing: 0em;
       text-align: left;
       margin-bottom: 0;
+      
+      @include mobile{
+        font-size: 28px;
+        font-weight: 500;
+        line-height: 36px;
+      }
     }
 
     svg {
@@ -26,6 +32,11 @@
       bottom: -0.2rem;
       margin-right: 1.5rem;
       width: 5.375rem;
+
+      @include mobile{
+        width: 48px;
+        margin-right: 8px;
+      }
     }
   }
 
@@ -46,6 +57,11 @@
   letter-spacing: 0em;
   text-align: left;
   color: black;
+
+  @include mobile{
+    font-size: 18px;
+    line-height: 22px;
+  }
 }
 
 .info-block {
@@ -56,6 +72,11 @@
   letter-spacing: 0em;
   text-align: left;
   color: black;
+
+  @include mobile{
+    font-size: 14px;
+    line-height: 24px;
+  }
 }
 
 .nav {
@@ -82,5 +103,40 @@
   &__value {
     font-size: 1.125rem;
     line-height: 1.75rem;
+  }
+}
+
+.checkbox {
+  position: relative;
+  box-sizing: border-box;
+  min-width: 1rem;
+  min-height: 1rem;
+  border: 0.1875rem solid rgba(0, 0, 0, 0.7);
+  border-radius: 0.25rem;
+  -webkit-appearance: none;
+  -moz-appearance:none;
+  @include mobile{
+    min-width: 16px;
+    min-height: 16px;
+    border-radius: 4px;
+    border: 3px solid rgba(0, 0, 0, 0.7);
+  }
+  &:checked::after {
+    position: absolute;
+    top: -0.6875rem;
+    left: 0;
+    color: black;
+    font-size: 1.125rem;
+    content: "\2714";
+    -moz-appearance:none;
+    -webkit-appearance:none;  
+    // border: 2px solid var(--main-green)
+    @include mobile{
+      top: -11px;
+      font-size: 18px;
+    }
+  }
+  &:disabled {
+    border: 0.125rem solid rgba(0, 0, 0, 0.25);
   }
 }

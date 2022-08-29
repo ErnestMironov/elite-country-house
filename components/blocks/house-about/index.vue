@@ -2,21 +2,23 @@
   <section class="about">
     <Title :title="'Почему это круто'" />
     <div class="about-wrapper">
-      <img
-        class="about__img about__img--1"
-        src="../../../assets/imgs/house-about_1.jpg"
-        alt="about"
-      />
-      <img
-        class="about__img about__img--2"
-        src="../../../assets/imgs/house-about_2.jpg"
-        alt="about"
-      />
-      <img
-        class="about__img about__img--3"
-        src="../../../assets/imgs/house-about_3.jpg"
-        alt="about"
-      />
+      <div class="about__images-wrapper">
+        <img
+          class="about__img about__img--1"
+          src="../../../assets/imgs/house-about_1.jpg"
+          alt="about"
+        />
+        <img
+          class="about__img about__img--2"
+          src="../../../assets/imgs/house-about_2.jpg"
+          alt="about"
+        />
+        <img
+          class="about__img about__img--3"
+          src="../../../assets/imgs/house-about_3.jpg"
+          alt="about"
+        />
+      </div>
       <div class="about-info">
         <div v-for="card in mock" :key="card.idx" class="about-info__card">
           <span>{{ card.idx }}</span>
