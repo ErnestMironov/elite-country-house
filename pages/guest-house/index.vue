@@ -57,7 +57,8 @@ export default {
     HouseAbout,
     HouseName,
     HouseParameters,
-    HouseFunctional
+    HouseFunctional,
+    Booking
   },
   data() {
     return {
