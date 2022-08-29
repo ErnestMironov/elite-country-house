@@ -1,0 +1,772 @@
+@import '../../assets/styles/scss/colors';
+@import '@/assets/styles/scss/mixins';
+
+.booking{
+
+  &-3{
+    min-width: 100%;
+  }
+
+  &-wrapper{
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 1.5rem;
+
+    @include mobile{
+      flex-direction: column;
+    }
+  }
+
+  &-calendar{
+    width: 25.75rem;
+  }
+
+  &__info-container{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  &-label{
+    width: 100%;
+    &:not(:last-child){
+      margin-bottom: 1.5rem;
+    }
+
+    @include mobile{
+      &:not(:last-child){
+        margin-bottom: 24px;
+      }
+    }
+
+    span{
+      font-family: Avenir Next Cyr;
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.25rem;
+      letter-spacing: 0em;
+      text-align: left;
+
+      @include mobile{
+        font-size: 16px;
+        line-height: 20px;
+      }
+    }
+  }
+
+  &__header{
+    font-family: Avenir Next Cyr;
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.375rem;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-bottom: 1.75rem;
+
+    @include mobile{
+      font-size: 18px;
+      line-height: 22px;
+      margin-bottom: 28px;
+      margin-top: 36px;
+    }
+
+    &--conditions{
+      @include mobile{
+        margin-top: 96px;
+      }
+    }
+
+    &--bathhouse{
+      @include mobile{
+        margin-top: 28px;
+        margin-bottom: 24px
+      }
+    }
+  }
+
+  &__last-header{
+    margin-top: 0.75rem; 
+  }
+
+  &__checkbox-label{
+    display: flex;
+    justify-content: space-between;
+    &:not(:last-child){
+      margin-bottom: 1.125rem;
+    }
+
+    @include mobile{
+      width: 100%;
+    }
+  }
+
+  &__agreement-label{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+
+    @include mobile{
+      &:first-child{
+        margin-top: 48px;
+        margin-bottom: 23px;
+      }
+    }
+
+    p{
+      margin-top: 0.75rem;
+      font-size: 0.875rem;
+      font-weight: 400;
+      line-height: 1.125rem;
+      letter-spacing: 0em;
+      text-align: left;
+
+      @include mobile{
+        font-size: 14px;
+        line-height: 18px;
+      }
+
+      span{
+        font-size: 0.875rem;
+        font-weight: 700;
+        line-height: 1.125rem;
+        letter-spacing: 0em;
+        text-align: left;
+        text-decoration: underline;
+        cursor: pointer;
+
+        @include mobile{
+          font-size: 14px;
+          font-weight: 700;
+          line-height: 18px;
+        }
+      }
+    }
+  }
+
+  &__checkbox-wrapper{
+    display: flex;
+    align-items: flex-start;
+    width: 14.375rem;
+
+    @include mobile{
+      width: 100%;
+    }
+
+    &--l{
+      width: 100%;
+    }
+
+    input{
+      margin-right: 0.6875rem;
+      margin-top: 0.125rem;
+
+      @include mobile{
+        margin-right: 10px;
+        margin-top: 4px;
+      }
+    }
+  }
+
+  &__sub-header{
+    font-family: Avenir Next Cyr;
+    font-size: 1rem;
+    font-weight: 450;
+    line-height: 1.25rem;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-bottom: 0.5rem;
+
+    @include mobile{
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 20px;
+      margin-bottom: 8px;
+    }
+
+    &--thematic{
+      display: flex;
+      align-items: center;
+
+      img{
+        margin-left: 0.1875rem;
+        width: 1.125rem;
+        height: auto;
+        
+        @include mobile{
+          margin-left: 3px;
+          width: 18px;
+        }
+      }
+    }
+  }
+
+  &__checkbox-header{
+    font-size: 1.1875rem;
+    font-weight: 400;
+    line-height: 1.5rem;
+    letter-spacing: 0em;
+    text-align: left;
+
+    @include mobile{
+      font-size: 18px;
+      line-height: 24px;
+    }
+  }
+
+  &__checkbox-price{
+    @include mobile{
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 24px;
+      letter-spacing: 0em;
+      text-align: left
+    }
+  }
+
+  &__input-field{
+    width: 100%;
+    height: 2.625rem;
+    border: none;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    background-color: $cActionGrey;
+    padding: 0.75rem 1rem;
+    &:not(:last-child){
+      margin-bottom: 0.75rem;
+    }
+
+    @include mobile{
+      padding: 11px 17px;
+      font-size: 16px;
+      line-height: 20px;
+      height: 42px;
+      &:not(:last-child){
+        margin-bottom: 12px;
+      }
+    }
+
+    input{
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.25rem;
+      letter-spacing: 0em;
+      text-align: left;
+      background-color: transparent;
+      outline: none;
+      width: 100%;
+      &::placeholder{
+        color: inherit
+      }
+
+      @include mobile{
+        font-size: 16px;
+        line-height: 20px;
+      }
+    }
+
+    &--transparent{
+      background-color: transparent;
+      padding: 0;
+    }
+
+    span{
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.25rem;
+      letter-spacing: 0em;
+      text-align: left;
+
+      @include mobile{
+        font-size: 16px;
+        line-height: 20px;
+      }
+    }
+
+    img{
+      width: 1.125rem;
+      height: auto;
+      margin-right: 0.75rem;
+
+      @include mobile{
+        width: 16px;
+        margin-right: 13px;
+      }
+    }
+  }
+
+  &-fireplace{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    
+    span{
+      @include mobile{
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 20px;
+        margin-bottom: 8px;
+      }
+    }
+  }
+
+  &__fireplace-lit{
+    display: flex;
+    align-items: center;
+    input{
+      margin-right: 0.625rem;
+      @include mobile{
+        margin-right: 10px;
+      }
+    }
+  }
+
+  
+  &__next-btn{
+    &:last-child{
+      padding: 1.125rem 3rem;
+
+      @include mobile{
+        padding: 18px 64px;
+        font-size: 16px;
+        line-height: 24px;
+        width: auto;
+      }
+    }
+
+    @include mobile{
+      margin-top: 24px;
+      margin-bottom: 128px;
+      padding: 18px 64px;
+      font-size: 16px;
+      line-height: 24px;
+      width: auto;
+    }
+
+    &--first{ 
+      margin-top: 0;
+      padding: 1.125rem 4rem;
+      width: 15.625rem;
+
+      @include mobile{  
+        margin-bottom: 96px;
+        margin-top: 36px;
+        padding: 18px 64px;
+        font-size: 16px;
+        line-height: 24px;
+        width: auto;
+      }
+    }
+  }
+
+  &__skip-btn{
+    padding-right: 0;
+    @include mobile{
+      margin-top: 24px;
+      &:last-child{
+        padding: 18px 36px;
+      }
+    }
+  }
+  
+  &__btn{
+    width: 10.75rem;
+    padding: 1.125rem 3rem;
+
+    @include mobile{
+      padding: 18px 64px;
+      font-size: 16px;
+      line-height: 24px;
+      width: auto;
+    }
+  }
+
+  &-info{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border-top: 0.0625rem solid $cBorderGrey;
+    border-bottom: 0.0625rem solid $cBorderGrey;
+    margin-bottom:3.75rem;
+    margin-top: 1.5rem;
+    box-shadow: 0.5rem 0.5rem 1.875rem 0 rgba(205, 205, 205, 0.25);
+
+    @include mobile {
+      display: none;
+    }
+  }
+
+  &__info-title{
+    margin-bottom: 0.5rem;
+    font-family: Avenir Next Cyr;
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.375rem;
+    letter-spacing: 0em;
+    text-align: left;
+  }
+
+  &__info-value{
+    font-family: Avenir Next Cyr;
+    font-size: 1.125rem;
+    font-weight: 400;
+    line-height: 1.375rem;
+    letter-spacing: 0em;
+    text-align: left;
+    color: $cTextGrey;
+  }
+
+  &__info-section{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 25%;
+    padding: 1.375rem 3rem;
+    border-right: 0.0625rem solid #C0C0C0;
+    &:first-child{
+      border-left: 0.0625rem solid #C0C0C0;;
+    }
+  }
+
+  &__paragraph{
+    font-size: 1.125rem;
+    font-weight: 400;
+    line-height: 1.75rem;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-bottom: 4.375rem;
+
+    @include mobile{
+      font-size: 18px;
+      line-height: 28px;
+      margin-bottom: 20px;
+    }
+  }
+
+  &__images-wrapper{
+    display: flex;
+    align-items: flex-start;
+
+    @include mobile{
+      margin-top: 96px;
+    }
+
+    img{
+      width: 19.375rem;
+      height: auto;
+      &:not(:last-child){
+        margin-right: 1.5rem;
+      }
+
+      @include mobile{
+        width: 166px;
+        &:not(:last-child){
+          margin-right: 12px;
+        }
+      }
+    }
+  }
+
+  &__info-wrapper{
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 19.375rem;
+
+    @include mobile{
+      width: 310px;
+    }
+
+    &--horizontal{
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+    }
+
+    &--s{
+      display: flex;
+      align-items: flex-start;
+      flex-direction: column;
+      justify-content: flex-start;
+      width: 12.5rem;
+
+      @include mobile{
+        width: 110px;
+      }
+    }
+    
+    &--xs{
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: flex-start;
+      width: 9.625rem;
+      margin-right: 4.1875rem;
+
+      @include mobile{
+        width: 153px;
+        margin-right: 91px;
+      }
+    }
+
+    &--l{
+      width: 26.25rem;
+
+      @include mobile{
+        width: 100%;
+        margin-top: 96px;
+      }
+    }
+  }
+
+  &__conditions-header{
+    margin-bottom: 1.125rem;
+
+    @include mobile{
+      margin-bottom: 18px;
+    }
+  }
+
+  &__conditions-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  &__radio-btn{
+    width: 100%;
+    margin-bottom: 1.125rem;
+    border: 0.0625rem solid $cBorderDark;
+    background-color: white;
+    color: $cTextBrown;
+    padding: 0.875rem 0.875rem;
+    font-weight: 600;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    cursor: pointer;
+    text-align: center;
+    transition: all ease-out 0.15s;
+
+    @include mobile{
+      padding: 16px 32px;
+      font-size: 16px;
+      line-height: 20px;
+      border: 1px solid $cBorderDark;
+      margin-bottom: 18px;
+    }
+
+    &--active{
+      background-color: $cBorderDark;
+      color: white;
+    }
+  }
+
+  &__price-header{
+    margin-bottom: 0.625rem;
+  }
+
+  &__price{
+    display: flex;
+    align-items: center;
+    font-family: Avenir Next Cyr;
+    font-size: 1.5rem;
+    font-weight: 450;
+    line-height: 2.25rem;
+    letter-spacing: 0em;
+    text-align: left;
+
+    &--bathhouse{
+      @include mobile{
+        margin-bottom: 20px;
+      }
+    }
+
+    
+    @include mobile{
+      font-size: 24px;
+      line-height: 36px;
+      margin-top: 8px;
+
+      &, booking-price--bathhouse{
+        margin-top: 32px;
+      }
+    }
+
+    img{
+      height: 1.25rem;
+
+      @include mobile{
+        height: 20px;
+      }
+    }
+  }
+
+  &__buttons-wrapper{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: auto;
+  }
+
+  &__buttons--3{
+    margin-top: 1.5rem;
+  }
+
+  &-time-label{
+    &:not(:last-child){
+      padding-bottom: 0.75rem;
+      border-bottom: 0.0625rem solid $cBorderDarkGrey;
+      margin-bottom: 0.75rem;
+    }
+
+    @include mobile{
+      &:not(:last-child){
+      padding-bottom: 12px;
+      border-bottom: 1px solid $cBorderDarkGrey;
+      margin-bottom: 12px;
+      }
+      &:first-child{
+        margin-top: 18px;
+      }
+    }
+
+    &__time{
+      margin-bottom: 0.75rem;
+      font-size: 1rem;
+      font-weight: 600;
+      line-height: 1.25rem;
+      letter-spacing: 0em;
+      text-align: left;
+
+      @include mobile{
+        font-size: 16px;
+        line-height: 20px;
+        margin-bottom: 12px;
+      }
+    }
+
+    &__price{
+      margin-bottom: 0.375rem;
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.25rem;
+      letter-spacing: 0em;
+      text-align: left;
+
+      &--desktop{
+        @include mobile{
+          display: none;
+        }
+      }
+
+      &--mobile{
+        display: none;
+        @include mobile{
+          display: block;
+          font-size: 16px;
+          line-height: 20px;
+          margin-bottom: 6px;
+        }
+      }
+    }
+
+    &__value{
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1.25rem;
+      letter-spacing: 0em;
+      text-align: left;
+
+      @include mobile{
+        font-size: 16px;
+        line-height: 20px;
+        font-weight: 600;
+      }
+    }
+  }
+
+  &-button{
+    &--3{
+    margin-top: 1.5rem;
+    }
+  }
+
+  button.booking-button--4{
+    padding: 1.125rem 2.125rem;
+
+    @include mobile{
+      padding: 18px 34px;
+    }
+  }
+
+  &__discount-label{
+    background: rgba(92, 161, 93, 0.49);
+    border: 0.0625rem solid #5CA15D;
+    border-radius: 0.3125rem;
+    font-family: Avenir Next Cyr;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.25rem;
+    letter-spacing: 0em;
+    text-align: left;
+    color: $cTextBrown;
+    padding: 0.75rem 1.125rem;
+    margin-top: 1.25rem;
+    margin-bottom: 3rem;
+
+    @include mobile{
+      width: 100%;
+      padding: 12px 17px;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 20px;
+      border: 1px solid #5CA15D;
+      border-radius: 5px;
+      margin-top: 10px;
+      margin-bottom: 0;
+    }
+  }
+
+  &__accompanying-header{
+    margin-bottom: 1.125rem;
+
+    @include mobile{
+      margin-bottom: 18px;
+    }
+  }
+
+  &__accompanying-text{
+    font-size: 1.125rem;
+    font-weight: 400;
+    line-height: 1.75rem;
+    letter-spacing: 0em;
+    text-align: left;
+
+    @include mobile{
+      font-size: 18px;
+      line-height: 28px;
+
+      &:not(:last-child){
+        margin-bottom: 0.75rem;
+      }
+
+      &:not(:last-child){
+        margin-bottom: 12px;
+      }
+
+      &:last-child{
+        margin-bottom: 36px;
+      }
+    }
+  }
+
+  &__precheck-header{
+    @include mobile{
+      margin-top: 48px;
+    }
+  }
+}
