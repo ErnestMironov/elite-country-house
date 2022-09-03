@@ -477,6 +477,8 @@ import {calendar, months} from '@/assets/calendar';
       includedDays: [],
       firstPickedDay: {},
       secondPickedDay: {},
+      currentYear: 2022, 
+      currentMonthNumber: 9,
       currentMonth: {
         year: '2022',
         month: '09',
@@ -487,12 +489,20 @@ import {calendar, months} from '@/assets/calendar';
         month: '01',
         year: '2022',
         days:[]
-      }
+      },
+      month: []
     };
   },
   created() {
     const now = new Date()
-    this.assembleMonth()
+    this.currentYear = now.getFullYear()
+    this.currentMonth = now.getMonth()
+
+    const month = now.getMonth()+1
+    const year = now.getFullYear()
+    console.log(year)
+    console.log(month)
+    this.assembleMonth(month, year)
     this.currentMonth = calendar.find(x =>{
        return ((Number(x.month) === (now.getMonth() + 1)) && (Number(x.year) === now.getFullYear()))
        })
@@ -583,6 +593,8 @@ import {calendar, months} from '@/assets/calendar';
     },
     nextMonth(){
       this.currentMonth  = calendar[this.currentMonth.monthId+1]
+      this.currentMonthNumber = this.currentMonthNumber === 11 ? 0 :  this.currentMonthNumber +1
+      // this.assembleMonth()
     },
     prevMonth(){
       this.currentMonth  = calendar[this.currentMonth.monthId-1]
@@ -590,49 +602,68 @@ import {calendar, months} from '@/assets/calendar';
      // const nextMonthToCheck = currentMonth === 1 ? 12 : currentMonth - 1
       // const nextYearToCheck = prevMonthNumber === 12 ? currentYear - 1 : currentYear
       // const nextMonthLength = new Date(currentYear, currentMonth, 0).getDate()
-    assembleMonth(){
-      const month = []
-
-      const now = new Date()
-
-      const currentYear = now.getFullYear()
-      const currentMonth = now.getMonth() + 1
+    assembleMonth(currentMonth, currentYear){
       const currentMonthLength = this.getDaysInMonth(currentYear, currentMonth)
 
       const monthToCheck = currentMonth === 0 ? 11 : currentMonth - 1
       const yearToCheck = monthToCheck === 11 ? currentYear - 1 : currentYear
-      let prevMonthLength = this.getDaysInMonth(yearToCheck, monthToCheck)
+      const prevMonthLength = this.getDaysInMonth(yearToCheck, monthToCheck)
+
+      const nextMonthYear = currentMonth === 11 ? currentYear + 1 : currentYear
 
       const lastDay = new Date(currentYear, currentMonth, 0).getDay()
-      console.log(lastDay)
-      console.log(new Date(currentYear, currentMonth, 0))
 
-      console.log(prevMonthLength)
-      console.log(currentMonthLength)
+      this.fillCurrentMonth(currentYear, currentMonth, currentMonthLength)
 
-      for (let i = currentMonthLength; i>0; i--){
-        month.unshift(i)
-      }
+      this.fillNextMonth(lastDay, nextMonthYear, currentMonth)
 
-      let k = 1
-      for (let i = lastDay; i < 7; i++){
-        month.push(k)
-        k++
-      }
+      this.fillPrevMonth(prevMonthLength, monthToCheck, yearToCheck)
+      console.log(this.month)
 
-      const leftToFill = 42 - month.length
-      for (let i = 1; i <= leftToFill; i++){
-        month.unshift(prevMonthLength)
-        prevMonthLength--
-      }
-
-      console.log(currentMonth)
-      console.log(monthToCheck)
-      console.log(month)
     },
     getDaysInMonth(year, month) {
       return new Date(year, month, 0).getDate();
-    } 
+    },
+    fillCurrentMonth(currentYear, currentMonth, currentMonthLength){
+        for (let i = currentMonthLength; i>0; i--){
+        const day = {
+          day: new Date(currentYear, currentMonth-1, i).getDay() ,
+          date: i,
+          month: currentMonth,
+          year: currentYear
+        }
+        this.month.unshift(day)
+      }
+    },
+    fillNextMonth(lastDay, nextMonthYear, currentMonth){
+      let k = 1
+      for (let i = lastDay; i < 7; i++){
+        const day = {
+          day: i+1,
+          date: k,
+          month: currentMonth + 1,
+          year: nextMonthYear
+        }
+        this.month.push(day)
+        k++
+      }
+    },
+    fillPrevMonth(prevMonthLength, monthToCheck, yearToCheck){
+      const leftToFill = 42 - this.month.length
+      let prevMonthDay = prevMonthLength
+      let dayOfWeek = this.month[0].day - 1
+      for (let i = 1; i <= leftToFill; i++){
+        const day = {
+          day: dayOfWeek,
+          date: prevMonthDay,
+          month: monthToCheck,
+          year: yearToCheck
+        }
+        this.month.unshift(day)
+        prevMonthDay--
+        dayOfWeek = dayOfWeek === 0 ? 6 : dayOfWeek - 1
+      }
+    }
   },
   }
 </script>
