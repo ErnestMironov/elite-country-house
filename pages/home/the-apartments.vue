@@ -1,39 +1,43 @@
 <template>
   <section
     id="apartments"
-    :style="{ backgroundImage: `url(${currentObject?.image})` }"
+    :style="{
+      backgroundImage: `url(http://185.46.10.102:1337${currentObject?.images[0].url})`,
+    }"
     class="objects"
   >
     <div class="objects__info">
-      <h2 class="objects__title">{{ currentObject.title }}</h2>
+      <h2 class="objects__title">{{ currentObject?.name }}</h2>
       <p class="objects__description">
-        {{ currentObject.description }}
+        {{ currentObject?.description }}
       </p>
       <ul class="objects__params">
         <li class="mr-[3.6875rem] param">
-          <span class="param__title">{{ currentObject.area }}м²</span>
+          <span class="param__title">{{ currentObject?.area }}м²</span>
           <span class="param__value">Площадь</span>
         </li>
         <li class="mr-[2.625rem] param">
-          <span class="param__title">{{ currentObject.floors }}</span>
-          <span class="param__value">Этажа</span>
+          <span class="param__title">{{ currentObject?.floor }}</span>
+          <span class="param__value">Этаж</span>
         </li>
         <li class="param">
-          <span class="param__title">{{ currentObject.bedrooms }}</span>
+          <span class="param__title">{{ currentObject?.sleepingSpaces }}</span>
           <span class="param__value">Спальни</span>
         </li>
-        <li class="param">
+        <!-- <li class="param">
           <span class="param__title">{{
             currentObject.price | parseNumber
           }}</span>
           <span class="param__value">Стоимость аренды</span>
-        </li>
+        </li> -->
       </ul>
       <h3 class="objects__address-title">Адрес</h3>
       <div class="objects__address">
         Социалистическая 21 (Апарт-отель “YES”)
       </div>
-      <a class="btn mt-[2.25rem] min-w-[13.1875rem]">Узнать больше</a>
+      <nuxt-link to="/apartments" class="btn mt-[2.25rem] min-w-[13.1875rem]"
+        >Узнать больше</nuxt-link
+      >
     </div>
     <div class="objects__slider">
       <swiper
@@ -46,7 +50,9 @@
           :key="image"
           class="swiper-slide objects__slide"
         >
-          <img class="objects__slide-img" :src="image"
+          <img
+            class="objects__slide-img"
+            :src="`http://185.46.10.102:1337${image.url}`"
         /></swiper-slide>
       </swiper>
       <div class="nav">
@@ -67,7 +73,7 @@ import objImage2 from '~/assets/images/mock/home_objects/object_2.jpg'
 import objImage3 from '~/assets/images/mock/home_objects/object_3.jpg'
 
 export default {
-  name: 'TheObjects',
+  name: 'TheApartments',
   filters: {
     parseNumber(val) {
       return Number(val).toLocaleString('ru-RU')
@@ -76,6 +82,7 @@ export default {
   data() {
     return {
       activeObject: 0,
+      objects2: [],
       objects: [
         {
           image: objImage1,
@@ -120,13 +127,19 @@ export default {
       },
     }
   },
+  async fetch() {
+    this.objects2 = (await this.$http.$get('apartments?populate=deep,10')).data
+  },
   computed: {
     currentObject() {
-      return this.objects[this.activeObject]
+      return this.objects2[this.activeObject]
     },
     objectImages() {
-      return this.objects.map((object) => object.image)
+      return this.objects2.map((object) => object.images[0])
     },
+  },
+  created() {
+    console.log(this.apartments)
   },
   methods: {
     changeActiveObject() {

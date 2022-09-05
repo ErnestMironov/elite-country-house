@@ -22,7 +22,9 @@
       <p class="hero__description">
         {{ data.description }}
       </p>
-      <button class="btn hero__btn">Ознакомиться с услугами</button>
+      <button class="btn hero__btn" @click="goToTheLink('#services')">
+        Ознакомиться с услугами
+      </button>
     </div>
   </div>
 </template>
@@ -32,6 +34,8 @@ import { directive } from 'vue-awesome-swiper'
 
 import firstImg from '~/assets/images/mock/home-page_hero_1.jpg'
 import secondImg from '~/assets/images/mock/home-page_hero_2.jpg'
+
+const scrollIntoView = require('scroll-into-view')
 
 export default {
   name: 'TheHero',
@@ -50,6 +54,16 @@ export default {
         autoplay: true,
       },
     }
+  },
+  methods: {
+    goToTheLink(link) {
+      if ($nuxt.$route.path === '/') {
+        scrollIntoView(document.querySelector(link))
+        return
+      }
+
+      this.$nuxt.$router.push(`/${link}`)
+    },
   },
 }
 </script>

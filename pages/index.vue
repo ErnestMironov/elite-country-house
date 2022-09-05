@@ -3,7 +3,7 @@
     <img src="~/assets/images/home-bg.svg" class="decoration" alt="" />
     <TheHero :data="data.hero" />
     <TheServices :data="data.services" />
-    <TheObjects />
+    <TheApartments />
     <GuestHouses />
     <TheBathhouses />
     <TheAdvantages />
@@ -17,11 +17,11 @@
 import CompanyValues from './home/company-values.vue'
 import GuestHouses from './home/guest-houses.vue'
 import TheAdvantages from './home/the-advantages.vue'
+import TheApartments from './home/the-apartments.vue'
 import TheBathhouses from './home/the-bathhouses.vue'
 import TheContacts from './home/the-contacts.vue'
 import TheHero from './home/the-hero.vue'
 import TheIgora from './home/the-igora.vue'
-import TheObjects from './home/the-objects.vue'
 import TheServices from './home/the-services.vue'
 
 const scrollIntoView = require('scroll-into-view')
@@ -31,7 +31,7 @@ export default {
   components: {
     TheHero,
     TheServices,
-    TheObjects,
+    TheApartments,
     GuestHouses,
     TheBathhouses,
     TheAdvantages,

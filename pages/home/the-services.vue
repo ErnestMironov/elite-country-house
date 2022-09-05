@@ -1,5 +1,5 @@
 <template>
-  <section class="container mt-[8.5625rem]">
+  <section id="services" class="container mt-[8.5625rem]">
     <div class="flex justify-between">
       <SimpleTitle :title="data.title" />
       <p class="text">
@@ -7,10 +7,10 @@
       </p>
     </div>
     <div class="grid grid-cols-3 gap-x-6 mt-[3.75rem]">
-      <a
-        v-for="service in data.servicesList"
+      <nuxt-link
+        v-for="(service, idx) in data.servicesList"
         :key="service.title"
-        :href="service.title"
+        :to="servicesLinks[idx]"
         class="service"
       >
         <h3 class="service__title">{{ service.title }}</h3>
@@ -20,7 +20,7 @@
           class="service__img"
         />
         <div class="service__link" href="">Перейти</div>
-      </a>
+      </nuxt-link>
     </div>
   </section>
 </template>
@@ -28,33 +28,13 @@
 <script>
 import SimpleTitle from '~/components/ui/simple-title/simple-title.vue'
 
-import firstServiceImg from '~/assets/images/mock/home_page_objects_1.jpg'
-import secondServiceImg from '~/assets/images/mock/home_page_objects_2.jpg'
-import thirdServiceImg from '~/assets/images/mock/home_page_objects_3.jpg'
-
 export default {
   name: 'TheServices',
   components: { SimpleTitle },
   props: ['data'],
   data() {
     return {
-      services: [
-        {
-          img: firstServiceImg,
-          title: 'Апартаменты',
-          link: '/',
-        },
-        {
-          img: secondServiceImg,
-          title: 'Гостевые дома',
-          link: '/',
-        },
-        {
-          img: thirdServiceImg,
-          title: 'Баня',
-          link: '/',
-        },
-      ],
+      servicesLinks: ['/guest-house', '/bath-house', '/apartments'],
     }
   },
 }

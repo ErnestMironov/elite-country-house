@@ -52,8 +52,10 @@
             class="swiper-slide guest-houses__slide"
           >
             <img class="guest-houses__slide-img" :src="image" />
-            <a class="btn btn_light absolute bottom-0 right-0 px-[2.9375rem]"
-              >Узнать больше</a
+            <nuxt-link
+              to="/guest-house"
+              class="btn btn_light absolute bottom-0 right-0 px-[2.9375rem]"
+              >Узнать больше</nuxt-link
             >
           </swiper-slide>
         </swiper>

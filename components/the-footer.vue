@@ -5,7 +5,7 @@
         <img class="logo" src="~/assets/icons/logo_white.svg" alt="" />
         <ul class="menu">
           <li v-for="item in menu" :key="item.label" class="menu__item">
-            <NuxtLink :to="item.link">{{ item.label }}</NuxtLink>
+            <a @click="goToTheLink(item.link)">{{ item.label }}</a>
           </li>
         </ul>
       </div>
@@ -29,16 +29,28 @@
 </template>
 
 <script>
+const scrollIntoView = require('scroll-into-view')
+
 export default {
   data() {
     return {
       menu: [
-        { label: 'Бани и сауны', link: '/' },
-        { label: 'Апартаменты', link: '/' },
-        { label: 'Гостевые дома', link: '/' },
-        { label: 'О нас', link: '/' },
+        { label: 'Бани и сауны', link: '#bathhouses' },
+        { label: 'Апартаменты', link: '#apartments' },
+        { label: 'Гостевые дома', link: '#guesthouses' },
+        { label: 'О нас', link: '#advantages' },
       ],
     }
+  },
+  methods: {
+    goToTheLink(link) {
+      if ($nuxt.$route.path === '/') {
+        scrollIntoView(document.querySelector(link))
+        return
+      }
+
+      this.$nuxt.$router.push(`/${link}`)
+    },
   },
 }
 </script>

@@ -27,7 +27,9 @@
           </li>
         </ul>
       </div>
-      <a href="/" class="btn px-[2.9375rem] mt-5">Узнать больше</a>
+      <nuxt-link to="/bath-house" class="btn px-[2.9375rem] mt-5"
+        >Узнать больше</nuxt-link
+      >
     </div>
     <swiper
       ref="bathhousesSwiper"
