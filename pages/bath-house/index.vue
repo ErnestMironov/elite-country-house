@@ -27,15 +27,17 @@
     <section class="container">
       <HouseAbout />
     </section>
+
+    <HouseFunctions />
   </div>
 </template>
 
 <script>
-import HouseAbout from '@/components/blocks/house-about'
-import HouseFunctional from '@/components/blocks/house-functional'
-import HouseName from '@/components/blocks/house-name'
-import HouseParameters from '@/components/blocks/house-parameters'
 import Booking from '@/components/booking'
+import HouseAbout from './components/house-about'
+import HouseFunctions from './components/house-functions/index.vue'
+import HouseName from './components/house-name'
+import HouseParameters from './components/house-parameters'
 
 // import Swiper from 'swiper/swiper-bundle.min'
 // import 'swiper/swiper-bundle.min.css'
@@ -52,8 +54,8 @@ export default {
     HouseAbout,
     HouseName,
     HouseParameters,
-    HouseFunctional,
     Booking,
+    HouseFunctions,
   },
   data() {
     return {

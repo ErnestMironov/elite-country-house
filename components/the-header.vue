@@ -1,11 +1,38 @@
 <template>
   <header class="header container">
     <img class="logo" src="~/assets/icons/logo_black.svg" alt="" />
-    <ul class="menu">
-      <li v-for="item in menu" :key="item.label" class="menu__item">
-        <nuxt-link :to="item.link">{{ item.label }}</nuxt-link>
-      </li>
-    </ul>
+    <nav>
+      <ul class="menu">
+        <li v-for="item in menu" :key="item.label" class="menu__item">
+          <nuxt-link :to="item.link">{{ item.label }}</nuxt-link>
+        </li>
+      </ul>
+    </nav>
+    <img
+      class="md:hidden"
+      src="~/assets/icons/burger.svg"
+      alt=""
+      @click="openMenu()"
+    />
+    <div :class="['mobile-menu', { active: isMobileMenuOpen }]">
+      <img src="~/assets/icons/logo_white.svg" alt="" />
+      <nav>
+        <ul>
+          <li v-for="item in menu" :key="item.label" class="mobile-menu__item">
+            <nuxt-link :to="item.link">{{ item.label }}</nuxt-link>
+          </li>
+        </ul>
+      </nav>
+      <img src="~/assets/icons/close_menu.svg" alt="" @click="closeMenu()" />
+      <div class="flex flex-row justify-between mt-[78px] w-[290px]">
+        <img src="~/assets/icons/vk.svg" alt="" />
+        <img src="~/assets/icons/vk.svg" alt="" />
+        <img src="~/assets/icons/vk.svg" alt="" />
+        <img src="~/assets/icons/vk.svg" alt="" />
+        <img src="~/assets/icons/vk.svg" alt="" />
+      </div>
+      <a href="" class="mobile-menu__link">Пользовательское соглашение</a>
+    </div>
   </header>
 </template>
 
@@ -13,6 +40,7 @@
 export default {
   data() {
     return {
+      isMobileMenuOpen: true,
       menu: [
         { label: 'Бани и сауны', link: '/' },
         { label: 'Апартаменты', link: '/' },
@@ -22,23 +50,46 @@ export default {
       ],
     }
   },
+  methods: {
+    closeMenu() {
+      this.isMobileMenuOpen = false
+    },
+    openMenu() {
+      this.isMobileMenuOpen = true
+    },
+  },
 }
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/scss/mixins.scss';
+
 .header {
   padding-top: 0.8125rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @include mobile {
+    padding-top: 8px;
+  }
 }
 .logo {
   width: 10.625rem;
+
+  @include mobile {
+    height: 40px;
+    width: auto;
+  }
 }
 
 .menu {
   display: flex;
   align-items: center;
+
+  @include mobile {
+    display: none;
+  }
 
   &::after {
     content: '';
@@ -59,6 +110,54 @@ export default {
       color: inherit;
       text-decoration: none;
     }
+  }
+}
+
+.mobile-menu {
+  position: fixed;
+  z-index: 200;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: auto;
+  background: #282423;
+  color: #fffdfc;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 60px;
+  display: none;
+  padding-bottom: 44px;
+  transition: transform cubic-bezier(0.165, 0.84, 0.44, 1) 0.3s;
+  transform: translateY(-100%);
+
+  &.active {
+    transform: translateY(0);
+  }
+
+  @include mobile {
+    display: flex;
+  }
+
+  nav ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 48px;
+  }
+
+  &__item {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 28px;
+    margin-bottom: 36px;
+  }
+
+  &__link {
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 28px;
+    margin-top: 48px;
   }
 }
 </style>

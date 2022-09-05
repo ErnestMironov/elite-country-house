@@ -90,8 +90,9 @@ h2 {
   }
 }
 
-.container{
-  @include mobile{
-    padding: 0 15px;
+.container {
+  @include mobile {
+    padding-left: 15px;
+    padding-right: 15px;
   }
 }
