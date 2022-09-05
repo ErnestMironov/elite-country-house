@@ -153,35 +153,27 @@ import {calendar, months} from '@/assets/calendar';
       }
     },
 
-   includeForward(){
+    includeForward(){
+      console.log(this.month)
        for (let i = this.firstPickedDay.id; i <= this.secondPickedDay.id; i++){
-          const includedDay = this.month.find(x => x.id === i)
-          if(includedDay == null){
-            continue
-          }
-          if (~this.disabledDays.findIndex(x => x.id === includedDay.id)){
+          if (~this.disabledDays.findIndex(x => x.id === i)){
             this.secondPickedDay = this.month.find(y => y.id === i-1)  
             return
           }
-          this.includedDays.push(includedDay)
+          this.includedDays.push({id: i })
         }
-        console.log(this.includedDays)
     },
 
     includeBackward(){
        for (let i = this.firstPickedDay.id; i >= this.secondPickedDay.id; i--){
-          const includedDay = this.month.find(x => x.id === i)
-          if(includedDay == null){
-            continue
-          }
-           if (~this.disabledDays.findIndex(x => x.id === includedDay.id)){
+           if (~this.disabledDays.findIndex(x => x.id === i)){
             this.secondPickedDay = this.month.find(y => y.id === i+1)
             return
           }
-          this.includedDays.push(includedDay)
+          this.includedDays.push({id: i })
         }
     },
-
+    
     getCurrentMonth(){
       return calendar.findIndex(x => (x.year === this.currentMonth.year && x.month === this.currentMonth.month))
     },
