@@ -43,15 +43,15 @@
         <div class="parameters__mobile-wrapper">
 
           <div class="parameters__property">
-            <h3>{{ mock.floors }}</h3>
-            <span>{{ createFloorsString(mock.floors) }}</span>
+            <h3>{{ props.floors }}</h3>
+            <span>{{ createFloorsString(props.floors) }}</span>
           </div>
           <div class="parameters__property">
-            <h3>{{ mock.rooms }}</h3>
+            <h3>{{ props.rooms }}</h3>
             <span>Комнаты</span>
           </div>
           <div class="parameters__property">
-            <h3>{{ mock.square + ' m²' }}</h3>
+            <h3>{{ props.area + ' m²' }}</h3>
             <span>Площадь</span>
           </div>
 
@@ -69,6 +69,20 @@ export default{
   components:{
     Title
   },
+  // props : {
+  //     area: {
+  //       type: Number,
+  //       default: null
+  //       },
+  //     rooms: {
+  //       type: Number,
+  //       default: null
+  //       },
+  //     floors: {
+  //       type: Number,
+  //       default: null
+  //       },
+  //   },
   data() {
     return {
       activeHouse: 0,
@@ -112,11 +126,32 @@ export default{
       }
     }
   },
+  created(){
+    // console.log(this.$props)
+  },
   methods: {
     createFloorsString
   }
 }
 
+</script>
+
+<script setup>
+
+const props = defineProps({
+      area: {
+        type: Number,
+        default: null
+        },
+      rooms: {
+        type: Number,
+        default: null
+        },
+      floors: {
+        type: Number,
+        default: null
+        },
+    },)
 </script>
 
 <style lang="scss" scoped>

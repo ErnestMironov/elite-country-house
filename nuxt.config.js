@@ -48,8 +48,13 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
-    '@nuxtjs/axios',
+    // '@nuxtjs/axios',
+    '@nuxt/http'
   ],
+
+  http: {
+    baseURL: 'http://185.46.10.102:1337/api/',
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
