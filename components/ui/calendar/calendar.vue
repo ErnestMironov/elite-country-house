@@ -97,15 +97,17 @@ import {calendar, months} from '@/assets/calendar';
     this.disabledDays.forEach(x => {
       x.id = this.getId(x)
       })
+
+    this.getDayById(1096)
   },
   methods: {
     getClass(day){
       const disabled = ~this.disabledDays.findIndex(x=> x.id === day.id) ? 'disabled' : ''
-      const lastDisabled = (disabled && (!~this.disabledDays.findIndex(x=> x.id === day.id+1) || day.day === '7')) ? 'last-disabled' : ''
-      const firstDisabled = (disabled && (!~this.disabledDays.findIndex(x=> x.id === day.id-1)  || day.day === '1')) ? 'first-disabled' : ''
+      const lastDisabled = (disabled && (!~this.disabledDays.findIndex(x=> x.id === day.id+1) || day.day === 0)) ? 'last-disabled' : ''
+      const firstDisabled = (disabled && (!~this.disabledDays.findIndex(x=> x.id === day.id-1)  || day.day === 1)) ? 'first-disabled' : ''
       const included = ~this.includedDays.findIndex(x=> x.id === day.id) ? 'included' : ''
-      const lastIncluded = (included && (!~this.includedDays.findIndex(x=> x.id === day.id+1) || day.day === '7')) ? 'last-included' : ''
-      const firstIncluded = (included && (!~this.includedDays.findIndex(x=> x.id === day.id-1) || day.day === '1')) ? 'first-included' : ''
+      const lastIncluded = (included && (!~this.includedDays.findIndex(x=> x.id === day.id+1) || day.day === 0)) ? 'last-included' : ''
+      const firstIncluded = (included && (!~this.includedDays.findIndex(x=> x.id === day.id-1) || day.day === 1)) ? 'first-included' : ''
 
       return [disabled, lastDisabled, firstDisabled, included, lastIncluded, firstIncluded].join(' ')
     },
@@ -143,6 +145,14 @@ import {calendar, months} from '@/assets/calendar';
           this.includeBackward()
         }
       }
+
+      this.includedDays.forEach(x => {
+        const day = this.getDayById(x.id)
+        x.day = day.day
+        x.date = day.date
+        x.month = day.month
+        x.year = day.year
+      })
     },
 
     clearExcessDays(){
@@ -154,7 +164,6 @@ import {calendar, months} from '@/assets/calendar';
     },
 
     includeForward(){
-      console.log(this.month)
        for (let i = this.firstPickedDay.id; i <= this.secondPickedDay.id; i++){
           if (~this.disabledDays.findIndex(x => x.id === i)){
             this.secondPickedDay = this.month.find(y => y.id === i-1)  
@@ -197,17 +206,17 @@ import {calendar, months} from '@/assets/calendar';
       const currentMonthLength = this.getDaysInMonth(currentYear, currentMonth)
 
       const monthToCheck = currentMonth === 0 ? 11 : currentMonth - 1
-      const yearToCheck = monthToCheck === 11 ? currentYear - 1 : currentYear
+      const yearToCheck = currentMonth === 1 ? currentYear - 1 : currentYear
       const prevMonthLength = this.getDaysInMonth(yearToCheck, monthToCheck)
 
-      const nextMonthYear = currentMonth === 11 ? currentYear + 1 : currentYear
+      const nextMonthYear = currentMonth === 12 ? currentYear + 1 : currentYear
 
       const lastDay = new Date(currentYear, currentMonth, 0).getDay()
 
       this.fillCurrentMonth(currentYear, currentMonth, currentMonthLength)
-
+      
       this.fillNextMonth(lastDay, nextMonthYear, currentMonth)
-
+      
       this.fillPrevMonth(prevMonthLength, monthToCheck, yearToCheck)
 
       this.setIds()
@@ -235,7 +244,7 @@ import {calendar, months} from '@/assets/calendar';
         const day = {
           day: i+1,
           date: k,
-          month: currentMonth + 1,
+          month: currentMonth === 12 ? 1 : currentMonth + 1,
           year: nextMonthYear
         }
         this.month.push(day)
@@ -251,7 +260,7 @@ import {calendar, months} from '@/assets/calendar';
         const day = {
           day: dayOfWeek,
           date: prevMonthDay,
-          month: monthToCheck,
+          month: monthToCheck === 0 ? 12 : monthToCheck,
           year: yearToCheck
         }
         this.month.unshift(day)
@@ -272,8 +281,23 @@ import {calendar, months} from '@/assets/calendar';
       const diff = (now - start) + ((start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000);
       const oneDay = 1000 * 60 * 60 * 24;
       const dayNumber = Math.floor(diff / oneDay);
-      const id = (((day.year-2020)* 365) + Math.floor((day.year-2020)/4)) + dayNumber
+      const id = (((day.year-2020)* 365) + Math.floor((day.year-2021)/4)) + dayNumber
       return id
+    },
+
+    getDayById(id){
+      const timestamp = Date.UTC(2020, 0, 0)
+      const after2020 = 1000 * 60 * 60 * 24 * id
+      const dayTimestamp = timestamp + after2020 + 1000 * 60 * 60 * 24
+      const date = new Date(dayTimestamp)
+
+      const day = {
+        day: date.getDay(),
+        date: date.getDate(),
+        month: date.getMonth()+1,
+        year: date.getFullYear()
+      }
+      return day
     },
 
     checkCurrentMonth(){
