@@ -1,5 +1,6 @@
 <template>
-  <div
+  <section
+    id="apartments"
     :style="{ backgroundImage: `url(${currentObject?.image})` }"
     class="objects"
   >
@@ -57,7 +58,7 @@
         </button>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>

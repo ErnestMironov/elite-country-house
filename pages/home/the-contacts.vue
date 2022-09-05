@@ -1,17 +1,18 @@
 <template>
-  <section class="container flex justify-between mt-[8.3125rem]">
+  <section id="contacts" class="container flex justify-between mt-[8.3125rem]">
     <div>
       <SimpleTitle title="Как нас найти?" />
-      <h3 class="subtitle">Адрес</h3>
+      <h3 class="subtitle">{{ data.addressTitle }}</h3>
       <ul class="list">
-        <li class="list__item">
-          <a href=""> Lorem ipsum dolor sit amet </a>
-        </li>
-        <li class="list__item">
-          <a href=""> Lorem ipsum dolor sit amet </a>
+        <li
+          v-for="address in data.address"
+          :key="address.id"
+          class="list__item"
+        >
+          <a href=""> {{ address.text }} </a>
         </li>
       </ul>
-      <h3 class="subtitle">Координаты для навигатора</h3>
+      <h3 class="subtitle">{{ data.coordinatesTitle }}</h3>
       <ul class="list">
         <li class="list__item">
           <a href="" class="flex items-start">
@@ -20,16 +21,16 @@
           </a>
         </li>
       </ul>
-      <h3 class="subtitle">Email</h3>
+      <h3 class="subtitle">{{ data.emailTitle }}</h3>
       <ul class="list">
         <li class="list__item">
-          <a href=""> Lorem ipsum dolor sit amet </a>
+          <a :href="`mailto:${data.email}`"> {{ data.email }} </a>
         </li>
       </ul>
-      <h3 class="subtitle">Контактный телефон</h3>
+      <h3 class="subtitle">{{ data.phoneTitle }}</h3>
       <ul class="list">
         <li class="list__item">
-          <a href="tel:8-800-000-00-00"> 8-800-000-00-00 </a>
+          <a :href="`tel:${data.phone}`"> {{ data.phone }} </a>
         </li>
       </ul>
     </div>
@@ -51,6 +52,7 @@ import SimpleTitle from '~/components/ui/simple-title/simple-title.vue'
 export default {
   name: 'TheContacts',
   components: { SimpleTitle, yandexMap, ymapMarker },
+  props: ['data'],
   data() {
     return {
       coords: [54.82896654088406, 39.831893822753904],

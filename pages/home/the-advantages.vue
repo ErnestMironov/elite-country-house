@@ -1,5 +1,5 @@
 <template>
-  <section class="container mt-[10.5rem]">
+  <section id="advantages" class="container mt-[10.5rem]">
     <div class="flex justify-between">
       <SimpleTitle title="Чем можно похвастаться" />
       <p class="max-w-[33.1875rem]">

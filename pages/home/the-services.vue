@@ -1,25 +1,21 @@
 <template>
   <section class="container mt-[8.5625rem]">
     <div class="flex justify-between">
-      <SimpleTitle title="Ассортимент услуг" />
+      <SimpleTitle :title="data.title" />
       <p class="text">
-        Здесь нам необходим текст, который в общих чертах расскажет про то,
-        какие качетсвенные услуги представляет компания. Не забыть упомянуть
-        высокотехнологичность домов и апартаментов и премиальный уровень класса
-        домом. Если если перечень отдыха “не на один день” упомянуть, что в доме
-        не становится скучно на 2й и 3й день.
+        {{ data.description }}
       </p>
     </div>
     <div class="grid grid-cols-3 gap-x-6 mt-[3.75rem]">
       <a
-        v-for="service in services"
+        v-for="service in data.servicesList"
         :key="service.title"
-        :href="service.link"
+        :href="service.title"
         class="service"
       >
         <h3 class="service__title">{{ service.title }}</h3>
         <img
-          :src="service.img"
+          :src="`http://185.46.10.102:1337${service.image.url}`"
           :alt="service.title + ' изображение'"
           class="service__img"
         />
@@ -39,6 +35,7 @@ import thirdServiceImg from '~/assets/images/mock/home_page_objects_3.jpg'
 export default {
   name: 'TheServices',
   components: { SimpleTitle },
+  props: ['data'],
   data() {
     return {
       services: [

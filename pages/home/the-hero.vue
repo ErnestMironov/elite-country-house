@@ -3,24 +3,24 @@
     <div v-swiper:mySwiper="swiperOptions" class="hero__slider">
       <div class="swiper-wrapper">
         <div
-          v-for="banner in banners"
+          v-for="banner in data.images"
           :key="banner"
           class="swiper-slide hero__slide"
         >
-          <img class="h-[44rem]" :src="banner" />
+          <img
+            class="h-[44rem]"
+            :src="`http://185.46.10.102:1337${banner.url}`"
+          />
         </div>
       </div>
     </div>
 
     <div class="hero__text-block">
       <h2 class="hero__title">
-        Элитный загородный <br />
-        клуб “Hedonist”
+        {{ data.title }}
       </h2>
       <p class="hero__description">
-        Три строки текста, которые кратко введут в курс дела и расскажут о
-        перечне фунционала, о том, что это высокотехнологично и недалеко от
-        Петербурга
+        {{ data.description }}
       </p>
       <button class="btn hero__btn">Ознакомиться с услугами</button>
     </div>
@@ -38,6 +38,7 @@ export default {
   directives: {
     swiper: directive,
   },
+  props: ['data'],
 
   data() {
     return {
@@ -85,6 +86,7 @@ export default {
     font-weight: 500;
     font-size: 3rem;
     line-height: 3.75rem;
+    max-width: 31.25rem;
   }
 
   &__description {
