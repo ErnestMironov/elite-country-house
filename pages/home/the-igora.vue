@@ -3,7 +3,7 @@
     <SimpleTitle title="Всесезонный развлекательный комплекс “Игора”" />
     <ul class="list">
       <li
-        v-for="card of cards"
+        v-for="(card, idx) of data.entertaiment"
         :key="card.title + card.description"
         class="list__item"
       >
@@ -11,7 +11,7 @@
         <p>
           {{ card.description }}
         </p>
-        <img :src="card.image" alt="" class="list__item-bg" />
+        <img :src="images[idx]" alt="" class="list__item-bg" />
       </li>
     </ul>
   </section>
@@ -27,33 +27,10 @@ import SimpleTitle from '~/components/ui/simple-title/simple-title.vue'
 export default {
   name: 'TheIgora',
   components: { SimpleTitle },
+  props: ['data'],
   data() {
     return {
-      cards: [
-        {
-          title: 'Озеро развлечений',
-          description: `В летний период на «Озере Развлечений» можно совместить активные виды спорта с занятиями около воды.
- Оборудованный пляж с шезлонгами, детский и взрослый бассейны с подогревом и масса развлечений на любой вкус:`,
-          image: firstImage,
-        },
-        {
-          title: 'Ледовая арена',
-          description: `Ледовый Дворец курорта «Игора» - идеальное место для семейного отдыха и знакомства с олимпийскими видами спорта. Дети могут обучиться азам хоккея или фигурного катания на Ледовой арене`,
-          image: secondImage,
-        },
-        {
-          title: 'Озеро развлечений',
-          description: `В Развлекательной зоне доступны несколько разновидностей отдыха: от увлекательных игровых автоматов до профессионального бильярда. `,
-          image: thirdImage,
-        },
-        {
-          title: 'Вейк-парк',
-          description: `Вейк-парк состоит из реверсивной вейкбордической установки и различных фигур, препятствий.
-
-          Вейк-парк состоит из реверсивной вейкбордической установки и различных фигур, препятствий.`,
-          image: fourthImage,
-        },
-      ],
+      images: [firstImage, secondImage, thirdImage, fourthImage],
     }
   },
 }

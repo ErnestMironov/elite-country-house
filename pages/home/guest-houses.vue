@@ -1,5 +1,5 @@
 <template>
-  <section class="guest-houses">
+  <section id="guesthouses" class="guest-houses">
     <SimpleTitle is-light title="Гостевые дома" />
     <div class="flex mt-[6.6875rem]">
       <div class="w-6/12 flex flex-col justify-between items-start">

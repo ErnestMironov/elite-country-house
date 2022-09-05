@@ -1,15 +1,15 @@
 <template>
   <main class="relative pb-[11.25rem] overflow-hidden">
     <img src="~/assets/images/home-bg.svg" class="decoration" alt="" />
-    <TheHero />
-    <TheServices />
+    <TheHero :data="data.hero" />
+    <TheServices :data="data.services" />
     <TheObjects />
     <GuestHouses />
     <TheBathhouses />
     <TheAdvantages />
-    <TheIgora />
-    <CompanyValues />
-    <TheContacts />
+    <TheIgora :data="data.igora" />
+    <CompanyValues :data="data.philosophy" />
+    <TheContacts :data="data.contacts" />
   </main>
 </template>
 
@@ -24,6 +24,8 @@ import TheIgora from './home/the-igora.vue'
 import TheObjects from './home/the-objects.vue'
 import TheServices from './home/the-services.vue'
 
+const scrollIntoView = require('scroll-into-view')
+
 export default {
   name: 'IndexPage',
   components: {
@@ -37,9 +39,25 @@ export default {
     CompanyValues,
     TheContacts,
   },
+  async asyncData({ $http }) {
+    const data = (await $http.$get('main?populate=deep,10')).data
+
+    return { data }
+  },
   head() {
     return {
       title: 'Гедонист',
+    }
+  },
+
+  mounted() {
+    // if (this.$route.path.contains('#')) {
+    //   // scrollIntoView(document.querySelector(link))
+    // }
+    if (this.$route.fullPath.includes('#')) {
+      scrollIntoView(
+        document.querySelector(this.$route.fullPath.replace('/', ''))
+      )
     }
   },
 }

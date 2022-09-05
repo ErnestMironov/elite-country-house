@@ -1,5 +1,5 @@
 <template>
-  <section class="bathhouses">
+  <section id="bathhouses" class="bathhouses">
     <div class="flex flex-col items-start justify-between">
       <div>
         <SimpleTitle title="Бани и сауны" />

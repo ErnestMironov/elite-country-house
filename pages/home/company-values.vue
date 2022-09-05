@@ -1,10 +1,8 @@
 <template>
   <section class="container mt-[12.0625rem]">
-    <h2 class="title">Философия/Ценности компании</h2>
+    <h2 class="title">{{ data.title }}</h2>
     <p class="text">
-      Hedonist это запоминающийся отдых премиум класса в высокотехнологичных
-      апартаментах и гостевых домах. Наша цель - сочетание городского комфорта с
-      нетронутым лесом, полностью перезагружающее сознание
+      {{ data.text }}
     </p>
   </section>
 </template>
@@ -12,6 +10,7 @@
 <script>
 export default {
   name: 'CompanyValues',
+  props: ['data'],
 }
 </script>
 

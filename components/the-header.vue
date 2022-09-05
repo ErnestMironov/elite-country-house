@@ -1,15 +1,17 @@
 <template>
   <header class="header container">
-    <img class="logo" src="~/assets/icons/logo_black.svg" alt="" />
+    <nuxt-link to="/">
+      <img class="logo" src="~/assets/icons/logo_black.svg" alt="" />
+    </nuxt-link>
     <nav>
       <ul class="menu">
         <li v-for="item in menu" :key="item.label" class="menu__item">
-          <nuxt-link :to="item.link">{{ item.label }}</nuxt-link>
+          <a @click="goToTheLink(item.link)">{{ item.label }}</a>
         </li>
       </ul>
     </nav>
     <img
-      class="md:hidden"
+      class="sm:hidden"
       src="~/assets/icons/burger.svg"
       alt=""
       @click="openMenu()"
@@ -19,7 +21,7 @@
       <nav>
         <ul>
           <li v-for="item in menu" :key="item.label" class="mobile-menu__item">
-            <nuxt-link :to="item.link">{{ item.label }}</nuxt-link>
+            <a @click="goToTheLink(item.link)">{{ item.label }}</a>
           </li>
         </ul>
       </nav>
@@ -37,16 +39,18 @@
 </template>
 
 <script>
+const scrollIntoView = require('scroll-into-view')
+
 export default {
   data() {
     return {
-      isMobileMenuOpen: true,
+      isMobileMenuOpen: false,
       menu: [
-        { label: 'Бани и сауны', link: '/' },
-        { label: 'Апартаменты', link: '/' },
-        { label: 'Гостевые дома', link: '/' },
-        { label: 'О нас', link: '/' },
-        { label: 'Связаться с нами', link: '/' },
+        { label: 'Бани и сауны', link: '#bathhouses' },
+        { label: 'Апартаменты', link: '#apartments' },
+        { label: 'Гостевые дома', link: '#guesthouses' },
+        { label: 'О нас', link: '#advantages' },
+        { label: 'Связаться с нами', link: '#contacts' },
       ],
     }
   },
@@ -56,6 +60,15 @@ export default {
     },
     openMenu() {
       this.isMobileMenuOpen = true
+    },
+    goToTheLink(link) {
+      this.closeMenu()
+      if ($nuxt.$route.path === '/') {
+        scrollIntoView(document.querySelector(link))
+        return
+      }
+
+      this.$nuxt.$router.push(`/${link}`)
     },
   },
 }
