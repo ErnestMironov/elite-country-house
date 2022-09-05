@@ -12,6 +12,7 @@
             class="swiper-slide house__slide"
           >
             <img class="house__slide-img" :src="image.src" />
+            <!-- <img class="house__slide-img" :src="image.src" /> -->
           </swiper-slide>
     </swiper>
 
@@ -20,13 +21,18 @@
   </section>
 
   <section class="container">
-    <HouseName/>
+    <HouseName 
+      :name="houseParams.data.name" 
+      :about="houseParams.data.description"/>
   </section>
 
-    <HouseParameters />
+    <HouseParameters 
+      :area="houseParams.data.area" 
+      :rooms="houseParams.data.rooms" 
+      :floors="houseParams.data.floors"/>
 
     <section class="container">
-      <HouseAbout />
+      <HouseAbout :features="houseParams.data.feature"/>
     </section>
 
     <section class="container">
@@ -50,8 +56,15 @@ export default {
     HouseFunctional,
     Booking
   },
+  // async asyncData({params, $http }) {
+  //     const data = (await $http.$get(`guest-houses/${params.house}?populate=*`)).data
+  //     console.log(data)
+
+  //     return { data }
+  // },
   data() {
     return {
+      id: 0,
       activeHouse: 0,
       images: [
         {
@@ -85,7 +98,24 @@ export default {
           }
         }
       },
+      houseParams: {
+        data:{}
+      }
     }
+  },
+  // async fetch({ $http, $route }) {
+  //   console.log($route)
+  //   // this.id = $route.params.house.replace(':', '')
+  //   // const data = (await $http.$get(`http://185.46.10.102:1337/api/guest-houses/${this.id}?populate=*`)).data
+
+  // // console.log(data)
+  //   // return { data }
+  // },
+  async created() {
+    this.id = this.$route.params.house.replace(':', '')
+    const resp = await fetch(`http://185.46.10.102:1337/api/guest-houses/${this.id}?populate=*`)
+    this.houseParams = await resp.json()
+    console.log(this.houseParams.data)
   },
 }
 </script>

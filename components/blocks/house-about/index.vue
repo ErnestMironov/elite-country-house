@@ -20,13 +20,20 @@
         />
       </div>
       <div class="about-info">
-        <div v-for="card in mock" :key="card.idx" class="about-info__card">
+        <div v-for="feature in props.features" :key="feature.id" class="about-info__card">
+          <span>{{ feature.id }}</span>
+          <h4 class="info-title">
+            {{ feature.title }}
+          </h4>
+          <p class="info-block">{{ feature.description }}</p>
+        </div>
+        <!-- <div v-for="card in mock" :key="card.idx" class="about-info__card">
           <span>{{ card.idx }}</span>
           <h4 class="info-title">
             {{ card.title }}
           </h4>
           <p class="info-block">{{ card.info }}</p>
-        </div>
+        </div> -->
       </div>
     </div>
   </section>
@@ -52,6 +59,13 @@ const mock = [
     info: 'Здесь нам необходим текст, который в общих чертах расскажет про то, какие качетсвенные услуги представляет компания. Не забыть упомянуть высокотехнологичность домов и апартаментов и премиальный уровень класса',
   },
 ]
+
+const props = defineProps({
+      features: {
+        // type:any[],
+        default: []
+        },
+    })
 </script>
 
 <style lang="scss" scoped>
