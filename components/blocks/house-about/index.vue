@@ -62,8 +62,7 @@ const mock = [
 
 const props = defineProps({
       features: {
-        // type:any[],
-        default: []
+        type: Array,
         },
     })
 </script>

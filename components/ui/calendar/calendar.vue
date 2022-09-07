@@ -119,22 +119,26 @@ import {calendar, months} from '@/assets/calendar';
       if (!this.firstPickedDay.id){
         this.firstPickedDay = day
         this.includedDays = [day]
+        this.$emit('picked', this.includedDays)
       } else {
         if(day.id ===this.firstPickedDay.id){
           if(!this.secondPickedDay.id){
             this.firstPickedDay = {}
             this.includedDays = []
+            this.$emit('picked', this.includedDays)
             return
           } else {
             this.firstPickedDay = this.secondPickedDay
             this.secondPickedDay = {}
             this.includedDays = [this.firstPickedDay]
+            this.$emit('picked', this.includedDays)
             return
           }
         }
         if(day.id === this.secondPickedDay.id){
           this.secondPickedDay = {}
           this.includedDays = [this.firstPickedDay]
+          this.$emit('picked', this.includedDays)
           return
         }
         this.secondPickedDay = day
@@ -153,6 +157,8 @@ import {calendar, months} from '@/assets/calendar';
         x.month = day.month
         x.year = day.year
       })
+
+      this.$emit('picked', this.includedDays)
     },
 
     clearExcessDays(){

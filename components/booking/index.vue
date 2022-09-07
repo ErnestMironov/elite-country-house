@@ -3,9 +3,12 @@
     <div class="booking-info">
       <div class="booking__info-section">
         <h5 class="booking__info-title">
-          Дата бронирования
+          Даты бронирования
         </h5>
-        <span class="booking__info-value">16.07.2022</span>
+        <span class="booking__info-value">
+          {{createDatesString()}}
+          <!-- {{pickedDates[0].date ? pickedDates[0].date+'.'+pickedDates[0].month+'.'+pickedDates[0].year+' - '+pickedDates[pickedDates.length-1].date+'.'+pickedDates[pickedDates.length-1].month+'.'+pickedDates[pickedDates.length-1].year : 'Не выбрано'}} -->
+        </span>
       </div>
       <div class="booking__info-section">
         <h5 class="booking__info-title">
@@ -83,7 +86,9 @@
           </div>
       </div> -->
 
-      <Calendar></Calendar>
+      <Calendar
+        @picked="onDatePick($event)"
+      ></Calendar>
 
 
         
@@ -443,14 +448,9 @@ import calendar from '@/components/ui/calendar/calendar.vue'
   components: {
     Calendar: calendar
   },
-   setup() {
-
-  },
   data() {
     return {
       currentProgress: 0,
-      value1: [new Date(2019, 9, 8), new Date(2019, 9, 19)],
-      value2: null,
       calendar,
       months,
       disabledDays: [
@@ -495,183 +495,30 @@ import calendar from '@/components/ui/calendar/calendar.vue'
         year: '2022',
         days:[]
       },
-      month: []
+      month: [],
+      pickedDates: []
     };
   },
-  // created() {
-  //   const now = new Date()
-  //   this.currentYear = now.getFullYear()
-  //   this.currentMonthNumber = now.getMonth()
-
-  //   console.log(this.currentMonthNumber)
-  //   this.assembleMonth(this.currentMonthNumber + 1, this.currentYear)
-  // },
   methods: {
     setProgress(count){
       this.currentProgress = count
     },
-  //   getClass(day){
-  //     const disabled = ~this.disabledDays.findIndex(x=> x.id === day.id) ? 'disabled' : ''
-  //     const lastDisabled = (disabled && (!~this.disabledDays.findIndex(x=> x.id === day.id+1) || day.day === '7')) ? 'last-disabled' : ''
-  //     const firstDisabled = (disabled && (!~this.disabledDays.findIndex(x=> x.id === day.id-1)  || day.day === '1')) ? 'first-disabled' : ''
-  //     const included = ~this.includedDays.findIndex(x=> x.id === day.id) ? 'included' : ''
-  //     const lastIncluded = (included && (!~this.includedDays.findIndex(x=> x.id === day.id+1) || day.day === '7')) ? 'last-included' : ''
-  //     const firstIncluded = (included && (!~this.includedDays.findIndex(x=> x.id === day.id-1) || day.day === '1')) ? 'first-included' : ''
+    onDatePick(data){
+      this.pickedDates = data
+    },
+    createDatesString(){
+      if (this.pickedDates[0] == null){
+        return 'Не выбрано'
+      }
 
-  //     return [disabled, lastDisabled, firstDisabled, included, lastIncluded, firstIncluded].join(' ')
-  //   },
-  //   pickDate(day){
-  //     if (~this.disabledDays.findIndex(x=> x.id === day.id)){
-  //       return
-  //     }
-
-  //     if (!this.firstPickedDay.id){
-  //       this.firstPickedDay = day
-  //       this.includedDays = [day]
-  //     } else {
-  //       if(day.id ===this.firstPickedDay.id){
-  //         if(!this.secondPickedDay.id){
-  //           this.firstPickedDay = {}
-  //           // this.includedDays.length = 0
-  //           this.includedDays = []
-  //           return
-  //         } else {
-  //           this.firstPickedDay = this.secondPickedDay
-  //           this.secondPickedDay = {}
-  //           this.includedDays = [this.firstPickedDay]
-  //           return
-  //         }
-  //       }
-
-  //       if(day.id === this.secondPickedDay.id){
-  //         this.secondPickedDay = {}
-  //         this.includedDays = [this.firstPickedDay]
-  //         return
-  //       }
-
-  //       this.secondPickedDay = day
-
-  //       this.clearExcessDays()
-
-  //       if(day.id > this.firstPickedDay.id){
-  //         this.includeForward()
-  //       } else {
-  //         this.includeBackward()
-  //       }
-  //     }
-  //   },
-  //   clearExcessDays(){
-  //     for (const day of this.includedDays){
-  //       if((day.id > this.firstPickedDay.id && day.id > this.secondPickedDay.id) || (day.id < this.firstPickedDay.id && day.id < this.secondPickedDay.id)){
-  //         this.includedDays = this.includedDays.filter(x => x.id !== day.id)
-  //       }
-  //     }
-  //   },
-  //   includeForward(){
-  //      for (let i = this.firstPickedDay.id; i <= this.secondPickedDay.id; i++){
-  //         const includedDay = this.currentMonth.days.find(x => x.id === i)
-  //         if (~this.disabledDays.findIndex(x => x.id === includedDay.id)){
-  //           this.secondPickedDay = this.currentMonth.days.find(y => y.id === i-1)  
-  //           return
-  //         }
-  //         this.includedDays.push(includedDay)
-  //       }
-  //   },
-  //   includeBackward(){
-  //      for (let i = this.firstPickedDay.id; i >= this.secondPickedDay.id; i--){
-  //         const includedDay = this.currentMonth.days.find(x => x.id === i)
-  //          if (~this.disabledDays.findIndex(x => x.id === includedDay.id)){
-  //           this.secondPickedDay = this.currentMonth.days.find(y => y.id === i+1)
-  //           return
-  //         }
-  //         this.includedDays.push(includedDay)
-  //       }
-  //   },
-  //   getCurrentMonth(){
-  //     return calendar.findIndex(x => (x.year === this.currentMonth.year && x.month === this.currentMonth.month))
-  //   },
-  //   nextMonth(){
-  //     this.currentMonthNumber = this.currentMonthNumber === 11 ? 0 :  this.currentMonthNumber + 1
-  //     this.currentYear = this.currentMonthNumber === 0 ? this.currentYear + 1 : this.currentYear
-
-  //     this.assembleMonth(this.currentMonthNumber + 1, this.currentYear)
-  //   },
-  //   prevMonth(){
-  //     this.currentMonthNumber = this.currentMonthNumber === 0 ? 11 : this.currentMonthNumber - 1
-  //     this.currentYear = this.currentMonthNumber === 11 ? this.currentYear - 1 : this.currentYear
-
-  //     this.assembleMonth(this.currentMonthNumber + 1, this.currentYear)
-  //   },
-  //   assembleMonth(currentMonth, currentYear){
-  //     this.month = []
-  //     console.log(currentMonth)
-  //     const currentMonthLength = this.getDaysInMonth(currentYear, currentMonth)
-
-  //     console.log(currentMonth)
-  //     console.log(currentYear)
-
-  //     console.log(currentMonthLength)
-
-  //     const monthToCheck = currentMonth === 0 ? 11 : currentMonth - 1
-  //     const yearToCheck = monthToCheck === 11 ? currentYear - 1 : currentYear
-  //     const prevMonthLength = this.getDaysInMonth(yearToCheck, monthToCheck)
-
-  //     const nextMonthYear = currentMonth === 11 ? currentYear + 1 : currentYear
-
-  //     const lastDay = new Date(currentYear, currentMonth, 0).getDay()
-
-  //     this.fillCurrentMonth(currentYear, currentMonth, currentMonthLength)
-
-  //     this.fillNextMonth(lastDay, nextMonthYear, currentMonth)
-
-  //     this.fillPrevMonth(prevMonthLength, monthToCheck, yearToCheck)
-
-  //   },
-  //   getDaysInMonth(year, month) {
-  //     return new Date(year, month, 0).getDate();
-  //   },
-  //   fillCurrentMonth(currentYear, currentMonth, currentMonthLength){
-  //       for (let i = currentMonthLength; i>0; i--){
-  //       const day = {
-  //         day: new Date(currentYear, currentMonth-1, i).getDay() ,
-  //         date: i,
-  //         month: currentMonth,
-  //         year: currentYear
-  //       }
-  //       this.month.unshift(day)
-  //     }
-  //   },
-  //   fillNextMonth(lastDay, nextMonthYear, currentMonth){
-  //     let k = 1
-  //     for (let i = lastDay; i < 7; i++){
-  //       const day = {
-  //         day: i+1,
-  //         date: k,
-  //         month: currentMonth + 1,
-  //         year: nextMonthYear
-  //       }
-  //       this.month.push(day)
-  //       k++
-  //     }
-  //   },
-  //   fillPrevMonth(prevMonthLength, monthToCheck, yearToCheck){
-  //     console.log(this.month.length)
-  //     const leftToFill = 42 - this.month.length
-  //     let prevMonthDay = prevMonthLength
-  //     console.log(this.month[0])
-  //     let dayOfWeek = this.month[0].day - 1
-  //     for (let i = 1; i <= leftToFill; i++){
-  //       const day = {
-  //         day: dayOfWeek,
-  //         date: prevMonthDay,
-  //         month: monthToCheck,
-  //         year: yearToCheck
-  //       }
-  //       this.month.unshift(day)
-  //       prevMonthDay--
-  //       dayOfWeek = dayOfWeek === 0 ? 6 : dayOfWeek - 1
-  //     }
-  //   }
+      if (this.pickedDates[0].id < this.pickedDates[this.pickedDates.length-1].id){
+        return (this.pickedDates[0].date+'.'+this.pickedDates[0].month+'.'+this.pickedDates[0].year+' - '+this.pickedDates[this.pickedDates.length-1].date+'.'+this.pickedDates[this.pickedDates.length-1].month+'.'+this.pickedDates[this.pickedDates.length-1].year)
+      } else if (this.pickedDates[0].id > this.pickedDates[this.pickedDates.length-1].id) {
+        return (this.pickedDates[this.pickedDates.length-1].date+'.'+this.pickedDates[this.pickedDates.length-1].month+'.'+this.pickedDates[this.pickedDates.length-1].year+' - '+this.pickedDates[0].date+'.'+this.pickedDates[0].month+'.'+this.pickedDates[0].year)
+      } else {
+        return (this.pickedDates[0].date+'.'+this.pickedDates[0].month+'.'+this.pickedDates[0].year)
+      }
+    }
   },
   }
 </script>
