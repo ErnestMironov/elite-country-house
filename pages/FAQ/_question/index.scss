@@ -4,7 +4,7 @@
   margin-top: 7.625rem;
   margin-bottom: 11.25rem;
   position: relative;
-  min-height: 64rem;
+  min-height: max(90vh, 64rem);
 
   &__wrapper{
     padding-left: 6.875rem;

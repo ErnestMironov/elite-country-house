@@ -4,9 +4,9 @@
     title="Частозадаваемые вопросы"/>
     <div class="questions-wrapper" >
       <NuxtLink
-        v-for="question in questions"
+        v-for="question in data"
         :key="question.id"
-        :to="`faq/:${question.id}`" 
+        :to="`faq/${question.id}`" 
         class="questions__item" 
       >
         <h3 class="questions__title">{{question.title}}</h3>
@@ -26,6 +26,11 @@ export default {
   components:{
    SimpleTitle
   },
+  async asyncData({$http}) {
+        const data = (await $http.$get(`faqs`)).data
+
+      return { data }
+    },
   data() {
     return {
      questions: [

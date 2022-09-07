@@ -18,7 +18,7 @@
       SimpleTitle
     },
       async asyncData({params, $http}) {
-        const data = (await $http.$get(`http://185.46.10.102:1337/api/faqs/${params.question}`)).data
+        const data = (await $http.$get(`faqs/${params.question}`)).data
 
       return { data }
     },
