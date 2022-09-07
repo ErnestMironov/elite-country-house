@@ -47,11 +47,23 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    '@nuxt/http'
+    '@nuxt/http',
+    '@nuxtjs/markdownit'
   ],
 
   http: {
     baseURL: 'http://185.46.10.102:1337/api/',
+  },
+
+  markdownit: {
+    runtime: true ,
+    preset: 'default',
+    linkify: true,
+    breaks: true,
+    use: [
+      'markdown-it-div',
+      'markdown-it-attrs'
+    ]
   },
 
 

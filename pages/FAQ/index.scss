@@ -1,4 +1,5 @@
 @import '@/assets/styles/scss/_colors';
+@import'@/assets/styles/scss/mixins';
 
 .questions{
   padding-top: 7.5rem;
@@ -11,6 +12,11 @@
     width: 100%;
     margin-top: 7.125rem;
     margin-bottom: 17.75rem;
+
+    @include mobile{ 
+      margin-top: 30px;
+      padding: 0;
+    }
   }
 
   &__item{
@@ -18,6 +24,10 @@
     border-bottom: 0.0625rem solid $cBorderDark;
     width: 100%;
     cursor: pointer;
+
+    @include mobile{ 
+      padding: 18px 0;
+    }
   }
 
   &__title{
@@ -27,6 +37,15 @@
     line-height: 3rem;
     letter-spacing: 0em;
     text-align: left;
+
+    @include mobile{
+      font-family: Cormorant;
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 22px;
+      letter-spacing: 0em;
+      text-align: left;
+    }
   }
 
   &__bg-img{
@@ -34,5 +53,9 @@
     width: 13.375rem;
     top: 8.125rem;
     right: 6.875rem;
+
+    @include mobile{ 
+      display: none;
+    }
   }
 }

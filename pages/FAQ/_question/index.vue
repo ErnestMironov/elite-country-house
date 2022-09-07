@@ -1,22 +1,11 @@
 <template>
   <section class="container question">
-
+    
     <SimpleTitle
-     title="Частозадаваемый вопрос"
+      :title="data.title"
     />
-
-    <div class="question__wrapper">
-
-      <h2 class="question__main-header">Заголовок</h2>
-      <h3 class="question__header">Заголовок</h3>
-      <p class="question__paragraph">Сайт рыбатекст поможет дизайнеру, верстальщику, вебмастеру сгенерировать несколько абзацев более менее осмысленного текста рыбы на русском языке, а начинающему оратору отточить навык публичных выступлений в домашних условиях. При создании генератора мы использовали небезизвестный универсальный код речей. Текст генерируется абзацами случайным образом </p>
-      <p class="question__paragraph">По своей сути рыбатекст является альтернативой традиционному lorem ipsum, который вызывает у некторых людей недоумение при попытках прочитать рыбу текст. В отличии от lorem ipsum, текст рыба на русском языке наполнит любой макет непонятным смыслом и придаст неповторимый колорит советских времен.</p>
-      <img src="@/assets/images/mock/parameters-slider__3.jpg" alt="img" class="question__img">
-      <h3 class="question__header">Заголовок</h3>
-      <p class="question__paragraph">Сайт рыбатекст поможет дизайнеру, верстальщику, вебмастеру сгенерировать несколько абзацев более менее осмысленного текста рыбы на русском языке, а начинающему оратору отточить навык публичных выступлений в домашних условиях. При создании генератора мы использовали небезизвестный универсальный код речей. Текст генерируется абзацами случайным образом </p>
-      <p class="question__paragraph">По своей сути рыбатекст является альтернативой традиционному lorem ipsum, который вызывает у некторых людей недоумение при попытках прочитать рыбу текст. В отличии от lorem ipsum, текст рыба на русском языке наполнит любой макет непонятным смыслом и придаст неповторимый колорит советских времен.</p>
-   
-    </div>
+    
+    <div v-html="$md.render(data.text.replace('/uploads', `${baseUrl}uploads/`))"></div>
     <img src="@/assets/images/HEDONIST.svg" alt="" class="question__bg-img">
   </section>
 </template>
@@ -27,9 +16,21 @@
   export default {
     components:{
       SimpleTitle
-    }
+    },
+      async asyncData({params, $http}) {
+        const data = (await $http.$get(`http://185.46.10.102:1337/api/faqs/${params.question}`)).data
+
+      return { data }
+    },
+    data() {
+      return {
+        baseUrl : 'http://185.46.10.102:1337/'
+      }
+    },
   }
 </script>
 
 <style scoped lang="scss" src="./index.scss">
+</style>
+<style lang="scss" src="./md.scss">
 </style>
