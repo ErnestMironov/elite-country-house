@@ -1,13 +1,94 @@
 <template>
-  <SimpleTitle title="Как нас найти?" />
+  <section id="contacts" class="container flex justify-between mt-[8.3125rem]">
+    <div>
+      <SimpleTitle title="Как нас найти?" />
+      <h3 class="subtitle">{{ data.addressTitle }}</h3>
+      <ul class="list">
+        <li
+          v-for="address in data.address"
+          :key="address.id"
+          class="list__item"
+        >
+          <a href=""> {{ address.text }} </a>
+        </li>
+      </ul>
+      <h3 class="subtitle">{{ data.coordinatesTitle }}</h3>
+      <ul class="list">
+        <li
+          v-for="coordinate of data.coordinate"
+          :key="coordinate.id"
+          class="list__item"
+          @click="copyText(coordinate.text)"
+        >
+          <span href="" class="flex items-start">
+            {{ coordinate.text }}
+            <button>
+              <img
+                src="~/assets/icons/copy.svg"
+                alt="скопировать"
+                title="скопировать"
+              />
+            </button>
+          </span>
+        </li>
+      </ul>
+      <h3 class="subtitle">{{ data.emailTitle }}</h3>
+      <ul class="list">
+        <li class="list__item">
+          <a :href="`mailto:${data.email}`"> {{ data.email }} </a>
+        </li>
+      </ul>
+      <h3 class="subtitle">{{ data.phoneTitle }}</h3>
+      <ul class="list">
+        <li class="list__item">
+          <a :href="`tel:${data.phone}`"> {{ data.phone }} </a>
+        </li>
+      </ul>
+    </div>
+    <no-ssr>
+      <iframe
+        src="https://yandex.ru/map-widget/v1/-/CCUVE0hjXC"
+        frameborder="1"
+        allowfullscreen="true"
+        class="map"
+      ></iframe>
+    </no-ssr>
+  </section>
 </template>
 
 <script>
+import { yandexMap, ymapMarker } from 'vue-yandex-maps'
 import SimpleTitle from '~/components/ui/simple-title/simple-title.vue'
+
 export default {
   name: 'TheContacts',
-  components: { SimpleTitle },
+  components: { SimpleTitle, yandexMap, ymapMarker },
+  props: ['data'],
+  methods: {
+    copyText(text) {
+      navigator.clipboard.writeText(text)
+    },
+  },
 }
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.subtitle {
+  font-weight: 450;
+  font-size: 1.5rem;
+  line-height: 1.8125rem;
+  margin-top: 1.75rem;
+}
+
+.list {
+  font-weight: 450;
+  font-size: 1.125rem;
+  margin-top: 0.75rem;
+  line-height: 1.75rem;
+}
+
+.map {
+  flex: 1;
+  margin-left: 5.25rem;
+}
+</style>

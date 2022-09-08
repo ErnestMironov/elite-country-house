@@ -11,13 +11,8 @@
 
 @font-face {
   font-family: 'Avenir Next Cyr';
-  src: url('AvenirNextCyr-Regular.eot');
-  src: local('Avenir Next Cyr Regular'), local('AvenirNextCyr-Regular'),
-    url('AvenirNextCyr-Regular.eot?#iefix') format('embedded-opentype'),
-    url('AvenirNextCyr-Regular.woff') format('woff'),
-    url('AvenirNextCyr-Regular.ttf') format('truetype'),
-    url('avenirnextcyr-medium.ttf') format('truetype'),
-    url('avenirnextcyr-demi.ttf') format('truetype');
+  src: local('Avenir Next Cyr Medium'), local('AvenirNextCyr-Medium'),
+    url('avenirnextcyr-medium.ttf') format('truetype');
   font-weight: 500;
   font-style: normal;
 }

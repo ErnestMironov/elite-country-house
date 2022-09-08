@@ -1,0 +1,122 @@
+@import '@/assets/styles/scss/colors';
+@import '@/assets/styles/scss/mixins';
+
+.booking{
+  &-calendar{
+    width: 25.75rem;
+    height: 23.125rem;
+
+    &__month-slider{
+      display: flex;
+      justify-content: space-between;
+      padding: 0 1.5rem;
+      margin-bottom: 1.75rem;
+    }
+
+    &__month{
+      font-family: Avenir Next Cyr;
+      font-size: 1.125rem;
+      font-weight: 600;
+      line-height: 1.375rem;
+      letter-spacing: 0em;
+      text-align: left;
+    }
+
+    &__controls{
+      width: 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      img{
+        width: 1.125rem;
+        height: auto;
+        cursor: pointer;
+      }
+    }
+    
+    &__wrapper{
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+    }
+
+    &__week{
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+    }
+
+    &__week-day{
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1.25rem;
+      letter-spacing: 0em;
+      text-align: left;
+    }
+
+    &__day{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 2.875rem;
+      padding-top: 0.1875rem;
+      cursor: pointer;
+      &:not(:last-child){
+        margin-bottom: 0.5625rem;
+      }
+    }
+
+    &__day-number{
+      font-family: Avenir Next Cyr;
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.25rem;
+      letter-spacing: 0em;
+      margin-bottom: 0.25rem;
+    }
+
+    &__day-price{
+      font-family: Avenir Next Cyr;
+      font-size: 0.625rem;
+      font-weight: 400;
+      line-height: 0.875rem;
+      letter-spacing: 0em;
+    }
+  }
+}
+
+.disabled{
+  background-color: #EBD5C5;
+}
+
+.last-disabled{
+  border-top-right-radius: 0.3125rem;
+  border-bottom-right-radius: 0.3125rem;
+}
+
+.first-disabled{
+  border-top-left-radius: 0.3125rem;
+  border-bottom-left-radius: 0.3125rem;
+}
+
+.included{
+  background-color: #C5EBDF;
+}
+
+.last-included{
+  border-top-right-radius: 0.3125rem;
+  border-bottom-right-radius: 0.3125rem;
+}
+
+.first-included{
+  border-top-left-radius: 0.3125rem;
+  border-bottom-left-radius: 0.3125rem;
+}
+
+.arrow-disabled{ 
+  visibility: hidden;
+}

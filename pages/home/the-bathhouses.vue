@@ -1,5 +1,5 @@
 <template>
-  <section class="bathhouses">
+  <section id="bathhouses" class="bathhouses">
     <div class="flex flex-col items-start justify-between">
       <div>
         <SimpleTitle title="Бани и сауны" />
@@ -27,7 +27,9 @@
           </li>
         </ul>
       </div>
-      <a href="/" class="btn px-[2.9375rem] mt-5">Узнать больше</a>
+      <nuxt-link to="/bath-house" class="btn px-[2.9375rem] mt-5"
+        >Узнать больше</nuxt-link
+      >
     </div>
     <swiper
       ref="bathhousesSwiper"
@@ -52,7 +54,6 @@ export default {
   components: { SimpleTitle },
   data() {
     return {
-      activeHouse: 0,
       description:
         'Здесь нам необходим текст, который в общих чертах расскажет про то, какие качественные услуги представляет компания. Не забыть упомянуть высокотехнологичность домов и апартаментов и премиальный уровень класса домом. Если если перечень отдыха “не на один день” упомянуть, что в доме не становится скучно на 2й и 3й день.',
       area: 29,

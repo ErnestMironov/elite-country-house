@@ -1,12 +1,4 @@
-// *,
-// *::before,
-// *::after {
-//     box-sizing: border-box;
-//     font-size: 1.11vw;
-//     // @include desktop {
-//     //     font-size: 16px;
-//     // }
-// }
+@import './mixins';
 
 ul,
 ol {
@@ -95,5 +87,12 @@ h2 {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
+  }
+}
+
+.container {
+  @include mobile {
+    padding-left: 15px;
+    padding-right: 15px;
   }
 }

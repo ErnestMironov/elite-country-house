@@ -1,12 +1,9 @@
 <template>
   <section class="name">
     <div class="name-info">
-      <Title :title="'Название гостевого дома'"></Title>
+      <Title :title="props.name"></Title>
       <p class="name__text">
-        Situé au reLorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-        do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-        ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-        aliquip ex ea commodo consequat
+        {{props.about}}
       </p>
     </div>
   </section>
@@ -14,6 +11,17 @@
 
 <script setup>
 import Title from '@/components/ui/simple-title/simple-title'
+
+const props = defineProps({
+      name: {
+        type:String,
+        default: ''
+        },
+      about: {
+          type: String,
+          default:''
+        }
+    })
 </script>
 
 <style lang="scss" scoped>

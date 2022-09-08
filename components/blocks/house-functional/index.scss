@@ -1,13 +1,25 @@
+@import '@/assets/styles/scss/mixins';
+
 .functional {
   margin-top: 6.25rem;
   padding-top: 1.625rem;
   position: relative;
   margin-bottom: 11.25rem;
 
+  @include mobile{
+    margin-top: 96px;
+    margin-bottom: 120px;
+  }
+
   &__title-wrapper {
     position: absolute;
     top: 0;
     left: 0;
+
+    @include mobile{
+      position: relative;
+      margin-bottom: 48px;
+    }
   }
 
   &__border-top {
@@ -16,6 +28,10 @@
     right: 0;
     border-top: 0.0625rem solid #000;
     width: 47.1875rem;
+
+    @include mobile{ 
+      display: none;
+    }
   }
 
   &-wrapper {
@@ -28,6 +44,13 @@
     width: 27.625rem;
     transform: scale(0) rotate(0);
     transition: transform 0.4s ease-in;
+
+    @include mobile {
+      transition: none;
+      width: 100%;
+      transform: none;
+      margin-bottom: 34px;
+    }
   }
 
   &__ticker {
@@ -35,6 +58,11 @@
     margin-bottom: 0.375rem;
     width: 1.875rem;
     height: auto;
+
+    @include mobile{
+      margin-top: -4px;
+      width: 16px;
+    }
   }
 
   &__row {
@@ -50,15 +78,36 @@
       }
     }
 
+    @include mobile{ 
+      flex-direction: column;
+      align-items: flex-start;
+      width: 100%;
+      padding-bottom: 24px;
+      margin-bottom: 36px;
+      border-bottom: 1px solid #000;
+    }
+
     &-info {
       width: 47.1875rem;
 
+      @include mobile{
+        width: 100%;
+      }
+
       h4 {
         margin-bottom: 0.75rem;
+
+        @include mobile{
+          margin-bottom: 12px;
+        }
       }
 
       p {
         margin-bottom: 1.125rem;
+
+        @include mobile{
+          margin-bottom: 24px;
+        }
       }
 
       span {
@@ -70,6 +119,10 @@
         text-align: left;
         display: flex;
         justify-content: flex-start;
+
+        @include mobile{
+          font-size: 28px;
+        }
       }
     }
   }

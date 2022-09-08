@@ -17,17 +17,18 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue'
-const props = defineProps({
-  isLight: {
-    type: Boolean,
-    default: false,
-  },
-  title: {
-    type: String,
-    default: '',
-  },
-})
+  const props = defineProps({
+      isLight: {
+        type:Boolean,
+        default: false
+        },
+        title: {
+          type: String,
+          default:''
+        }
+    })
+  
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+</style>

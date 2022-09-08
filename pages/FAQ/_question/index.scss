@@ -1,0 +1,81 @@
+@import'@/assets/styles/scss/mixins';
+
+.question{
+  margin-top: 7.625rem;
+  margin-bottom: 11.25rem;
+  position: relative;
+  min-height: max(90vh, 64rem);
+
+  &__wrapper{
+    padding-left: 6.875rem;
+    width: 47.1875rem;
+  }
+
+  &__main-header{
+    font-family: Cormorant;
+    font-size: 1.75rem;
+    font-weight: 500;
+    line-height: 2.25rem;
+    letter-spacing: 0em;
+    text-align: left;
+    margin: 2.5rem 0;
+  }
+
+  &__header{
+    font-family: Cormorant;
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 2rem;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-bottom: 1.875rem;
+  }
+
+  &__paragraph{
+    margin-bottom: 1.25rem;
+    font-family: Avenir Next Cyr;
+    font-size: 1.125rem;
+    font-weight: 400;
+    line-height: 1.75rem;
+    letter-spacing: 0em;
+    text-align: left;
+  }
+
+  &__img{
+    margin-top: 2.5rem;
+    margin-bottom: 3rem;
+  }
+
+  &__bg-img{
+    position: absolute;
+    width: 13.375rem;
+    top: -1rem;
+    right: 6.875rem;
+
+    @include mobile{ 
+      display: none;
+    }
+  }
+}
+
+div{
+
+  h1{
+    font-family: Cormorant;
+    font-size: 1.75rem;
+    font-weight: 500;
+    line-height: 2.25rem;
+    letter-spacing: 0em;
+    text-align: left;
+    margin: 2.5rem 0;
+  }
+}
+h2{
+  font-family: Cormorant;
+  font-size: 1.75rem;
+  font-weight: 500;
+  line-height: 2.25rem;
+  letter-spacing: 0em;
+  text-align: left;
+  margin: 2.5rem 0;
+}

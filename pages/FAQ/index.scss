@@ -1,0 +1,62 @@
+@import '@/assets/styles/scss/_colors';
+@import'@/assets/styles/scss/mixins';
+
+.questions{
+  padding-top: 7.5rem;
+  position: relative;
+  &-wrapper{
+    padding: 0 6.875rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    margin-top: 7.125rem;
+    margin-bottom: 17.75rem;
+    min-height: max(90vh, 64rem);
+
+    @include mobile{ 
+      margin-top: 30px;
+      padding: 0;
+    }
+  }
+
+  &__item{
+    padding: 2.25rem 0;
+    border-bottom: 0.0625rem solid $cBorderDark;
+    width: 100%;
+    cursor: pointer;
+
+    @include mobile{ 
+      padding: 18px 0;
+    }
+  }
+
+  &__title{
+    font-family: Cormorant;
+    font-size: 2.25rem;
+    font-weight: 500;
+    line-height: 3rem;
+    letter-spacing: 0em;
+    text-align: left;
+
+    @include mobile{
+      font-family: Cormorant;
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 22px;
+      letter-spacing: 0em;
+      text-align: left;
+    }
+  }
+
+  &__bg-img{
+    position: absolute;
+    width: 13.375rem;
+    top: 8.125rem;
+    right: 6.875rem;
+
+    @include mobile{ 
+      display: none;
+    }
+  }
+}

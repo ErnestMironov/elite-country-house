@@ -1,0 +1,73 @@
+@import'@/assets/styles/scss/mixins';
+
+.question{
+  div{
+    &:not(.title-wrapper){
+    padding-left: 6.875rem;
+    width: 47.1875rem;
+
+    @include mobile{ 
+      padding: 0;
+      width: 100%;
+    }
+  }
+
+    h1{
+      font-family: Cormorant;
+      font-size: 1.75rem;
+      font-weight: 500;
+      line-height: 2.25rem;
+      letter-spacing: 0em;
+      text-align: left;
+      margin: 2.5rem 0;
+
+      @include mobile{
+        font-size: 18px;
+        line-height: 22px;
+        margin-top: 48px;
+      }
+    }
+
+    h2{
+      &:not(.title-wrapper__title){
+        font-family: Cormorant;
+        font-size: 1.5rem;
+        font-weight: 500;
+        line-height: 2rem;
+        letter-spacing: 0em;
+        text-align: left;
+        margin-bottom: 1.875rem;
+
+        @include mobile{ 
+          font-size: 14px;
+          margin-top: 20px;
+        }
+      }
+    }
+
+    p{
+      margin-bottom: 1.25rem;
+      font-family: Avenir Next Cyr;
+      font-size: 1.125rem;
+      font-weight: 400;
+      line-height: 1.75rem;
+      letter-spacing: 0em;
+      text-align: left;
+
+      @include mobile{
+        font-size: 14px;
+        line-height: 24px;
+        margin-top: 18px;
+      }
+    }
+
+    img{
+      margin-top: 2.5rem;
+      margin-bottom: 3rem;
+
+      @include mobile{
+        margin-top: 48px;
+      }
+    }
+  }
+}

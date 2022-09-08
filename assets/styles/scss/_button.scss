@@ -1,3 +1,5 @@
+@import '@/assets/styles/scss/mixins';
+
 .btn {
   background: var(--text-color);
   color: #fffdfc;
@@ -10,6 +12,12 @@
   text-align: center;
   transition: all ease-out 0.15s;
 
+  @include tablet {
+    font-size: 16px;
+    line-height: 24px;
+    padding: 18px;
+  }
+
   &:hover {
     opacity: 0.8;
   }
@@ -17,7 +25,13 @@
   &_light {
     background: #fffdfc;
     color: var(--text-color);
-    border-top: 1px solid var(--text-color);
-    border-bottom: 1px solid var(--text-color);
+    border-top: 0.0625rem solid var(--text-color);
+    border-bottom: 0.0625rem solid var(--text-color);
+  }
+
+  &_white {
+    background-color: white;
+    border: none;
+    color: var(--text-color);
   }
 }

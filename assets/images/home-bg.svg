@@ -1,0 +1,38 @@
+<svg width="1440" height="6640" viewBox="0 0 1440 6640" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g opacity="0.2">
+<rect x="1016.71" y="867.5" width="305.708" height="305.708" transform="rotate(-45 1016.71 867.5)" stroke="black"/>
+<rect x="1016.71" y="433.75" width="305.708" height="305.708" transform="rotate(-45 1016.71 433.75)" stroke="black"/>
+<rect x="1016.71" y="1301.25" width="305.708" height="305.708" transform="rotate(-45 1016.71 1301.25)" stroke="black"/>
+<path d="M1449.75 867.5H1016" stroke="black"/>
+<path d="M1449.75 433.75H582.25" stroke="black"/>
+<path d="M1449.75 1301.25H582.25" stroke="black"/>
+</g>
+<g opacity="0.2">
+<circle cx="84.3322" cy="3159.3" r="127.14" stroke="black" stroke-width="2"/>
+<circle cx="340.611" cy="3159.3" r="127.14" stroke="black" stroke-width="2"/>
+<circle cx="84.3322" cy="2136.14" r="127.14" stroke="black" stroke-width="2"/>
+<path d="M468.751 3287.44L-43.8074 3800V3287.44H468.751Z" stroke="black" stroke-width="2"/>
+<path d="M468.751 2264.28L-43.8074 2776.84V2264.28H468.751Z" stroke="black" stroke-width="2"/>
+<path d="M-41.8507 2264.28L470.708 2776.84V2264.28H-41.8507Z" stroke="black" stroke-width="2"/>
+<path d="M468.751 3031.16L-43.8074 2780.75V3031.16H468.751Z" stroke="black" stroke-width="2"/>
+<rect x="213.471" y="2009" width="254.279" height="254.279" stroke="black" stroke-width="2"/>
+</g>
+<g opacity="0.2">
+<circle cx="128.26" cy="6127.7" r="127.26" stroke="black" stroke-width="2"/>
+<circle cx="384.78" cy="6127.7" r="127.26" stroke="black" stroke-width="2"/>
+<circle cx="128.26" cy="5103.57" r="127.26" stroke="black" stroke-width="2"/>
+<path d="M513.042 6255.96L0 6769V6255.96H513.042Z" stroke="black" stroke-width="2"/>
+<path d="M513.042 5231.83L0 5744.87V5231.83H513.042Z" stroke="black" stroke-width="2"/>
+<path d="M1.95911 5231.83L515.001 5744.87V5231.83H1.95911Z" stroke="black" stroke-width="2"/>
+<path d="M513.042 5999.44L0 5748.79V5999.44H513.042Z" stroke="black" stroke-width="2"/>
+<rect x="257.519" y="4976.31" width="254.521" height="254.521" stroke="black" stroke-width="2"/>
+</g>
+<g opacity="0.2">
+<rect x="1012.91" y="3592.5" width="291.096" height="291.096" transform="rotate(-45 1012.91 3592.5)" stroke="black" stroke-width="2"/>
+<rect x="1012.91" y="3178" width="291.096" height="291.096" transform="rotate(-45 1012.91 3178)" stroke="black" stroke-width="2"/>
+<rect x="1012.91" y="4007" width="291.096" height="291.096" transform="rotate(-45 1012.91 4007)" stroke="black" stroke-width="2"/>
+<path d="M1426 3592.5H1011.5" stroke="black" stroke-width="2"/>
+<path d="M1426 3178H597" stroke="black" stroke-width="2"/>
+<path d="M1426 4007H597" stroke="black" stroke-width="2"/>
+</g>
+</svg>
