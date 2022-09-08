@@ -4,13 +4,10 @@
       <div class="swiper-wrapper">
         <div
           v-for="banner in data.images"
-          :key="banner"
+          :key="banner.id"
           class="swiper-slide hero__slide"
         >
-          <img
-            class="h-[44rem]"
-            :src="`http://185.46.10.102:1337${banner.url}`"
-          />
+          <img :src="`http://185.46.10.102:1337${banner.url}`" />
         </div>
       </div>
     </div>
@@ -20,7 +17,7 @@
         {{ data.title }}
       </h2>
       <p class="hero__description">
-        {{ data.description }}
+        {{ data?.description }}
       </p>
       <button class="btn hero__btn" @click="goToTheLink('#services')">
         Ознакомиться с услугами
@@ -69,11 +66,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/scss/mixins';
+
 .hero {
   position: relative;
 
   &__slide {
     width: auto;
+    height: 44rem;
+
+    img {
+      height: 100%;
+    }
+
+    @include tablet {
+      height: 378px;
+    }
   }
 
   &__slider {
@@ -93,6 +101,11 @@ export default {
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
+
+    @include mobile {
+      position: relative;
+      width: 100%;
+    }
   }
 
   &__title {
@@ -101,17 +114,34 @@ export default {
     font-size: 3rem;
     line-height: 3.75rem;
     max-width: 31.25rem;
+
+    @include tablet {
+      font-size: 36px;
+      line-height: 48px;
+      max-width: 100%;
+      margin-top: 24px;
+    }
   }
 
   &__description {
     margin-top: 1.75rem;
     font-size: 1.125rem;
     line-height: 1.75rem;
+
+    @include tablet {
+      font-size: 14px;
+      line-height: 24px;
+      margin-top: 12px;
+    }
   }
 
   &__btn {
     width: 19.375rem;
     margin-top: 3.75rem;
+
+    @include tablet {
+      width: 310px;
+    }
   }
 }
 </style>

@@ -1,7 +1,15 @@
 <template>
-  <section id="contacts" class="container flex justify-between mt-[8.3125rem]">
+  <section id="contacts" class="container contacts">
     <div>
       <SimpleTitle title="Как нас найти?" />
+      <no-ssr>
+        <iframe
+          src="https://yandex.ru/map-widget/v1/-/CCUVE0hjXC"
+          frameborder="1"
+          allowfullscreen="true"
+          class="map hide-on-desktop"
+        ></iframe>
+      </no-ssr>
       <h3 class="subtitle">{{ data.addressTitle }}</h3>
       <ul class="list">
         <li
@@ -14,11 +22,22 @@
       </ul>
       <h3 class="subtitle">{{ data.coordinatesTitle }}</h3>
       <ul class="list">
-        <li class="list__item">
-          <a href="" class="flex items-start">
-            55.777044 37.555554.
-            <img src="~/assets/icons/copy.svg" alt="скопировать" />
-          </a>
+        <li
+          v-for="coordinate of data.coordinate"
+          :key="coordinate.id"
+          class="list__item"
+          @click="copyText(coordinate.text)"
+        >
+          <span href="" class="flex items-start">
+            {{ coordinate.text }}
+            <button>
+              <img
+                src="~/assets/icons/copy.svg"
+                alt="скопировать"
+                title="скопировать"
+              />
+            </button>
+          </span>
         </li>
       </ul>
       <h3 class="subtitle">{{ data.emailTitle }}</h3>
@@ -39,7 +58,7 @@
         src="https://yandex.ru/map-widget/v1/-/CCUVE0hjXC"
         frameborder="1"
         allowfullscreen="true"
-        class="map"
+        class="map hide-on-mobile"
       ></iframe>
     </no-ssr>
   </section>
@@ -53,20 +72,38 @@ export default {
   name: 'TheContacts',
   components: { SimpleTitle, yandexMap, ymapMarker },
   props: ['data'],
-  data() {
-    return {
-      coords: [54.82896654088406, 39.831893822753904],
-    }
+  methods: {
+    copyText(text) {
+      navigator.clipboard.writeText(text)
+    },
   },
 }
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/scss/mixins';
+
+.contacts {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8.3125rem;
+
+  @include tablet {
+    margin-top: 160px;
+    display: block;
+  }
+}
+
 .subtitle {
   font-weight: 450;
   font-size: 1.5rem;
   line-height: 1.8125rem;
   margin-top: 1.75rem;
+
+  @include tablet {
+    font-size: 24px;
+    line-height: 29px;
+  }
 }
 
 .list {
@@ -74,10 +111,24 @@ export default {
   font-size: 1.125rem;
   margin-top: 0.75rem;
   line-height: 1.75rem;
+
+  @include tablet {
+    font-weight: 450;
+    font-size: 18px;
+    line-height: 28px;
+    margin-top: 28px;
+  }
 }
 
 .map {
   flex: 1;
   margin-left: 5.25rem;
+
+  @include tablet {
+    margin-left: 0;
+    width: 100%;
+    margin-top: 40px;
+    height: 100vw;
+  }
 }
 </style>

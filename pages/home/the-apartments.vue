@@ -35,19 +35,22 @@
       <div class="objects__address">
         Социалистическая 21 (Апарт-отель “YES”)
       </div>
-      <nuxt-link to="/apartments" class="btn mt-[2.25rem] min-w-[13.1875rem]"
+      <nuxt-link
+        to="/apartments"
+        class="btn mt-[48px] lg:mt-[2.25rem] min-w-[13.1875rem] px-[62px]"
         >Узнать больше</nuxt-link
       >
     </div>
     <div class="objects__slider">
       <swiper
+        v-if="objectImages.length"
         ref="objectsSwiper"
         :options="swiperOptions"
         @slideChange="changeActiveObject"
       >
         <swiper-slide
           v-for="image in objectImages"
-          :key="image"
+          :key="image.id"
           class="swiper-slide objects__slide"
         >
           <img
@@ -55,7 +58,7 @@
             :src="`http://185.46.10.102:1337${image.url}`"
         /></swiper-slide>
       </swiper>
-      <div class="nav">
+      <div class="nav hide-on-mobile">
         <button id="objectsSliderPrev" class="nav__btn">
           <img src="~/assets/icons/arrow_left.svg" alt="назад" />
         </button>
@@ -68,10 +71,6 @@
 </template>
 
 <script>
-import objImage1 from '~/assets/images/mock/home_objects/object_1.jpg'
-import objImage2 from '~/assets/images/mock/home_objects/object_2.jpg'
-import objImage3 from '~/assets/images/mock/home_objects/object_3.jpg'
-
 export default {
   name: 'TheApartments',
   filters: {
@@ -82,60 +81,34 @@ export default {
   data() {
     return {
       activeObject: 0,
-      objects2: [],
-      objects: [
-        {
-          image: objImage1,
-          title: 'Апартаменты №1',
-          description:
-            'Здесь нам необходим текст, который в общих чертах расскажет про то, какие качественные услуги представляет компания. Не забыть упомянуть высокотехнологичность домов и апартаментов и премиальный уровень класса.',
-          area: 29,
-          floors: 2,
-          bedrooms: 4,
-          price: 50000,
-        },
-        {
-          image: objImage2,
-          title: 'Апартаменты №2',
-          description:
-            'Здесь нам необходим текст, который в общих чертах расскажет про то, какие качественные услуги представляет компания. Не забыть упомянуть высокотехнологичность домов и апартаментов и премиальный уровень класса.',
-          area: 29,
-          floors: 2,
-          bedrooms: 4,
-          price: 60000,
-        },
-        {
-          image: objImage3,
-          title: 'Апартаменты №7',
-          description:
-            'Здесь нам необходим текст, который в общих чертах расскажет про то, какие качественные услуги представляет компания. Не забыть упомянуть высокотехнологичность домов и апартаментов и премиальный уровень класса.',
-          area: 29,
-          floors: 2,
-          bedrooms: 4,
-          price: 70000,
-        },
-      ],
+      objects: [],
       swiperOptions: {
         slidesPerView: 'auto',
-        loop: true,
         slideToClickedSlide: true,
+        slidesOffsetBefore: 15,
+        loop: true,
         spaceBetween: 0,
         navigation: {
           prevEl: '#objectsSliderPrev',
           nextEl: '#objectsSliderNext',
         },
+        breakpoints: {
+          1000: {
+            slidesOffsetBefore: 0,
+          },
+        },
       },
     }
   },
   async fetch() {
-    this.objects2 = (await this.$http.$get('apartments?populate=deep,10')).data
+    this.objects = (await this.$http.$get('apartments?populate=deep,10')).data
   },
   computed: {
     currentObject() {
-      return this.objects2[this.activeObject]
+      return this.objects[this.activeObject]
     },
     objectImages() {
-      return this.objects2.map((object) => object.images[0])
+      return this.objects.map((object) => object.images[0])
     },
   },
   created() {
@@ -143,13 +116,17 @@ export default {
   },
   methods: {
     changeActiveObject() {
-      this.activeObject = this.$refs.objectsSwiper.$swiper.realIndex
+      this.activeObject = isNaN(this.$refs.objectsSwiper.$swiper.realIndex)
+        ? 0
+        : this.$refs.objectsSwiper.$swiper.realIndex
     },
   },
 }
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/scss/mixins';
+
 .objects {
   background-size: cover;
   background-position: center;
@@ -159,10 +136,21 @@ export default {
   padding-left: 5.75rem;
   margin-top: 11.25rem;
 
+  @include tablet {
+    flex-direction: column-reverse;
+    padding-left: 0;
+    position: relative;
+  }
+
   &__info {
     background: rgba(255, 253, 252, 0.8);
     padding: 3.1875rem 2.25rem 2.5rem 3rem;
     max-width: 31.5625rem;
+
+    @include tablet {
+      max-width: 100%;
+      padding: 323px 15px 36px;
+    }
   }
 
   &__title {
@@ -170,12 +158,24 @@ export default {
     font-weight: 500;
     font-size: 1.75rem;
     line-height: 2.25rem;
+
+    @include tablet {
+      font-weight: 500;
+      font-size: 28px;
+      line-height: 36px;
+    }
   }
 
   &__description {
     font-size: 1.125rem;
     margin-top: 1.5rem;
     line-height: 1.75rem;
+    min-height: 8.75rem;
+
+    @include tablet {
+      font-size: 14px;
+      line-height: 24px;
+    }
   }
 
   &__params {
@@ -193,6 +193,11 @@ export default {
     font-size: 1.5rem;
     line-height: 1.8125rem;
     margin-top: 2.25rem;
+
+    @include tablet {
+      font-size: 24px;
+      line-height: 29px;
+    }
   }
 
   &__address {
@@ -200,17 +205,33 @@ export default {
     font-size: 1.125rem;
     line-height: 1.75rem;
     margin-top: 0.625rem;
+
+    @include tablet {
+      font-size: 18px;
+      line-height: 28px;
+    }
   }
 
   &__slide {
     width: auto;
     padding-right: 1.75rem;
+
+    @include tablet {
+      padding-right: 28px;
+    }
   }
 
   &__slider {
     width: 50%;
     margin: 0;
     margin-bottom: 1.75rem;
+
+    @include tablet {
+      width: 100%;
+      position: absolute;
+      top: 30px;
+      left: 0;
+    }
   }
 
   &__slide-img {
@@ -218,6 +239,11 @@ export default {
     height: 15.3125rem;
     object-fit: cover;
     object-position: center;
+
+    @include tablet {
+      width: 245px;
+      height: 245px;
+    }
   }
 }
 </style>

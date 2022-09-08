@@ -25,7 +25,7 @@
           <h4 class="info-title">
             {{ feature.title }}
           </h4>
-          <p class="info-block">{{ feature.description }}</p>
+          <p class="info-block">{{ feature?.description }}</p>
         </div>
         <!-- <div v-for="card in mock" :key="card.idx" class="about-info__card">
           <span>{{ card.idx }}</span>
