@@ -43,6 +43,7 @@
       </div>
       <div class="w-[50rem] relative">
         <swiper
+          v-if="objects.length"
           ref="guestHousesSwiper"
           class="guest-houses__slider"
           :options="swiperOptions"
