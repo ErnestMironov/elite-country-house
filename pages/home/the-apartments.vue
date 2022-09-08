@@ -50,7 +50,7 @@
       >
         <swiper-slide
           v-for="image in objectImages"
-          :key="image"
+          :key="image.id"
           class="swiper-slide objects__slide"
         >
           <img

@@ -4,7 +4,7 @@
       <div class="swiper-wrapper">
         <div
           v-for="banner in data.images"
-          :key="banner"
+          :key="banner.id"
           class="swiper-slide hero__slide"
         >
           <img :src="`http://185.46.10.102:1337${banner.url}`" />

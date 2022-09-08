@@ -36,7 +36,7 @@
         <ul class="flex hide-on-mobile">
           <li
             v-for="(slide, index) of guestHousesImages"
-            :key="slide"
+            :key="slide.id + index"
             :class="[{ active: index === activeHouse }, 'guest-houses__bullet']"
           >
             <span> 0{{ index + 1 }}</span>
@@ -53,7 +53,7 @@
         >
           <swiper-slide
             v-for="image in guestHousesImages"
-            :key="image"
+            :key="image.id"
             class="swiper-slide guest-houses__slide"
           >
             <img
