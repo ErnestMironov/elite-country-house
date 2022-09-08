@@ -4,17 +4,17 @@
       <div>
         <SimpleTitle title="Бани и сауны" />
         <p class="mt-[3rem] max-w-[33.3125rem]">
-          {{ description }}
+          {{ bathInfo.description }}
         </p>
         <ul
           class="grid grid-cols-[repeat(2,_auto)] mt-[3rem] gap-y-[3rem] gap-x-[1.5rem]"
         >
           <li class="param mr-[3.75rem]">
-            <span class="param__title">{{ area }}м²</span>
+            <span class="param__title">{{ bathInfo.area }}м²</span>
             <span class="param__value">Площадь бани</span>
           </li>
           <li class="mr-[3.125rem] param">
-            <span class="param__title">{{ capacity }}</span>
+            <span class="param__title">{{ bathInfo.maxPeople }}</span>
             <span class="param__value">Максимальная вместительность</span>
           </li>
           <li class="mr-[1.75rem] param">
@@ -22,8 +22,8 @@
             <span class="param__value">Площадь бассейна</span>
           </li>
           <li class="param">
-            <span class="param__title">{{ additioanl }}</span>
-            <span class="param__value">Описание преимущества</span>
+            <span class="param__title">{{ bathInfo.saunaType }}</span>
+            <span class="param__value">Тип бани</span>
           </li>
         </ul>
       </div>
@@ -37,11 +37,14 @@
       :options="swiperOptions"
     >
       <swiper-slide
-        v-for="image in images"
-        :key="image"
+        v-for="image in bathInfo.images"
+        :key="image.id"
         class="swiper-slide bathhouses__slide"
       >
-        <img class="bathhouses__slide-img" :src="image" />
+        <img
+          class="bathhouses__slide-img"
+          :src="`http://185.46.10.102:1337${image.url}`"
+        />
       </swiper-slide>
     </swiper>
   </section>
@@ -54,6 +57,7 @@ export default {
   components: { SimpleTitle },
   data() {
     return {
+      bathInfo: null,
       description:
         'Здесь нам необходим текст, который в общих чертах расскажет про то, какие качественные услуги представляет компания. Не забыть упомянуть высокотехнологичность домов и апартаментов и премиальный уровень класса домом. Если если перечень отдыха “не на один день” упомянуть, что в доме не становится скучно на 2й и 3й день.',
       area: 29,
@@ -72,6 +76,11 @@ export default {
         grabCursor: true,
       },
     }
+  },
+  async fetch() {
+    this.bathInfo = (
+      await this.$http.$get('bathhouses?populate=deep,10')
+    ).data[0]
   },
 }
 </script>
