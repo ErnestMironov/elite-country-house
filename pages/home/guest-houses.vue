@@ -1,29 +1,31 @@
 <template>
   <section id="guesthouses" class="guest-houses">
     <SimpleTitle is-light title="Гостевые дома" />
-    <div class="flex mt-[6.6875rem]">
-      <div class="w-6/12 flex flex-col justify-between items-start">
+    <div class="guest-houses__body mt-[6.6875rem]">
+      <div
+        class="guest-houses__info w-6/12 flex flex-col justify-between items-start"
+      >
         <div>
           <h3 class="guest-houses__title">{{ currentHouse?.name }}</h3>
           <p class="guest-houses__description">
             {{ currentHouse?.description }}
           </p>
-          <ul class="flex mt-[3rem]">
-            <li class="param mr-[3.75rem]">
+          <ul class="flex guest-houses__params mt-[3rem] hide-on-mobile">
+            <li class="param guest-houses__param mr-[3.75rem]">
               <span class="param__title">{{
                 currentHouse?.basePrice | parseNumber
               }}</span>
               <span class="param__value">Стоимость аренды</span>
             </li>
-            <li class="mr-[3.125rem] param">
+            <li class="mr-[3.125rem] param guest-houses__param">
               <span class="param__title">{{ currentHouse?.area }}м²</span>
               <span class="param__value">Площадь</span>
             </li>
-            <li class="mr-[1.75rem] param">
+            <li class="mr-[1.75rem] param guest-houses__param">
               <span class="param__title">{{ currentHouse?.floors }}</span>
               <span class="param__value">Этажа</span>
             </li>
-            <li class="param">
+            <li class="param guest-houses__param">
               <span class="param__title">{{
                 currentHouse?.sleepingSpaces
               }}</span>
@@ -31,7 +33,7 @@
             </li>
           </ul>
         </div>
-        <ul class="flex">
+        <ul class="flex hide-on-mobile">
           <li
             v-for="(slide, index) of guestHousesImages"
             :key="slide"
@@ -41,7 +43,7 @@
           </li>
         </ul>
       </div>
-      <div class="w-[50rem] relative">
+      <div class="guest-houses__slider-wrap relative">
         <swiper
           v-if="objects.length"
           ref="guestHousesSwiper"
@@ -60,12 +62,12 @@
             />
             <nuxt-link
               to="/guest-house"
-              class="btn btn_light absolute bottom-0 right-0 px-[2.9375rem]"
+              class="btn btn_light absolute bottom-0 right-0 px-[2.9375rem] hide-on-mobile"
               >Узнать больше</nuxt-link
             >
           </swiper-slide>
         </swiper>
-        <div class="nav guest-houses__nav">
+        <div class="nav guest-houses__nav hide-on-mobile">
           <button id="guestHousesSLiderPrev" class="nav__btn">
             <img src="~/assets/icons/arrow_left_dark.svg" alt="назад" />
           </button>
@@ -74,6 +76,26 @@
           </button>
         </div>
       </div>
+      <ul class="flex guest-houses__params mt-[3rem] hide-on-desktop">
+        <li class="param guest-houses__param mr-[3.75rem]">
+          <span class="param__title">{{
+            currentHouse?.basePrice | parseNumber
+          }}</span>
+          <span class="param__value">Стоимость аренды</span>
+        </li>
+        <li class="mr-[3.125rem] param guest-houses__param">
+          <span class="param__title">{{ currentHouse?.area }}м²</span>
+          <span class="param__value">Площадь</span>
+        </li>
+        <li class="mr-[1.75rem] param guest-houses__param">
+          <span class="param__title">{{ currentHouse?.floors }}</span>
+          <span class="param__value">Этажа</span>
+        </li>
+        <li class="param guest-houses__param">
+          <span class="param__title">{{ currentHouse?.sleepingSpaces }}</span>
+          <span class="param__value">Спальни</span>
+        </li>
+      </ul>
     </div>
   </section>
 </template>
@@ -124,6 +146,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/scss/mixins';
+
 .guest-houses {
   position: relative;
   transform: translateZ(0);
@@ -132,6 +156,10 @@ export default {
   padding-left: 4rem;
   color: #fffdfc;
   padding-bottom: 2.6875rem;
+
+  @include tablet {
+    padding-top: 30px;
+  }
 
   &::before {
     content: '';
@@ -142,6 +170,24 @@ export default {
     top: 0;
     z-index: -1;
     background: var(--secondary-color);
+
+    @include tablet {
+      width: 100%;
+    }
+  }
+
+  &__body {
+    display: flex;
+
+    @include tablet {
+      display: block;
+    }
+  }
+
+  &__info {
+    @include tablet {
+      width: 100%;
+    }
   }
 
   &__title {
@@ -149,6 +195,11 @@ export default {
     font-weight: 500;
     font-size: 1.75rem;
     line-height: 2.25rem;
+
+    @include tablet {
+      font-size: 16px;
+      line-height: 24px;
+    }
   }
 
   &__description {
@@ -157,6 +208,40 @@ export default {
     margin-top: 3rem;
     max-width: 95%;
     min-height: 10.625rem;
+
+    @include tablet {
+      font-size: 14px;
+      line-height: 24px;
+      max-width: 100%;
+      min-height: 200px;
+    }
+  }
+
+  &__params {
+    @include tablet {
+      margin: 36px 0;
+      flex-wrap: wrap;
+    }
+  }
+
+  &__param {
+    @include tablet {
+      margin-right: 36px;
+
+      &:first-child {
+        min-width: 100%;
+        margin-bottom: 24px;
+      }
+    }
+  }
+
+  &__slider-wrap {
+    width: 50rem;
+
+    @include tablet {
+      width: 100%;
+      margin-top: 36px;
+    }
   }
 
   &__slider {
@@ -166,6 +251,10 @@ export default {
 
   &__slide {
     width: 25.3125rem;
+
+    @include tablet {
+      width: 80vw;
+    }
   }
 
   &__slide-img {

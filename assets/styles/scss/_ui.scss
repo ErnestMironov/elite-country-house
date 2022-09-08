@@ -150,3 +150,16 @@
     border: 0.125rem solid rgba(0, 0, 0, 0.25);
   }
 }
+
+.hide-on {
+  &-mobile {
+    @media (max-width: $tablet-width) {
+      display: none !important;
+    }
+  }
+  &-desktop {
+    @media (min-width: $desktop-small) {
+      display: none !important;
+    }
+  }
+}
