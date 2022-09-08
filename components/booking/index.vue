@@ -430,8 +430,7 @@
                 <h3 class="booking__header booking__precheck-header">Цена за полный перечень услуг:</h3>
                 <span class="booking__price">{{price}} <img src="@/assets/icons/rouble.svg" alt=""></span>
                 <div class="booking__buttons-wrapper booking__buttons--4">
-                  <button class="btn booking__next-btn booking-button--4" @click="bookHouse()">Посмотреть пречек и оплатить</button>
-                  <!-- :disabled="!personalAgreement || !personalData" -->
+                  <button class="btn booking__next-btn booking-button--4" :disabled="!personalAgreement || !personalData" @click="bookHouse()">Посмотреть пречек и оплатить</button>
                 </div>
             </div>
 
