@@ -20,7 +20,7 @@
         {{ data.title }}
       </h2>
       <p class="hero__description">
-        {{ data.description }}
+        {{ data?.description }}
       </p>
       <button class="btn hero__btn" @click="goToTheLink('#services')">
         Ознакомиться с услугами

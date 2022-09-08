@@ -2,11 +2,11 @@
   <section id="services" class="container mt-[8.5625rem]">
     <div class="flex justify-between">
       <SimpleTitle :title="data.title" />
-      <p class="text hidden sm:block">
-        {{ data.description }}
+      <p class="text hide-on-mobile">
+        {{ data?.description }}
       </p>
     </div>
-    <div class="sm:grid grid-cols-3 gap-x-6 mt-[48px] lg:mt-[3.75rem]">
+    <div class="services__list grid-cols-3 gap-x-6 mt-[48px] lg:mt-[3.75rem]">
       <nuxt-link
         v-for="(service, idx) in data.servicesList"
         :key="service.title"
@@ -22,8 +22,8 @@
         <div class="service__link" href="">Перейти</div>
       </nuxt-link>
     </div>
-    <p class="text sm:hidden">
-      {{ data.description }}
+    <p class="text hide-on-desktop">
+      {{ data?.description }}
     </p>
   </section>
 </template>
@@ -45,6 +45,16 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/assets/styles/scss/mixins';
+
+.services {
+  &__list {
+    display: grid;
+
+    @include mobile {
+      display: block;
+    }
+  }
+}
 
 .text {
   font-size: 1.125rem;

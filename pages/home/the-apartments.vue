@@ -43,6 +43,7 @@
     </div>
     <div class="objects__slider">
       <swiper
+        v-if="objectImages.length"
         ref="objectsSwiper"
         :options="swiperOptions"
         @slideChange="changeActiveObject"
@@ -57,7 +58,7 @@
             :src="`http://185.46.10.102:1337${image.url}`"
         /></swiper-slide>
       </swiper>
-      <div class="nav hidden lg:flex">
+      <div class="nav hide-on-mobile">
         <button id="objectsSliderPrev" class="nav__btn">
           <img src="~/assets/icons/arrow_left.svg" alt="назад" />
         </button>
@@ -115,7 +116,9 @@ export default {
   },
   methods: {
     changeActiveObject() {
-      this.activeObject = this.$refs.objectsSwiper.$swiper.realIndex
+      this.activeObject = isNaN(this.$refs.objectsSwiper.$swiper.realIndex)
+        ? 0
+        : this.$refs.objectsSwiper.$swiper.realIndex
     },
   },
 }

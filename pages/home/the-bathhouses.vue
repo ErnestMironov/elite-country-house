@@ -4,17 +4,17 @@
       <div>
         <SimpleTitle title="Бани и сауны" />
         <p class="mt-[3rem] max-w-[33.3125rem]">
-          {{ bathInfo.description }}
+          {{ bathInfo?.description }}
         </p>
         <ul
           class="grid grid-cols-[repeat(2,_auto)] mt-[3rem] gap-y-[3rem] gap-x-[1.5rem]"
         >
           <li class="param mr-[3.75rem]">
-            <span class="param__title">{{ bathInfo.area }}м²</span>
+            <span class="param__title">{{ bathInfo?.area }}м²</span>
             <span class="param__value">Площадь бани</span>
           </li>
           <li class="mr-[3.125rem] param">
-            <span class="param__title">{{ bathInfo.maxPeople }}</span>
+            <span class="param__title">{{ bathInfo?.maxPeople }}</span>
             <span class="param__value">Максимальная вместительность</span>
           </li>
           <li class="mr-[1.75rem] param">
@@ -22,7 +22,7 @@
             <span class="param__value">Площадь бассейна</span>
           </li>
           <li class="param">
-            <span class="param__title">{{ bathInfo.saunaType }}</span>
+            <span class="param__title">{{ bathInfo?.saunaType }}</span>
             <span class="param__value">Тип бани</span>
           </li>
         </ul>
@@ -37,7 +37,7 @@
       :options="swiperOptions"
     >
       <swiper-slide
-        v-for="image in bathInfo.images"
+        v-for="image in bathInfo?.images"
         :key="image.id"
         class="swiper-slide bathhouses__slide"
       >

@@ -3,12 +3,12 @@
     <div class="flex justify-between">
       <SimpleTitle title="Чем можно похвастаться" />
       <p class="max-w-[33.1875rem]">
-        {{ data.description }}
+        {{ data?.description }}
       </p>
     </div>
     <ul class="list">
       <li
-        v-for="advantage of data.advantages"
+        v-for="advantage of data?.advantages"
         :key="advantage.id"
         class="list__item"
       >

@@ -11,7 +11,7 @@
       </ul>
     </nav>
     <img
-      class="sm:hidden"
+      class="burger"
       src="~/assets/icons/burger.svg"
       alt=""
       @click="openMenu()"
@@ -171,6 +171,13 @@ export default {
     font-size: 18px;
     line-height: 28px;
     margin-top: 48px;
+  }
+}
+.burger {
+  display: none;
+
+  @include mobile {
+    display: block;
   }
 }
 </style>

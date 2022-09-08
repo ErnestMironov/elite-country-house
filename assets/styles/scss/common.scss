@@ -96,3 +96,16 @@ h2 {
     padding-right: 15px;
   }
 }
+
+.hide-on {
+  &-mobile {
+    @media (max-width: $tablet-width) {
+      display: none;
+    }
+  }
+  &-desktop {
+    @media (min-width: $desktop-small) {
+      display: none;
+    }
+  }
+}

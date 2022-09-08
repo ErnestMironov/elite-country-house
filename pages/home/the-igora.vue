@@ -4,12 +4,12 @@
     <ul class="list">
       <li
         v-for="(card, idx) of data.entertainment"
-        :key="card.title + card.description"
+        :key="card.title + card?.description"
         class="list__item"
       >
         <h3>{{ card.title }}</h3>
         <p>
-          {{ card.description }}
+          {{ card?.description }}
         </p>
         <img :src="images[idx]" alt="" class="list__item-bg" />
       </li>
