@@ -61,7 +61,7 @@
               :src="`http://185.46.10.102:1337${image.url}`"
             />
             <nuxt-link
-              to="/guest-house"
+              :to="`/guest-house/${currentHouse?.id}`"
               class="btn btn_light absolute bottom-0 right-0 px-[2.9375rem] hide-on-mobile"
               >Узнать больше</nuxt-link
             >
