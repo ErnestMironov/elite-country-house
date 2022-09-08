@@ -15,15 +15,9 @@
       </swiper-slide>
     </swiper>
 
-<<<<<<< HEAD
   <section class="container">
     <Booking :base-price="houseParams.data.basePrice"/>
   </section>
-=======
-    <section class="container">
-      <Booking />
-    </section>
->>>>>>> 208ef242d5b7caaf18a96a88159444ce07f1e609
 
     <section class="container">
       <HouseName
