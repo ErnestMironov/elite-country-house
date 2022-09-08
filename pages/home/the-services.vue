@@ -7,11 +7,11 @@
       </p>
     </div>
     <div class="services__list grid-cols-3 gap-x-6 mt-[48px] lg:mt-[3.75rem]">
-      <nuxt-link
+      <a
         v-for="(service, idx) in data.servicesList"
         :key="service.title"
-        :to="servicesLinks[idx]"
         class="service"
+        @click="goToTheLink(servicesLinks[idx])"
       >
         <h3 class="service__title">{{ service.title }}</h3>
         <img
@@ -20,7 +20,7 @@
           class="service__img"
         />
         <div class="service__link" href="">Перейти</div>
-      </nuxt-link>
+      </a>
     </div>
     <p class="text hide-on-desktop">
       {{ data?.description }}
@@ -30,6 +30,7 @@
 
 <script>
 import SimpleTitle from '~/components/ui/simple-title/simple-title.vue'
+const scrollIntoView = require('scroll-into-view')
 
 export default {
   name: 'TheServices',
@@ -37,8 +38,18 @@ export default {
   props: ['data'],
   data() {
     return {
-      servicesLinks: ['/guest-house', '/bath-house', '/apartments'],
+      servicesLinks: ['#guesthouses', '#bathhouses', '#apartments'],
     }
+  },
+  methods: {
+    goToTheLink(link) {
+      if ($nuxt.$route.path === '/') {
+        scrollIntoView(document.querySelector(link))
+        return
+      }
+
+      this.$nuxt.$router.push(`/${link}`)
+    },
   },
 }
 </script>

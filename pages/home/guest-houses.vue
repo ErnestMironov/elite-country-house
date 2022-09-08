@@ -118,6 +118,7 @@ export default {
         slidesPerView: 'auto',
         loop: true,
         slideToClickedSlide: true,
+        grabCursor: true,
         spaceBetween: 24,
         navigation: {
           prevEl: '#guestHousesSLiderPrev',

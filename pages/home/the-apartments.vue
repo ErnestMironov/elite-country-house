@@ -86,6 +86,7 @@ export default {
         slidesPerView: 'auto',
         slideToClickedSlide: true,
         slidesOffsetBefore: 15,
+        grabCursor: true,
         loop: true,
         spaceBetween: 0,
         navigation: {
