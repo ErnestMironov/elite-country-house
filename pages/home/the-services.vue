@@ -2,11 +2,11 @@
   <section id="services" class="container mt-[8.5625rem]">
     <div class="flex justify-between">
       <SimpleTitle :title="data.title" />
-      <p class="text">
+      <p class="text hidden sm:block">
         {{ data.description }}
       </p>
     </div>
-    <div class="grid grid-cols-3 gap-x-6 mt-[3.75rem]">
+    <div class="sm:grid grid-cols-3 gap-x-6 mt-[48px] lg:mt-[3.75rem]">
       <nuxt-link
         v-for="(service, idx) in data.servicesList"
         :key="service.title"
@@ -22,6 +22,9 @@
         <div class="service__link" href="">Перейти</div>
       </nuxt-link>
     </div>
+    <p class="text sm:hidden">
+      {{ data.description }}
+    </p>
   </section>
 </template>
 
@@ -41,10 +44,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/scss/mixins';
+
 .text {
   font-size: 1.125rem;
   line-height: 1.75rem;
   max-width: 33.3125rem;
+
+  @include tablet {
+    font-size: 14px;
+    line-height: 24px;
+    max-width: 100%;
+  }
 }
 
 .service {
@@ -52,6 +63,10 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+
+  @include tablet {
+    margin-bottom: 36px;
+  }
 
   &:hover {
     .service__link {
@@ -63,6 +78,13 @@ export default {
     font-size: 1.125rem;
     line-height: 1.375rem;
     margin-bottom: 0.75rem;
+    font-weight: 450;
+
+    @include tablet {
+      font-size: 18px;
+      line-height: 22px;
+      margin-bottom: 12px;
+    }
   }
 
   &__img {

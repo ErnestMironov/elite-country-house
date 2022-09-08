@@ -4,27 +4,29 @@
     <div class="flex mt-[6.6875rem]">
       <div class="w-6/12 flex flex-col justify-between items-start">
         <div>
-          <h3 class="guest-houses__title">{{ currentHouse.title }}</h3>
+          <h3 class="guest-houses__title">{{ currentHouse?.name }}</h3>
           <p class="guest-houses__description">
-            {{ currentHouse.description }}
+            {{ currentHouse?.description }}
           </p>
           <ul class="flex mt-[3rem]">
             <li class="param mr-[3.75rem]">
               <span class="param__title">{{
-                currentHouse.price | parseNumber
+                currentHouse?.basePrice | parseNumber
               }}</span>
               <span class="param__value">Стоимость аренды</span>
             </li>
             <li class="mr-[3.125rem] param">
-              <span class="param__title">{{ currentHouse.area }}м²</span>
+              <span class="param__title">{{ currentHouse?.area }}м²</span>
               <span class="param__value">Площадь</span>
             </li>
             <li class="mr-[1.75rem] param">
-              <span class="param__title">{{ currentHouse.floors }}</span>
+              <span class="param__title">{{ currentHouse?.floors }}</span>
               <span class="param__value">Этажа</span>
             </li>
             <li class="param">
-              <span class="param__title">{{ currentHouse.bedrooms }}</span>
+              <span class="param__title">{{
+                currentHouse?.sleepingSpaces
+              }}</span>
               <span class="param__value">Спальни</span>
             </li>
           </ul>
@@ -51,7 +53,10 @@
             :key="image"
             class="swiper-slide guest-houses__slide"
           >
-            <img class="guest-houses__slide-img" :src="image" />
+            <img
+              class="guest-houses__slide-img"
+              :src="`http://185.46.10.102:1337${image.url}`"
+            />
             <nuxt-link
               to="/guest-house"
               class="btn btn_light absolute bottom-0 right-0 px-[2.9375rem]"
@@ -85,41 +90,7 @@ export default {
   data() {
     return {
       activeHouse: 0,
-      objects: [
-        {
-          image:
-            'https://archello.s3.eu-central-1.amazonaws.com/images/2021/06/29/wizhevsky-architect-modern-country-house-private-houses-archello.1624964046.9447.jpg',
-          title: 'Апартаменты №1',
-          description:
-            'Здесь нам необходим текст, который в общих чертах расскажет про то, какие качественные услуги представляет компания. Не забыть упомянуть высокотехнологичность домов и апартаментов и премиальный уровень класса.',
-          area: 29,
-          floors: 2,
-          bedrooms: 4,
-          price: 50000,
-        },
-        {
-          image:
-            'https://st.hzcdn.com/simgs/pictures/exteriors/french-country-house-plan-041-00187-america-s-best-house-plans-img~aad1271f0d2f6da3_4-0055-1-10ade95.jpg',
-          title: 'Апартаменты №2',
-          description:
-            'Здесь нам необходим текст, который в общих чертах расскажет про то, какие качественные услуги представляет компания. Не забыть упомянуть высокотехнологичность домов и апартаментов и премиальный уровень класса.',
-          area: 29,
-          floors: 2,
-          bedrooms: 4,
-          price: 60000,
-        },
-        {
-          image:
-            'https://cf.bstatic.com/xdata/images/hotel/max1024x768/260533832.jpg?k=23dad23a669810f1d022dc58a00e3455219dfcbc19ed12930217990b178e8b20&o=&hp=1',
-          title: 'Апартаменты №7',
-          description:
-            'Здесь нам необходим текст, который в общих чертах расскажет про то, какие качественные услуги представляет компания. Не забыть упомянуть высокотехнологичность домов и апартаментов и премиальный уровень класса.',
-          area: 29,
-          floors: 2,
-          bedrooms: 4,
-          price: 70000,
-        },
-      ],
+      objects: [],
       swiperOptions: {
         slidesPerView: 'auto',
         loop: true,
@@ -132,12 +103,15 @@ export default {
       },
     }
   },
+  async fetch() {
+    this.objects = (await this.$http.$get('guest-houses?populate=deep,10')).data
+  },
   computed: {
     currentHouse() {
       return this.objects[this.activeHouse]
     },
     guestHousesImages() {
-      return this.objects.map((object) => object.image)
+      return this.objects.map((object) => object.images[0])
     },
   },
   methods: {
@@ -181,6 +155,7 @@ export default {
     line-height: 1.75rem;
     margin-top: 3rem;
     max-width: 95%;
+    min-height: 10.625rem;
   }
 
   &__slider {

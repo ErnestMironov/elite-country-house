@@ -3,7 +3,7 @@
     <SimpleTitle title="Всесезонный развлекательный комплекс “Игора”" />
     <ul class="list">
       <li
-        v-for="(card, idx) of data.entertaiment"
+        v-for="(card, idx) of data.entertainment"
         :key="card.title + card.description"
         class="list__item"
       >

@@ -3,30 +3,17 @@
     <div class="flex justify-between">
       <SimpleTitle title="Чем можно похвастаться" />
       <p class="max-w-[33.1875rem]">
-        Довольно короткий текст о том, каких успехов достиг клуб за это время,
-        что-то про исключительно положительные отзывы, возвращающихся клиентов и
-        так далее
+        {{ data.description }}
       </p>
     </div>
     <ul class="list">
-      <li class="list__item">
-        <h3>Около 10 000кв. м.</h3>
-        <p>Площадь земли в девственном лесу</p>
-      </li>
-      <li class="list__item">
-        <h3>40 мин.</h3>
-        <p>Время в пути</p>
-      </li>
-      <li class="list__item">
-        <h3>100 лет</h3>
-        <p>
-          Возраст кело в <br />
-          контрукции бани
-        </p>
-      </li>
-      <li class="list__item">
-        <h3>3 км</h3>
-        <p>До курорта “Игора”</p>
+      <li
+        v-for="advantage of data.advantages"
+        :key="advantage.id"
+        class="list__item"
+      >
+        <h3>{{ advantage.value }}</h3>
+        <p>{{ advantage.text }}</p>
       </li>
     </ul>
   </section>
@@ -37,6 +24,7 @@ import SimpleTitle from '~/components/ui/simple-title/simple-title.vue'
 export default {
   name: 'TheAdvantages',
   components: { SimpleTitle },
+  props: ['data'],
 }
 </script>
 

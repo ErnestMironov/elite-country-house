@@ -6,7 +6,7 @@
     <TheApartments />
     <GuestHouses />
     <TheBathhouses />
-    <TheAdvantages />
+    <TheAdvantages :data="data.preferences" />
     <TheIgora :data="data.igora" />
     <CompanyValues :data="data.philosophy" />
     <TheContacts :data="data.contacts" />

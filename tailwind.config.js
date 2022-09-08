@@ -18,7 +18,11 @@ module.exports = {
       center: true,
     },
 
-
+    screens: {
+      'tablet': '648px',
+      'laptop': '1000px',
+      'desktop': '1280px',
+    },
   },
   plugins: [],
 }

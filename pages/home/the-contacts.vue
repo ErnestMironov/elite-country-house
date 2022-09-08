@@ -14,11 +14,22 @@
       </ul>
       <h3 class="subtitle">{{ data.coordinatesTitle }}</h3>
       <ul class="list">
-        <li class="list__item">
-          <a href="" class="flex items-start">
-            55.777044 37.555554.
-            <img src="~/assets/icons/copy.svg" alt="скопировать" />
-          </a>
+        <li
+          v-for="coordinate of data.coordinate"
+          :key="coordinate.id"
+          class="list__item"
+        >
+          <span href="" class="flex items-start">
+            {{ coordinate.text }}
+            <button>
+              <img
+                src="~/assets/icons/copy.svg"
+                alt="скопировать"
+                title="скопировать"
+                @click="copyText(coordinate.text)"
+              />
+            </button>
+          </span>
         </li>
       </ul>
       <h3 class="subtitle">{{ data.emailTitle }}</h3>
@@ -57,6 +68,11 @@ export default {
     return {
       coords: [54.82896654088406, 39.831893822753904],
     }
+  },
+  methods: {
+    copyText(text) {
+      navigator.clipboard.writeText(text)
+    },
   },
 }
 </script>

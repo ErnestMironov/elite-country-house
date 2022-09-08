@@ -40,8 +40,8 @@ jobs:
       - name: Install dependencies 👨🏻‍💻
         run: npm ci --prefer-offline --no-audit
 
-      - name: Fix linter
-        run: npm run lintfix
+      # - name: Fix linter
+      #   run: npm run lintfix
 
-      - name: Run linter 👀
-        run: npm run lint
+      # - name: Run linter 👀
+      #   run: npm run lint
