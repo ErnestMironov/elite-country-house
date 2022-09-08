@@ -18,6 +18,7 @@
           v-for="coordinate of data.coordinate"
           :key="coordinate.id"
           class="list__item"
+          @click="copyText(coordinate.text)"
         >
           <span href="" class="flex items-start">
             {{ coordinate.text }}
@@ -26,7 +27,6 @@
                 src="~/assets/icons/copy.svg"
                 alt="скопировать"
                 title="скопировать"
-                @click="copyText(coordinate.text)"
               />
             </button>
           </span>
@@ -64,11 +64,6 @@ export default {
   name: 'TheContacts',
   components: { SimpleTitle, yandexMap, ymapMarker },
   props: ['data'],
-  data() {
-    return {
-      coords: [54.82896654088406, 39.831893822753904],
-    }
-  },
   methods: {
     copyText(text) {
       navigator.clipboard.writeText(text)

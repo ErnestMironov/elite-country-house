@@ -39,6 +39,7 @@ export default {
     CompanyValues,
     TheContacts,
   },
+  // @ts-ignore
   async asyncData({ $http }) {
     const data = (await $http.$get('main?populate=deep,10')).data
 
@@ -54,8 +55,11 @@ export default {
     // if (this.$route.path.contains('#')) {
     //   // scrollIntoView(document.querySelector(link))
     // }
+
+    // @ts-ignore
     if (this.$route.fullPath.includes('#')) {
       scrollIntoView(
+        // @ts-ignore
         document.querySelector(this.$route.fullPath.replace('/', ''))
       )
     }
