@@ -17,11 +17,47 @@
     }
   }
 
+  &__input-day{
+    font-family: Avenir Next Cyr;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.25rem;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-right: 0.75rem;
+    
+    @include mobile{
+      font-size: 16px;
+      line-height: 20px;
+    }
+  }
+
   &__info-container{
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-between;
+  }
+
+  &__price{
+    font-family: Avenir Next Cyr;
+    font-size: 1.5rem;
+    font-weight: 450;
+    line-height: 2.25rem;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-bottom: 1.5rem;
+    @include mobile{
+      margin-bottom: 24px;
+    }
+
+    img{
+      margin-left: 0.125rem;
+    }
+  }
+
+  &__option-wrapper{
+    width: 100%;
   }
 
   &-label{
@@ -219,6 +255,10 @@
       letter-spacing: 0em;
       text-align: left
     }
+  }
+
+  &__arrival{
+    min-width: 19.375rem;
   }
 
   &__input-field{
@@ -761,8 +801,10 @@
   }
 
   &__precheck-header{
+    margin-bottom: 0.5rem;
     @include mobile{
       margin-top: 48px;
+      margin-bottom: 8px;
     }
   }
 

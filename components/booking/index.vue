@@ -7,20 +7,19 @@
         </h5>
         <span class="booking__info-value">
           {{createDatesString()}}
-          <!-- {{pickedDates[0].date ? pickedDates[0].date+'.'+pickedDates[0].month+'.'+pickedDates[0].year+' - '+pickedDates[pickedDates.length-1].date+'.'+pickedDates[pickedDates.length-1].month+'.'+pickedDates[pickedDates.length-1].year : 'Не выбрано'}} -->
         </span>
       </div>
       <div class="booking__info-section">
         <h5 class="booking__info-title">
           Добавление бани
         </h5>
-        <span class="booking__info-value">-</span>
+        <span class="booking__info-value">{{userData.bathhouse_order ? 'Добавлено' : '-'}}</span>
       </div>
       <div class="booking__info-section">
         <h5 class="booking__info-title">
           Личные данные 
         </h5>
-        <span class="booking__info-value">Заполнено</span>
+        <span class="booking__info-value">{{ isPersonalFilled() }}</span>
       </div>
       <div class="booking__info-section">
         <h5 class="booking__info-title">
@@ -87,18 +86,20 @@
       </div> -->
 
       <Calendar
+        :taken-dates="getTakenDates()"
         @picked="onDatePick($event)"
       ></Calendar>
 
 
         
-        <div class="booking__info-container">
+        <div class="booking__info-container booking__arrival">
           <h3 class="booking__header">Основные параметры</h3>
           <label class="booking-label">
             <h4 class="booking__sub-header">Фактическое время заселения</h4>
             <div class="booking__input-field">
               <img src="@/assets/icons/clock.svg" alt="">
-              <input v-maska="'##:##'" type="text" placeholder="15:00">
+              <span class="booking__input-day">{{getStartDay()}}</span>
+              <input v-maska="'##:##'" type="text" placeholder="15:00" @input="onArrivalInput">
             </div>
             <span>Стандартное время заселения: 14:00</span>
           </label>
@@ -106,7 +107,8 @@
             <h4 class="booking__sub-header">Фактическое время выезда</h4>
             <div class="booking__input-field">
               <img src="@/assets/icons/clock.svg" alt="">
-              <input v-maska="'##:##'" type="text" placeholder="15:00">
+              <span class="booking__input-day">{{getEndDay()}}</span>
+              <input v-maska="'##:##'" type="text" placeholder="15:00" @input="onLeaveInput">
             </div>
             <span>Стандартное время выезда: 14:00</span>
           </label>
@@ -114,7 +116,7 @@
             <h4 class="booking__sub-header">Количество человек</h4>
             <div class="booking__input-field">
               <img src="@/assets/icons/people.svg" alt="">
-              <input type="number" placeholder="6 человек">
+              <input v-model="userData.people" type="number" placeholder="0 человек">
             </div>
           </label>
         </div>
@@ -145,7 +147,7 @@
           </div>
 
           <div class="booking__buttons-wrapper">
-            <button class="btn booking__next-btn" @click="setProgress(2)">Далее</button>
+            <button class="btn booking__next-btn" :disabled="!isFirstEnabled()" @click="setProgress(2)">Далее</button>
           </div>
         </div>
 
@@ -176,7 +178,7 @@
 
           <div class="booking__buttons-wrapper">
             <button class="btn booking__next-btn booking__btn" @click="setProgress(3)">Далее</button>
-            <button class="btn btn_white booking__skip-btn booking__btn">Пропустить</button>
+            <button class="btn btn_white booking__skip-btn booking__btn" @click="setProgress(4)">Пропустить</button>
           </div>
       </div>
 
@@ -341,7 +343,7 @@
           <div v-if="currentProgress === 4" class="booking-wrapper booking-4">
             <div class="booking__info-wrapper booking__info-wrapper--l">
                   <div class="booking__checkbox-wrapper booking__checkbox-wrapper--l">
-                    <input type="checkbox" class="checkbox">
+                    <input type="checkbox" class="checkbox" @input="toggleRefundable">
                     <span class="booking__sub-header booking__checkbox-header">
                       Невозвратное бронирование     
                     </span>
@@ -369,28 +371,28 @@
                 <label class="booking-label">
                   <h4 class="booking__sub-header">Фамилия</h4>
                   <div class="booking__input-field">
-                    <input type="text" placeholder="Введите вашу фамилию">
+                    <input v-model="userData.contactInformation.lastName" type="text" placeholder="Введите вашу фамилию">
                   </div>
                 </label>
 
                 <label class="booking-label">
                   <h4 class="booking__sub-header">Имя</h4>
                   <div class="booking__input-field">
-                    <input type="text" placeholder="Введите ваше имя">
+                    <input v-model="userData.contactInformation.firstName" type="text" placeholder="Введите ваше имя">
                   </div>
                 </label>
 
                 <label class="booking-label">
                   <h4 class="booking__sub-header">Email</h4>
                   <div class="booking__input-field">
-                      <input type="email" placeholder="Введите ваш email">
+                      <input v-model="userData.contactInformation.email" type="email" placeholder="Введите ваш email">
                   </div>
                 </label>
 
                 <label class="booking-label">
                   <h4 class="booking__sub-header">Номер телефона</h4>
                   <div class="booking__input-field">
-                   <input v-maska="'+7 (###) ###-##-##'" type="text" placeholder="Введите номер телефона">
+                   <input v-model="userData.contactInformation.phone" v-maska="'+7 (###) ###-##-##'" type="text" placeholder="Введите номер телефона">
                   </div>
                 </label>
             </div>
@@ -398,7 +400,7 @@
             <div class="booking__info-wrapper">
                  <label class="booking__agreement-label">
                   <div class="booking__checkbox-wrapper booking__checkbox-wrapper--l">
-                    <input type="checkbox" class="checkbox">
+                    <input v-model="personalData" type="checkbox" class="checkbox">
                     <span class="booking__sub-header booking__checkbox-header">
                       Персональные данные
                     </span>
@@ -412,7 +414,7 @@
 
                 <label class="booking__agreement-label">
                   <div class="booking__checkbox-wrapper booking__checkbox-wrapper--l">
-                    <input type="checkbox" class="checkbox">
+                    <input v-model="personalAgreement" type="checkbox" class="checkbox">
                     <span class="booking__sub-header booking__checkbox-header">
                       Пользовательское соглашение
                     </span>
@@ -426,9 +428,10 @@
                 </label>
 
                 <h3 class="booking__header booking__precheck-header">Цена за полный перечень услуг:</h3>
-
+                <span class="booking__price">{{price}} <img src="@/assets/icons/rouble.svg" alt=""></span>
                 <div class="booking__buttons-wrapper booking__buttons--4">
-                  <button class="btn booking__next-btn booking-button--4" @click="setProgress(4)">Посмотреть пречек и оплатить</button>
+                  <button class="btn booking__next-btn booking-button--4" @click="bookHouse()">Посмотреть пречек и оплатить</button>
+                  <!-- :disabled="!personalAgreement || !personalData" -->
                 </div>
             </div>
 
@@ -448,37 +451,15 @@ import calendar from '@/components/ui/calendar/calendar.vue'
   components: {
     Calendar: calendar
   },
+  props: {
+    basePrice: Number
+  },
   data() {
     return {
       currentProgress: 0,
       calendar,
       months,
-      disabledDays: [
-       {
-        day: '3',
-        date: '07',
-        month: '09',
-        id: 10
-      },
-      {
-        day: '4',
-        date: '08',
-        month: '09',
-        id: 11
-      },
-      {
-        day: '5',
-        date: '09',
-        month: '09',
-        id: 12
-      },
-      {
-        day: '6',
-        date: '10',
-        month: '09',
-        id: 13
-      },
-      ],
+      disabledDays: [],
       includedDays: [],
       firstPickedDay: {},
       secondPickedDay: {},
@@ -496,15 +477,54 @@ import calendar from '@/components/ui/calendar/calendar.vue'
         days:[]
       },
       month: [],
-      pickedDates: []
+      pickedDates: [],
+      userData: {
+        guest_house: "",
+        bathhouse_order: "",
+        people: null,
+        arrivalTime: "12:54:00.000",
+        leaveTime: "12:54:00.000",
+        status: "waiting for payment",
+        from: "2022-09-07",
+        to: "2022-09-07",
+        totalPrice: 0,
+        options: [
+          "",
+          ""
+        ],
+        contactInformation: {
+          firstName: "",
+          lastName: "",
+          email: "",
+          phone: ""
+        },
+        refundable: true,
+      },
+      priceTable: {},
+      ordersList: [],
+      personalAgreement: false,
+      personalData: false,
+      test: {},
+      takenDates: [],
+      price: 0,
+      options: []
     };
+  },
+  async created() {
+    await this.getData()
+    this.getTakenDates()
+    this.calculatePrice()
   },
   methods: {
     setProgress(count){
       this.currentProgress = count
+      this.calculatePrice()
     },
     onDatePick(data){
-      this.pickedDates = data
+      this.pickedDates.length = 0
+      // console.log(data)
+      this.pickedDates = [...data]
+      // console.log(this.pickedDates)
     },
     createDatesString(){
       if (this.pickedDates[0] == null){
@@ -518,6 +538,150 @@ import calendar from '@/components/ui/calendar/calendar.vue'
       } else {
         return (this.pickedDates[0].date+'.'+this.pickedDates[0].month+'.'+this.pickedDates[0].year)
       }
+    },
+    getStartDay(){
+      if (this.pickedDates[0] == null){
+        return ''
+      }
+
+      if (this.pickedDates[0].id <= this.pickedDates[this.pickedDates.length-1].id){
+        return (this.pickedDates[0].date+'.'+this.pickedDates[0].month+'.'+this.pickedDates[0].year)
+      } else {
+        return (this.pickedDates[this.pickedDates.length-1].date+'.'+this.pickedDates[this.pickedDates.length-1].month+'.'+this.pickedDates[this.pickedDates.length-1].year)
+      }
+    },
+    getEndDay(){
+      if (this.pickedDates[0] == null){
+        return ''
+      }
+
+      if (this.pickedDates[0].id >= this.pickedDates[this.pickedDates.length-1].id){
+        return (this.pickedDates[0].date+'.'+this.pickedDates[0].month+'.'+this.pickedDates[0].year)
+      } else {
+        return (this.pickedDates[this.pickedDates.length-1].date+'.'+this.pickedDates[this.pickedDates.length-1].month+'.'+this.pickedDates[this.pickedDates.length-1].year)
+      }
+    },
+    onArrivalInput(e){
+      this.userData.arrivalTime = `${e.target.value}:00.000`
+    },
+
+    onLeaveInput(e){
+      this.userData.arrivalTime = `${e.target.value}:00.000`
+    },
+
+    isFirstEnabled(){
+      return (this.pickedDates.length > 0 && this.userData.people > 0)
+    },
+
+    toggleRefundable(e){
+      this.userData.refundable = !e.target.checked
+      this.calculatePrice()
+    },
+
+    isPrecheckDisabled(){
+      return (
+        !this.personalAgreement 
+        || !this.personalData 
+        || !this.userData.contactInformation.email 
+        || !this.userData.contactInformation.phone 
+        || !this.userData.contactInformation.firstName 
+        || !this.userData.contactInformation.lastName)
+    },
+    getTakenDates(){
+      if (!this.ordersList.length){
+        return
+      }
+      const dates = []
+
+      for (const order of this.ordersList){
+        const interval = {
+          from: order.from,
+          to: order.to 
+        }
+        dates.push(interval)
+      }
+
+      return dates
+    },
+    calculatePrice() {
+      console.log(this.pickedDates)
+      console.log(this.priceTable)
+      console.log(this.basePrice)
+      const beforeDiscount = this.pickedDates.reduce((sum, day) => {
+          return sum + (this.getMult(day) * this.basePrice);
+      }, 0);
+
+      const price = beforeDiscount * (this.userData.refundable ? 1 : 0.8);
+      this.price = price
+      console.log(price);
+    },
+    getMult(day) {
+      const strDate = `${day.year}-${day.month > 9 ? day.month : '0' + day.month}-${day.date > 9 ? day.date : '0' + day.date}`;
+
+      const overlap = this.priceTable.exceptions.find(x => x.date === strDate);
+
+      if (overlap != null) {
+          return overlap.price;
+      }
+
+      return {
+          0: this.priceTable.sunday,
+          5:  this.priceTable.friday,
+          6:  this.priceTable.saturday,
+      }[day.day] ??  this.priceTable.weekday;
+    },
+
+    async getData(){
+      this.priceTable = (await this.$http.$get('guest-house-price-table?populate=deep%2C10')).data
+      this.ordersList = (await this.$http.$get(`guest-house-orders?populate=deep%2C10%20`)).data
+      this.options = [(await this.$http.$get(`guest-house-options/${this.$route.params.house}`)).data]
+      console.log(this.options)
+    },
+
+    async bookHouse(){
+      const splittedStart = this.getStartDay().split('.').reverse()
+      const splittedEnd = this.getEndDay().split('.').reverse()
+
+      splittedStart[0] = this.addZero(splittedStart[0])
+      splittedStart[1] = this.addZero(splittedStart[1])
+      splittedEnd[0] = this.addZero(splittedEnd[0])
+      splittedEnd[1] = this.addZero(splittedEnd[1])
+
+      const start = splittedStart.join('-')
+      const end = splittedEnd.join('-')
+
+      const dataToSend = {
+        guest_house: this.$route.params.house,
+        people: parseInt(this.userData.people),
+        arrivalTime: this.userData.arrivalTime,
+        leaveTime: this.userData.leaveTime,
+        from: start,
+        to: end,
+        contactInformation: this.userData.contactInformation,
+        refundable: this.userData.refundable,
+        options: []
+      }
+
+      dataToSend.contactInformation.phone = dataToSend.contactInformation.phone.replaceAll(' ', '').replaceAll('-','').replace(')', '').replace('(','')
+
+      if (this.userData.bathhouse_order){
+        dataToSend.bathhouse_order = this.userData.bathhouse_order
+      }
+
+      const resp = await this.$http.$post('guest-house-orders', dataToSend)
+      console.log(resp)
+    },
+    isPersonalFilled(){
+      if (this.userData.contactInformation.email && this.userData.contactInformation.phone && this.userData.contactInformation.firstName && this.userData.contactInformation.lastName){
+        return 'Заполнено'
+      } 
+      return '-'
+    },
+    addZero(str){
+      if (+str<10){
+        return `0${str[0]}`
+      }
+      return str
     }
   },
   }

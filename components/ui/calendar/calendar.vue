@@ -41,38 +41,16 @@
 import {calendar, months} from '@/assets/calendar';
 
  export default {
+  props: {
+    takenDates: Array
+  },
    setup() {
   },
   data() {
     return {
       calendar,
       months,
-      disabledDays: [
-       {
-        day: 3,
-        date: 7,
-        month: 9,
-        year: 2022
-      },
-      {
-        day: 4,
-        date: 8,
-        month: 9,
-        year: 2022
-      },
-      {
-        day: 5,
-        date: 9,
-        month: 9,
-        year: 2022
-      },
-      {
-        day: 6,
-        date: 10,
-        month: 9,
-        year: 2022
-      },
-      ],
+      disabledDays: [],
       includedDays: [],
       firstPickedDay: {},
       secondPickedDay: {},
@@ -94,11 +72,18 @@ import {calendar, months} from '@/assets/calendar';
 
     this.assembleMonth(this.currentMonthNumber + 1, this.currentYear)
 
+    this.getDayById(1096)
+
+    // console.log(this.$props)
+    for (const interval of this.$props.takenDates){
+      this.disabledDays.push(...this.countDisabledDays(interval.from, interval.to))
+    }
+    console.log(this.disabledDays)
+
     this.disabledDays.forEach(x => {
       x.id = this.getId(x)
       })
-
-    this.getDayById(1096)
+    // this.disabledDays = this.countDisabledDays()
   },
   methods: {
     getClass(day){
@@ -121,7 +106,7 @@ import {calendar, months} from '@/assets/calendar';
         this.includedDays = [day]
         this.$emit('picked', this.includedDays)
       } else {
-        if(day.id ===this.firstPickedDay.id){
+        if(day.id === this.firstPickedDay.id){
           if(!this.secondPickedDay.id){
             this.firstPickedDay = {}
             this.includedDays = []
@@ -158,6 +143,9 @@ import {calendar, months} from '@/assets/calendar';
         x.year = day.year
       })
 
+      this.clearCopies()
+
+      console.log(this.includedDays)
       this.$emit('picked', this.includedDays)
     },
 
@@ -167,6 +155,15 @@ import {calendar, months} from '@/assets/calendar';
           this.includedDays = this.includedDays.filter(x => x.id !== day.id)
         }
       }
+    },
+
+    clearCopies(){
+      this.includedDays.forEach(x => {
+        const idx = this.includedDays.findIndex(y => (y.id === x.id && y != x))
+        if (~idx){
+          this.includedDays.splice(idx, 1)
+        }
+      })
     },
 
     includeForward(){
@@ -308,7 +305,35 @@ import {calendar, months} from '@/assets/calendar';
 
     checkCurrentMonth(){
       return (this.currentMonthNumber <= this.currentMonth.month && this.currentYear <= this.currentMonth.year)
-    }
+    },
+    countDisabledDays(startDate, endDate){
+      const days = [];
+      const fromDate = new Date(startDate);
+      const toDate = new Date(endDate);
+
+      const from = {
+          date: fromDate.getDate(),
+          day: fromDate.getDay(),
+          month: fromDate.getMonth() + 1,
+          year: fromDate.getFullYear(),
+      };
+      const to = {
+          date: toDate.getDate(),
+          day: toDate.getDay(),
+          month: toDate.getMonth() + 1,
+          year: toDate.getFullYear(),
+      };
+
+      from.id = this.getId(from);
+      to.id = this.getId(to);
+
+      for (let i = from.id; i <= to.id; i++) {
+          days.push(this.getDayById(i));
+      }
+
+      console.log(days);
+      return days;
+  },
   },
   }
 </script>

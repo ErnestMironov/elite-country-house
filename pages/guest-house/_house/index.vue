@@ -17,7 +17,7 @@
     </swiper>
 
   <section class="container">
-    <Booking/>
+    <Booking :base-price="houseParams.data.basePrice"/>
   </section>
 
   <section class="container">

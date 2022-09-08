@@ -20,8 +20,8 @@
         />
       </div>
       <div class="about-info">
-        <div v-for="feature in props.features" :key="feature.id" class="about-info__card">
-          <span>{{ feature.id }}</span>
+        <div v-for="feature, idx in props.features" :key="feature.id" class="about-info__card">
+          <span>{{ idx+1 }}</span>
           <h4 class="info-title">
             {{ feature.title }}
           </h4>
