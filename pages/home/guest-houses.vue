@@ -52,8 +52,8 @@
           @slideChange="changeActiveHouse"
         >
           <swiper-slide
-            v-for="image in guestHousesImages"
-            :key="image.id"
+            v-for="(image, index) of guestHousesImages"
+            :key="image.id + index"
             class="swiper-slide guest-houses__slide"
           >
             <img
