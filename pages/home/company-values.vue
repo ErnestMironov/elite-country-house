@@ -15,12 +15,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/scss/mixins';
+
 .title {
   font-weight: 500;
   font-size: 2.25rem;
   line-height: 3rem;
   font-family: 'Cormorant';
   text-align: center;
+
+  @include tablet {
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 48px;
+  }
 }
 
 .text {
@@ -40,18 +48,38 @@ export default {
     width: 2.0625rem;
     display: block;
     position: absolute;
+
+    @include tablet {
+      width: 33px;
+    }
   }
 
   &::before {
     top: 0;
     left: 0;
     transform: translate(calc((100% + 10px) * -1), -100%);
+
+    @include tablet {
+      transform: translateY(-150%);
+    }
   }
 
   &::after {
     right: 0;
     bottom: 0;
     transform: translate(calc(100% + 10px), 15%);
+
+    @include tablet {
+      transform: translateY(100%);
+    }
+  }
+
+  @include tablet {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 24px;
+    max-width: 100%;
+    margin-top: 80px;
   }
 }
 </style>

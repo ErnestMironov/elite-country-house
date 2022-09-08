@@ -1,7 +1,15 @@
 <template>
-  <section id="contacts" class="container flex justify-between mt-[8.3125rem]">
+  <section id="contacts" class="container contacts">
     <div>
       <SimpleTitle title="Как нас найти?" />
+      <no-ssr>
+        <iframe
+          src="https://yandex.ru/map-widget/v1/-/CCUVE0hjXC"
+          frameborder="1"
+          allowfullscreen="true"
+          class="map hide-on-desktop"
+        ></iframe>
+      </no-ssr>
       <h3 class="subtitle">{{ data.addressTitle }}</h3>
       <ul class="list">
         <li
@@ -50,7 +58,7 @@
         src="https://yandex.ru/map-widget/v1/-/CCUVE0hjXC"
         frameborder="1"
         allowfullscreen="true"
-        class="map"
+        class="map hide-on-mobile"
       ></iframe>
     </no-ssr>
   </section>
@@ -73,11 +81,29 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/scss/mixins';
+
+.contacts {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8.3125rem;
+
+  @include tablet {
+    margin-top: 160px;
+    display: block;
+  }
+}
+
 .subtitle {
   font-weight: 450;
   font-size: 1.5rem;
   line-height: 1.8125rem;
   margin-top: 1.75rem;
+
+  @include tablet {
+    font-size: 24px;
+    line-height: 29px;
+  }
 }
 
 .list {
@@ -85,10 +111,24 @@ export default {
   font-size: 1.125rem;
   margin-top: 0.75rem;
   line-height: 1.75rem;
+
+  @include tablet {
+    font-weight: 450;
+    font-size: 18px;
+    line-height: 28px;
+    margin-top: 28px;
+  }
 }
 
 .map {
   flex: 1;
   margin-left: 5.25rem;
+
+  @include tablet {
+    margin-left: 0;
+    width: 100%;
+    margin-top: 40px;
+    height: 100vw;
+  }
 }
 </style>

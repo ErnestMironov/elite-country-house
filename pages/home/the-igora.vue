@@ -1,5 +1,5 @@
 <template>
-  <section class="container mt-[8.5625rem]">
+  <section class="container igora">
     <SimpleTitle title="Всесезонный развлекательный комплекс “Игора”" />
     <ul class="list">
       <li
@@ -37,12 +37,27 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/scss/mixins';
+
+.igora {
+  margin-top: 8.5625rem;
+  @include tablet {
+    margin-top: 96px;
+  }
+}
+
 .list {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   gap: 1.5rem;
   padding-left: 13.9375rem;
   margin-top: 3.75rem;
+
+  @include tablet {
+    padding-left: 0;
+    display: block;
+    margin-top: 57px;
+  }
 
   &__item {
     background: #eee;
@@ -51,17 +66,33 @@ export default {
     position: relative;
     padding: 2.25rem 3rem;
 
+    @include tablet {
+      margin-bottom: 32px;
+    }
+
     h3 {
       font-family: 'Cormorant';
       font-weight: 500;
       font-size: 2.25rem;
       line-height: 3rem;
       margin-bottom: 1.5rem;
+
+      @include tablet {
+        font-weight: 450;
+        font-size: 18px;
+        line-height: 22px;
+      }
     }
 
     p {
       font-size: 1.125rem;
       line-height: 1.75rem;
+
+      @include tablet {
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 24px;
+      }
     }
 
     &:nth-of-type(4n + 2) {
