@@ -32,7 +32,6 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: '~/plugins/vue-awesome-swiper', mode: 'client' },
-    { src: '~/plugins/datePicker', mode: 'client' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -78,8 +77,8 @@ export default {
     },
   },
 
-  server: {
-    host: '0',
-    port: 2222,
-  },
+  // server: {
+  //   host: '0',
+  //   port: 2222,
+  // },
 }

@@ -1,13 +1,18 @@
 <template>
   <section id="bathhouses" class="bathhouses">
-    <div class="flex flex-col items-start justify-between">
+    <div class="hide-on-desktop bathhouses__head">
+      <SimpleTitle title="Бани и сауны" />
+    </div>
+    <div class="bathhouses__content flex flex-col items-start justify-between">
       <div>
-        <SimpleTitle title="Бани и сауны" />
-        <p class="mt-[3rem] max-w-[33.3125rem]">
+        <div class="hide-on-mobile">
+          <SimpleTitle title="Бани и сауны" />
+        </div>
+        <p class="mt-[3rem] max-w-[33.3125rem] hide-on-mobile">
           {{ bathInfo?.description }}
         </p>
         <ul
-          class="grid grid-cols-[repeat(2,_auto)] mt-[3rem] gap-y-[3rem] gap-x-[1.5rem]"
+          class="bathhouses__params grid grid-cols-[repeat(2,_auto)] mt-[3rem] gap-y-[3rem] gap-x-[1.5rem]"
         >
           <li class="param mr-[3.75rem]">
             <span class="param__title">{{ bathInfo?.area }}м²</span>
@@ -26,8 +31,13 @@
             <span class="param__value">Тип бани</span>
           </li>
         </ul>
+        <p class="hide-on-desktop bathhouses__description">
+          {{ bathInfo?.description }}
+        </p>
       </div>
-      <nuxt-link to="/bath-house" class="btn px-[2.9375rem] mt-5"
+      <nuxt-link
+        to="/bath-house"
+        class="btn px-[2.9375rem] mt-5 bathhouses__btn"
         >Узнать больше</nuxt-link
       >
     </div>
@@ -86,20 +96,49 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/scss/mixins';
+
 .bathhouses {
   margin-top: 11.25rem;
   display: flex;
   justify-content: space-between;
   padding-left: 4rem;
 
+  @include tablet {
+    flex-direction: column;
+  }
+
+  &__head {
+    @include tablet {
+      order: 0;
+    }
+  }
+
   &__slider {
     min-height: 40.5rem;
     width: 37.3125rem;
     margin: 0;
+
+    @include tablet {
+      order: 1;
+      width: 100%;
+      margin-top: 47px;
+    }
+  }
+
+  &__content {
+    @include tablet {
+      order: 2;
+    }
   }
 
   &__slide {
     width: 26.3125rem;
+    height: 392px;
+
+    @include tablet {
+      width: 80vw;
+    }
   }
 
   &__slide-img {
@@ -107,6 +146,25 @@ export default {
     height: 100%;
     object-fit: cover;
     object-position: center;
+  }
+
+  &__description {
+    font-size: 14px;
+    line-height: 24px;
+    margin-top: 36px;
+  }
+
+  &__btn {
+    @include tablet {
+      width: 211px;
+      margin-top: 48px;
+    }
+  }
+
+  &__params {
+    margin-top: 36px;
+    display: flex;
+    flex-wrap: wrap;
   }
 }
 </style>
