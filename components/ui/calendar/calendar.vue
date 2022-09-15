@@ -38,7 +38,7 @@
 </template>
 
 <script>  
-import {calendar, months} from '@/assets/calendar';
+import {months} from '@/assets/calendar';
 
  export default {
   props: {
@@ -48,7 +48,7 @@ import {calendar, months} from '@/assets/calendar';
   },
   data() {
     return {
-      calendar,
+      // calendar,
       months,
       disabledDays: [],
       includedDays: [],
@@ -74,16 +74,13 @@ import {calendar, months} from '@/assets/calendar';
 
     this.getDayById(1096)
 
-    // console.log(this.$props)
     for (const interval of this.$props.takenDates){
       this.disabledDays.push(...this.countDisabledDays(interval.from, interval.to))
     }
-    console.log(this.disabledDays)
 
     this.disabledDays.forEach(x => {
       x.id = this.getId(x)
       })
-    // this.disabledDays = this.countDisabledDays()
   },
   methods: {
     getClass(day){
@@ -144,8 +141,7 @@ import {calendar, months} from '@/assets/calendar';
       })
 
       this.clearCopies()
-
-      console.log(this.includedDays)
+      
       this.$emit('picked', this.includedDays)
     },
 
@@ -331,7 +327,6 @@ import {calendar, months} from '@/assets/calendar';
           days.push(this.getDayById(i));
       }
 
-      console.log(days);
       return days;
   },
   },

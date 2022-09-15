@@ -30,7 +30,7 @@
     </div>
 
     <button 
-      v-if="currentProgress === 0" 
+      v-if="currentProgress === 3" 
       class="btn booking__next-btn--first" 
       @click="setProgress(1)"
     >
@@ -184,7 +184,7 @@
 
     </div>
 
-    <div v-if="currentProgress === 3" class="booking-wrapper booking-3">
+    <div v-if="currentProgress === 0" class="booking-wrapper booking-3">
 
       <div class="booking__conditions-wrapper">
 
@@ -241,24 +241,50 @@
                 <h4 class="booking__sub-header">Дата</h4>
                 <div class="booking__input-field">
                   <img src="@/assets/icons/calendar.svg" alt="">
-                 <input v-maska="'##.##.##'" type="text" placeholder="10.03.10">
+                  <input  type="date" @change="pickBathDay">
                 </div>
               </label>
 
               <label class="booking-label">
                 <h4 class="booking__sub-header">Время</h4>
-                <div class="booking__input-field">
+                <small v-if="bathhouseError" class="booking__error error">Сначала выберите дату!</small>
+                <div class="booking__input-field booking__input-field--bath" :class="bathhouseError ? 'input-error' : ''" @click="showTimeDD">
+                  <div v-if="timeDDActive" class="bathhouse-dropdown">
+                    <h3 v-if="!firstPickedTime" class="bathhouse-dropdown__header">Выберите начало бронирования</h3>
+                    <h3 v-if="firstPickedTime" class="bathhouse-dropdown__header">Выберите конец бронирования</h3>
+                    <div class="scroll-wrapper">
+                      <div ref="dropdown" class="bathhouse-dropdown__wrapper" @scroll="handleDDScroll">
+                        <!-- <h4 class="test">{{'10.03.10'}}</h4> -->
+                        <h4 ref="firstDate" class="bathhouse-dropdown__date bathhouse-dropdown__date--first">{{addZero(bathDay.date)+'.'+addZero(bathDay.month)+'.'+bathDay.year}}</h4>
+                        <div ref="firstDay" class="bathhouse-dropdown__first-day">
+                          <div v-for="hour in hours.firstDay" :key="hour.id" class="bathhouse-dropdown__hour"  :class="getClass(hour)" @click="pickTime(hour)">
+                            <span>{{addZero(hour.hour) + ':00'}}</span>
+                            <span class="bathhouse-dropdown__booked">Время забронировано</span>
+                          </div>
+                        </div>
+                        
+                        <h4 ref="secondDate"  class="bathhouse-dropdown__date bathhouse-dropdown__date--second">{{addZero(theNextDay.date)+'.'+addZero(theNextDay.month)+'.'+theNextDay.year}}</h4>
+                        <div ref="secondDay" class="bathhouse-dropdown__first-day">
+                          <div v-for="hour in hours.secondDay" :key="hour.id" class="bathhouse-dropdown__hour" :class="getClass(hour)" @click="pickTime(hour)">
+                            <span>{{addZero(hour.hour) + ':00'}}</span>
+                            <span class="bathhouse-dropdown__booked">Время забронировано</span>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
                   <img src="@/assets/icons/clock.svg" alt="">
                  <input v-maska="'##:##'" type="text" placeholder="15:00">
                 </div>
               </label>
 
-              <label class="booking-label">
+              <label class="booking-label booking-label__bath-time">
                 <h4 class="booking__sub-header">Длительность</h4>
                 <div class="booking__input-field booking__input-field--transparent">
                   <img src="@/assets/icons/duration.svg" alt="">
                   <span> 
-                    2 часа
+                    {{includedHours.length + ' ' + createHoursString(includedHours.length)}}
                   </span>
                 </div>
               </label>
@@ -442,8 +468,9 @@
 
 <script>  
 import {maska} from 'maska'
-import { months} from '@/assets/calendar';
+import {months, hours} from '@/assets/calendar';
 import calendar from '@/components/ui/calendar/calendar.vue'
+import {createHoursString} from '@/helpers/helpers'
 
  export default {
   directives: { maska },
@@ -456,12 +483,21 @@ import calendar from '@/components/ui/calendar/calendar.vue'
   data() {
     return {
       currentProgress: 0,
+      timeDDActive: false,
       calendar,
       months,
+      hours,
+      firstDateOffset: '',
       disabledDays: [],
       includedDays: [],
-      firstPickedDay: {},
-      secondPickedDay: {},
+      bathhouseOrdersList: [],
+      disabledHours: [],
+      firstPickedTime: {},
+      secondPickedTime: {},
+      includedHours: [],
+      bathDay: {},
+      theNextDay: new Date(),
+      bathhouseError: false,
       currentYear: 2022, 
       currentMonthNumber: 8,
       currentMonth: {
@@ -500,6 +536,7 @@ import calendar from '@/components/ui/calendar/calendar.vue'
         refundable: true,
       },
       priceTable: {},
+      bathhousePriceTable: {},
       ordersList: [],
       personalAgreement: false,
       personalData: false,
@@ -509,21 +546,84 @@ import calendar from '@/components/ui/calendar/calendar.vue'
       options: []
     };
   },
+  beforeMount () {
+    document.addEventListener('click', this.handleDocumentClick)
+  },
+  beforeDestroy () {
+    document.removeEventListener('click', this.handleDocumentClick)
+  },
   async created() {
     await this.getData()
     this.getTakenDates()
     this.calculatePrice()
+    this.assembleDisabledHours()
+    console.log(this.disabledHours)
   },
   methods: {
+    createHoursString,
     setProgress(count){
       this.currentProgress = count
       this.calculatePrice()
     },
+    showTimeDD(e){
+      if(this.bathDay.date == null || isNaN(this.bathDay.date)){
+        this.bathhouseError = true
+        return 
+      }
+
+      this.timeDDActive = true
+
+      e.preventDefault();
+      e.stopPropagation();
+    },
+    pickBathDay(e){
+      const pickedDay = new Date(e.target.value)
+      const next = new Date()
+      next.setDate((new Date(e.target.value)).getDate() + 1)
+
+      this.bathDay = {
+        date: pickedDay.getDate(),
+        month: pickedDay.getMonth() + 1,
+        year: pickedDay.getFullYear()
+      }
+
+      this.theNextDay = {
+        date: next.getDate(),
+        month: next.getMonth() + 1,
+        year: next.getFullYear()
+      }
+
+      this.includedHours = []
+      this.bathhouseError = false
+      this.addDaysInfo()
+      this.firstPickedTime = {}
+      this.secondPickedTime = {}
+    },
+    addDaysInfo(){
+      this.hours.firstDay.forEach(x => {
+        Object.assign(x, this.getHourInfo(x.id))
+      })
+      this.hours.secondDay.forEach(x => {
+        Object.assign(x, this.getHourInfo(x.id))
+      })
+    },
+    handleDocumentClick(e){
+      if (!e.target.classList.contains('bathhouse-dropdown')){
+        this.timeDDActive = false
+      }
+    },
+    handleDDScroll(){
+      if(this.$refs.dropdown.scrollTop >= this.$refs.firstDay.offsetHeight){
+        this.$refs.firstDate.classList.add('sticky')
+        this.$refs.secondDate.classList.remove('sticky')
+      } else {
+        this.$refs.firstDate.classList.remove('sticky')
+        this.$refs.secondDate.classList.add('sticky')
+      }
+    },
     onDatePick(data){
       this.pickedDates.length = 0
-      // console.log(data)
       this.pickedDates = [...data]
-      // console.log(this.pickedDates)
     },
     createDatesString(){
       if (this.pickedDates[0] == null){
@@ -603,16 +703,12 @@ import calendar from '@/components/ui/calendar/calendar.vue'
       return dates
     },
     calculatePrice() {
-      console.log(this.pickedDates)
-      console.log(this.priceTable)
-      console.log(this.basePrice)
       const beforeDiscount = this.pickedDates.reduce((sum, day) => {
           return sum + (this.getMult(day) * this.basePrice);
       }, 0);
 
       const price = beforeDiscount * (this.userData.refundable ? 1 : 0.8);
       this.price = price
-      console.log(price);
     },
     getMult(day) {
       const strDate = `${day.year}-${day.month > 9 ? day.month : '0' + day.month}-${day.date > 9 ? day.date : '0' + day.date}`;
@@ -632,9 +728,10 @@ import calendar from '@/components/ui/calendar/calendar.vue'
 
     async getData(){
       this.priceTable = (await this.$http.$get('guest-house-price-table?populate=deep%2C10')).data
+      this.bathhousePriceTable = (await this.$http.$get('bathhouse-price-table?populate=deep%2C10')).data
       this.ordersList = (await this.$http.$get(`guest-house-orders?populate=deep%2C10%20`)).data
+      this.bathhouseOrdersList = (await this.$http.$get(`bathhouse-orders?populate=deep%2C%2010`)).data
       this.options = [(await this.$http.$get(`guest-house-options/${this.$route.params.house}`)).data]
-      console.log(this.options)
     },
 
     async bookHouse(){
@@ -661,7 +758,8 @@ import calendar from '@/components/ui/calendar/calendar.vue'
         options: []
       }
 
-      dataToSend.contactInformation.phone = dataToSend.contactInformation.phone.replaceAll(' ', '').replaceAll('-','').replace(')', '').replace('(','')
+      dataToSend.contactInformation.phone = dataToSend.contactInformation.phone.replaceAll(/[ ()-]/g, '')
+      console.log(dataToSend.contactInformation.phone)
 
       if (this.userData.bathhouse_order){
         dataToSend.bathhouse_order = this.userData.bathhouse_order
@@ -678,12 +776,162 @@ import calendar from '@/components/ui/calendar/calendar.vue'
     },
     addZero(str){
       if (+str<10){
-        return `0${str[0]}`
+        return `0${str.toString()[0]}`
       }
       return str
+    },
+    pickTime(hour){
+      console.log(hour)
+      hour = this.getHourInfo(hour.id)
+      console.log(hour)
+      // console.log(this.disabledHours.some(x => x.date === hour.date && hour.month === hour.month))
+      if (!this.firstPickedTime.id){
+        this.firstPickedTime = hour
+        this.includedHours = [hour]
+      } else {
+        if(hour.id === this.firstPickedTime.id){
+          if(!this.secondPickedTime.id){
+            this.firstPickedTime = {}
+            this.includedHours = []
+            this.$emit('picked', this.includedHours)
+            return
+          } else {
+            this.firstPickedTime = this.secondPickedTime
+            this.secondPickedTime = {}
+            this.includedHours = [this.firstPickedTime]
+            return
+          }
+        }
+        if(hour.id === this.secondPickedTime.id){
+          this.secondPickedTime = {}
+          this.includedHours = [this.firstPickedTime]
+          return
+        }
+        this.secondPickedTime = hour
+        this.clearExcessHours()
+        if(hour.id > this.firstPickedTime.id){
+          this.includeForward()
+        } else {
+          this.includeBackward()
+        }
+      }
+
+      // this.includedHours.forEach(x => {
+      //   // if ()
+      // })
+
+      this.clearCopies()
+      console.log(this.includedHours)
+    },
+    clearExcessHours(){
+      for (const hour of this.includedHours){
+        if((hour.id > this.firstPickedTime.id && hour.id > this.secondPickedTime.id) || (hour.id < this.firstPickedTime.id && hour.id < this.secondPickedTime.id)){
+          this.includedHours = this.includedHours.filter(x => x.id !== hour.id)
+        }
+      }
+    },
+    clearCopies(){
+      this.includedHours.forEach(x => {
+        const idx = this.includedHours.findIndex(y => (y.id === x.id && y !== x))
+        if (~idx){
+          this.includedHours.splice(idx, 1)
+        }
+      })
+    },
+    includeForward(){
+       for (let i = this.firstPickedTime.id; i <= this.secondPickedTime.id; i++){
+          const hour = this.getHourInfo(i)
+          if (this.disabledHours.some(x => (x.date === hour.date && x.month === hour.month && x.year === hour.year && x.hour === hour.hour))){
+            this.secondPickedTime = this.getHourInfo(i-1)
+            return
+          }
+          // if (~this.disabledHours.findIndex(x => x.id === i)){
+          //   this.secondPickedTime = this.month.find(y => y.id === i-1)  
+          //   return
+          // }
+          this.includedHours.push(hour)
+        }
+    },
+
+    includeBackward(){
+       for (let i = this.firstPickedTime.id; i >= this.secondPickedTime.id; i--){
+        const hour = this.getHourInfo(i)
+          if (this.disabledHours.some(x => (x.date === hour.date && x.month === hour.month && x.year === hour.year && x.hour === hour.hour))){
+            this.secondPickedTime = this.getHourInfo(i+1)
+            return
+          }
+          //  if (~this.disabledHours.findIndex(x => x.id === i)){
+          //   this.secondPickedTime = this.month.find(y => y.id === i+1)
+          //   return
+          // }
+          this.includedHours.push({id: i })
+        }
+    },
+
+    getClass(hour){
+      const disabled = this.isHourDisabled(hour) ? 'disabled-hour' : ''
+      const lastDisabled = (disabled && (!this.isHourDisabled(this.getHourInfo(hour.id+1)) || hour.hour === 11 || hour.hour === 23)) ? 'last-disabled-hour' : ''
+      const firstDisabled = (disabled && (!this.isHourDisabled(this.getHourInfo(hour.id-1))  || hour.hour === 0)) ? 'first-disabled-hour' : ''
+      const included = ~this.includedHours.findIndex(x=> x.id === hour.id) ? 'included-hour' : ''
+      const lastIncluded = (included && (!~this.includedHours.findIndex(x=> x.id === hour.id+1) || hour.hour === 11 || hour.hour === 23)) ? 'last-included-hour' : ''
+      const firstIncluded = (included && (!~this.includedHours.findIndex(x=> x.id === hour.id-1) || hour.hour === 0)) ? 'first-included-hour' : ''
+
+      return [disabled, lastDisabled, firstDisabled, included, lastIncluded, firstIncluded].join(' ')
+    },
+
+    isHourDisabled(hour){
+      return this.disabledHours.some(x => (x.date === +hour.date && x.month === hour.month && x.year === hour.year && x.hour === hour.hour))
+    },
+
+    assembleDisabledHours(){
+      for (const date of this.bathhouseOrdersList){
+        if (date.status === 'confirmed'){
+          const dateObj = new Date(date.datetime)
+
+          let hour = dateObj.getHours()
+          
+          for (let i = 0; i < date.hours; i++ ){
+
+            const time = {
+              date: dateObj.getDate(),
+              month: dateObj.getMonth() + 1,
+              year: dateObj.getFullYear(),
+              hour
+            }
+
+            this.disabledHours.push(time)
+            hour++
+          }
+        }
+      }
+      this.disabledHours.forEach(x => {
+        // console.log()
+        console.log(this.isHourDisabled(x))
+      })
+    },
+// extendIncludedHours = (includedHours) => {
+//   for (let hour of includedHours){
+//     hour.hour = hour.id % 24
+//     hour.date = hour.id > 23 ? theNextDay.date : bathDay.date
+//     hour.month = hour.id > 23 ? theNextDay.month : bathDay.month
+//     hour.year = hour.id > 23 ? theNextDay.year : bathDay.year
+//   }
+//   // console.log(includedHours)
+// }
+
+    getHourInfo(id){
+      return {
+        id,
+        hour : id % 24,
+        date : id > 23 ? this.theNextDay.date : this.bathDay.date,
+        month : id > 23 ? this.theNextDay.month : this.bathDay.month,
+        year : id > 23 ? this.theNextDay.year : this.bathDay.year
+      }
     }
-  },
   }
+}
+
+
 </script>
 
 <style lang="scss" src="./index.scss" scoped>

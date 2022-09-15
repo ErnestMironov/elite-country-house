@@ -96,3 +96,20 @@ h2 {
     padding-right: 15px;
   }
 }
+
+.error{
+  font-family: Avenir Next Cyr;
+  font-size: 10px;
+  font-weight: 450;
+  line-height: 12px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: rgba(173, 14, 14, 1);
+  position: absolute;
+  left: 0;
+  bottom: -14px;
+}
+
+.input-error{
+  border: 0.0625rem solid rgba(173, 14, 14, 1);
+}

@@ -62,8 +62,15 @@
 
   &-label{
     width: 100%;
+    position: relative;
     &:not(:last-child){
       margin-bottom: 1.5rem;
+    }
+
+    &__bath-time{
+      &:not(:last-child){
+        margin-bottom: 0.75rem;
+      }
     }
 
     @include mobile{
@@ -262,7 +269,8 @@
   }
 
   &__input-field{
-    width: 100%;
+    min-width: 100%;
+    max-width: 19.375rem;
     height: 2.625rem;
     border: none;
     border-radius: 5px;
@@ -272,6 +280,10 @@
     padding: 0.75rem 1rem;
     &:not(:last-child){
       margin-bottom: 0.75rem;
+    }
+
+    &--bath{
+      position: relative;
     }
 
     @include mobile{
@@ -895,6 +907,99 @@
   }
 }
 
+.bathhouse-dropdown{
+  width: 100%;
+  height: 25.625rem;
+  box-shadow: 0px 0px 0.75rem 0.5rem rgba(220, 220, 220, 0.25);
+  border: 1px solid #F2F2F2;
+  border-radius: 0.3125rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: white;
+  padding: 1.125rem;
+  z-index: 10;
+
+  &__booked{
+    visibility: hidden;
+    font-family: Avenir Next Cyr;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.25rem;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-left: 0.25rem;
+    color: rgba(173, 14, 14, 1);
+  }
+
+  &__header{
+    padding-bottom: 0.5rem;
+    width: 100%;
+    border-bottom: 1px solid $cActionGrey;
+    margin-bottom: 1rem;
+  }
+
+  &__wrapper{
+    height: 88%;
+    width: 100%;
+    overflow: scroll;
+  }
+
+  &__hour{
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+
+    span{
+      padding: 0.5rem;
+      font-family: Avenir Next Cyr;
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.25rem;
+      letter-spacing: 0em;
+      text-align: left;
+      display: block;
+    }
+  }
+
+  &__date{
+    font-family: Avenir Next Cyr;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.25rem;
+    letter-spacing: 0em;
+    text-align: left;
+    padding-bottom: 0.5rem;
+    position: absolute;
+    top: 0;
+    background-color: white;
+    z-index: 3;
+    width: 100%;
+    border-radius: 0.3125rem;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+
+    &--second{
+      z-index: 2;
+    }
+
+    &.sticky{
+      position: static;
+      z-index: 4;
+      margin-bottom: 0.25rem;
+      margin-top: 0.625rem;
+      padding-bottom: 0;
+      border-top-left-radius: 0.3125rem;
+      border-top-right-radius: 0.3125rem;
+    }
+  }
+}
+
+.scroll-wrapper{
+  position: relative;
+  height: 100%;
+}
+
 .disabled{
   background-color: #EBD5C5;
 }
@@ -921,4 +1026,41 @@
 .first-included{
   border-top-left-radius: 0.3125rem;
   border-bottom-left-radius: 0.3125rem;
+}
+
+.input-error{
+  border: 0.0625rem solid rgba(173, 14, 14, 1);
+}
+
+.disabled-hour{
+  background-color: #EBD5C5;
+
+  .bathhouse-dropdown__booked{
+    visibility: visible;
+    padding: 0;
+  }
+}
+
+.last-disabled-hour{
+  border-bottom-left-radius: 0.3125rem;
+  border-bottom-right-radius: 0.3125rem;
+}
+
+.first-disabled-hour{
+  border-top-left-radius: 0.3125rem;
+  border-top-right-radius: 0.3125rem;
+}
+
+.included-hour{
+  background-color: #C5EBDF;
+}
+
+.last-included-hour{
+  border-bottom-left-radius: 0.3125rem;
+  border-bottom-right-radius: 0.3125rem;
+}
+
+.first-included-hour{
+  border-top-left-radius: 0.3125rem;
+  border-top-right-radius: 0.3125rem;
 }
