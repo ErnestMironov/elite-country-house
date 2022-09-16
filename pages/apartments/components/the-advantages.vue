@@ -2,19 +2,16 @@
   <section class="container mt-[7.5rem]">
     <SimpleTitle title="Перечисление преимуществ" />
     <ul class="list">
-      <li v-for="i in 5" :key="i" class="list-item">
+      <li v-for="feature in data" :key="feature.id" class="list-item">
         <img
-          src="https://langformula.ru/wp-content/uploads/2019/04/house.jpg"
+          :src="`http://185.46.10.102:1337${feature?.image?.url}`"
           alt=""
           class="list-item__img"
         />
         <div class="list-item__text">
-          <h3 class="list-item__title">Наименование крутоты</h3>
+          <h3 class="list-item__title">{{ feature?.title }}</h3>
           <p>
-            Здесь нам необходим текст, который в общих чертах расскажет про то,
-            какие качественные услуги представляет компания. Не забыть упомянуть
-            высокотехнологичность домов и апартаментов и премиальный уровень
-            класса
+            {{ feature?.description }}
           </p>
         </div>
       </li>
@@ -27,6 +24,12 @@ import SimpleTitle from '~/components/ui/simple-title/simple-title.vue'
 export default {
   name: 'TheAdvantages',
   components: { SimpleTitle },
+  props: {
+    data: {
+      type: Object,
+      required: true,
+    },
+  },
 }
 </script>
 
@@ -34,6 +37,7 @@ export default {
 .list-item {
   display: flex;
   align-items: flex-start;
+  justify-content: space-between;
   padding-top: 3rem;
   border-top: 0.0625rem solid #000;
   margin-top: 3.6875rem;
@@ -54,6 +58,7 @@ export default {
   &__text {
     font-weight: 400;
     font-size: 1.125rem;
+    flex: 1;
     line-height: 1.75rem;
 
     p {

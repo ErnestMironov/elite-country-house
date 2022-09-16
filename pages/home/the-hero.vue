@@ -29,9 +29,6 @@
 <script>
 import { directive } from 'vue-awesome-swiper'
 
-import firstImg from '~/assets/images/mock/home-page_hero_1.jpg'
-import secondImg from '~/assets/images/mock/home-page_hero_2.jpg'
-
 const scrollIntoView = require('scroll-into-view')
 
 export default {
@@ -43,7 +40,6 @@ export default {
 
   data() {
     return {
-      banners: [firstImg, secondImg],
       swiperOptions: {
         loop: true,
         slidesPerView: 'auto',

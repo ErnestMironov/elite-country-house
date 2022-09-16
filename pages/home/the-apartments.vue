@@ -36,7 +36,7 @@
         Социалистическая 21 (Апарт-отель “YES”)
       </div>
       <nuxt-link
-        to="/apartments"
+        :to="`/apartments/${currentObject?.id}`"
         class="btn mt-[48px] lg:mt-[2.25rem] min-w-[13.1875rem] px-[62px]"
         >Узнать больше</nuxt-link
       >

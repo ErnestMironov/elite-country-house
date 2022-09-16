@@ -2,14 +2,22 @@
   <section id="contacts" class="container contacts">
     <div>
       <SimpleTitle title="Как нас найти?" />
-      <no-ssr>
-        <iframe
-          src="https://yandex.ru/map-widget/v1/-/CCUVE0hjXC"
-          frameborder="1"
-          allowfullscreen="true"
-          class="map hide-on-desktop"
-        ></iframe>
-      </no-ssr>
+      <div v-if="isMounted" class="hide-on-desktop mb-[48px]">
+        <yandex-map
+          :coords="[59.92520765443169, 30.342260232398356]"
+          :zoom="8"
+          class="map"
+        >
+          <ymap-marker
+            v-for="coordinate of data.coordinate"
+            :key="coordinate.text"
+            marker-id="123"
+            marker-type="placemark"
+            hint-content="element.hint"
+            :coords="coordinate.text | convertStringToArr"
+          ></ymap-marker>
+        </yandex-map>
+      </div>
       <h3 class="subtitle">{{ data.addressTitle }}</h3>
       <ul class="list">
         <li
@@ -25,18 +33,17 @@
         <li
           v-for="coordinate of data.coordinate"
           :key="coordinate.id"
-          class="list__item"
+          class="list__item cursor-pointer"
           @click="copyText(coordinate.text)"
         >
           <span href="" class="flex items-start">
             {{ coordinate.text }}
-            <button>
-              <img
-                src="~/assets/icons/copy.svg"
-                alt="скопировать"
-                title="скопировать"
-              />
-            </button>
+            <img
+              class="ml-2"
+              src="~/assets/icons/copy.svg"
+              alt="скопировать"
+              title="скопировать"
+            />
           </span>
         </li>
       </ul>
@@ -53,36 +60,74 @@
         </li>
       </ul>
     </div>
-    <no-ssr>
-      <iframe
+    <div v-if="isMounted" class="hide-on-mobile">
+      <yandex-map
+        :coords="[59.92520765443169, 30.342260232398356]"
+        :zoom="8"
+        class="map"
+      >
+        <ymap-marker
+          v-for="coordinate of data.coordinate"
+          :key="coordinate.text"
+          marker-id="123"
+          marker-type="placemark"
+          hint-content="element.hint"
+          :coords="coordinate.text | convertStringToArr"
+        ></ymap-marker>
+      </yandex-map>
+    </div>
+    <!-- <iframe
         src="https://yandex.ru/map-widget/v1/-/CCUVE0hjXC"
         frameborder="1"
         allowfullscreen="true"
         class="map hide-on-mobile"
-      ></iframe>
-    </no-ssr>
+      ></iframe> -->
   </section>
 </template>
 
 <script>
-import { yandexMap, ymapMarker } from 'vue-yandex-maps'
 import SimpleTitle from '~/components/ui/simple-title/simple-title.vue'
 
 export default {
   name: 'TheContacts',
-  components: { SimpleTitle, yandexMap, ymapMarker },
+  components: { SimpleTitle },
+  filters: {
+    convertStringToArr(val) {
+      return val.split('  ')
+    },
+  },
   props: ['data'],
+  data() {
+    return {
+      settings: {
+        apiKey: '2a51d234-e1e7-496f-9478-a9a99d9d9673',
+        lang: 'ru_RU',
+        coordorder: 'latlong',
+        version: '2.1',
+      },
+      isMounted: false,
+    }
+  },
+  mounted() {
+    this.isMounted = true
+  },
   methods: {
     copyText(text) {
-      navigator.clipboard.writeText(text)
+      console.log('====================================')
+      console.log(navigator)
+      console.log('====================================')
+      navigator?.clipboard?.writeText(text)
     },
   },
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import '@/assets/styles/scss/mixins';
-
+.ymap-container {
+  height: 31.4375rem;
+  width: 48.6875rem;
+}
 .contacts {
   display: flex;
   justify-content: space-between;
