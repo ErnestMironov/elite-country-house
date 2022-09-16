@@ -627,6 +627,7 @@
     text-align: left;
 
     &--bathhouse{
+      margin-bottom: 0;
       @include mobile{
         margin-bottom: 20px;
       }
@@ -738,9 +739,9 @@
   }
 
   &-button{
-    &--3{
-    margin-top: 1.5rem;
-    }
+    // &--3{
+    // margin-top: 1.5rem;
+    // }
   }
 
   button.booking-button--4{
@@ -1063,4 +1064,9 @@
 .first-included-hour{
   border-top-left-radius: 0.3125rem;
   border-top-right-radius: 0.3125rem;
+}
+
+.active-radio{
+  background-color: #282423;
+  color: white
 }

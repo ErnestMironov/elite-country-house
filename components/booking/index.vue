@@ -30,7 +30,7 @@
     </div>
 
     <button 
-      v-if="currentProgress === 3" 
+      v-if="currentProgress === 0" 
       class="btn booking__next-btn--first" 
       @click="setProgress(1)"
     >
@@ -184,7 +184,7 @@
 
     </div>
 
-    <div v-if="currentProgress === 0" class="booking-wrapper booking-3">
+    <div v-if="currentProgress === 3" class="booking-wrapper booking-3">
 
       <div class="booking__conditions-wrapper">
 
@@ -194,10 +194,10 @@
             <div class="booking__info-wrapper--xs">
               <h4 class="booking__sub-header booking__conditions-header">День недели</h4>
               <div class="booking__radio-wrapper">
-                <button class="booking__radio-btn">Пятница</button>
-                <button class="booking__radio-btn">Будние дни</button>
-                <button class="booking__radio-btn">Суббота</button>
-                <button class="booking__radio-btn">Воскресенье</button>
+                <button class="booking__radio-btn" :class="{'active-radio': bathhousePriceOption.id === 3}" @click="()=>setBathhousePriceOption('friday')">Пятница</button>
+                <button class="booking__radio-btn" :class="{'active-radio': bathhousePriceOption.id === 2}" @click="()=>setBathhousePriceOption('weekday')">Будние дни</button>
+                <button class="booking__radio-btn" :class="{'active-radio': bathhousePriceOption.id === 4}" @click="()=>setBathhousePriceOption('saturday')">Суббота</button>
+                <button class="booking__radio-btn" :class="{'active-radio': bathhousePriceOption.id === 5}" @click="()=>setBathhousePriceOption('sunday')">Воскресенье</button>
               </div>
             </div>
 
@@ -205,7 +205,16 @@
             <div class="booking__info-wrapper--s">
               <h4 class="booking__sub-header booking__conditions-header">Время</h4>
 
-              <div class="booking-time-label">
+
+
+              <div v-for="option of bathhousePriceOption.priceInterval" :key="option.id" class="booking-time-label">
+                <h5 class="booking-time-label__time">{{option.from.slice(0,5) + ' - ' + option.to.slice(0,5)}}</h5>
+                <span class="booking-time-label__price booking-time-label__price--desktop">Стоимость бронирования</span>
+                <span class="booking-time-label__price booking-time-label__price--mobile">Стоимость</span>
+                <span class="booking-time-label__value">{{option.price + '₽/Час'}}</span>
+              </div>
+
+              <!-- <div class="booking-time-label">
                 <h5 class="booking-time-label__time">10:00 - 17:00</h5>
                 <span class="booking-time-label__price booking-time-label__price--desktop">Стоимость бронирования</span>
                 <span class="booking-time-label__price booking-time-label__price--mobile">Стоимость</span>
@@ -217,14 +226,7 @@
                 <span class="booking-time-label__price booking-time-label__price--desktop">Стоимость бронирования</span>
                 <span class="booking-time-label__price booking-time-label__price--mobile">Стоимость</span>
                 <span class="booking-time-label__value">3600₽/Час</span>
-              </div>
-
-              <div class="booking-time-label">
-                <h5 class="booking-time-label__time">10:00 - 17:00</h5>
-                <span class="booking-time-label__price booking-time-label__price--desktop">Стоимость бронирования</span>
-                <span class="booking-time-label__price booking-time-label__price--mobile">Стоимость</span>
-                <span class="booking-time-label__value">3600₽/Час</span>
-              </div>
+              </div> -->
 
             </div>
 
@@ -247,8 +249,9 @@
 
               <label class="booking-label">
                 <h4 class="booking__sub-header">Время</h4>
-                <small v-if="bathhouseError" class="booking__error error">Сначала выберите дату!</small>
-                <div class="booking__input-field booking__input-field--bath" :class="bathhouseError ? 'input-error' : ''" @click="showTimeDD">
+                <small v-if="bathhouseErrorEmpty" class="booking__error error">Сначала выберите дату!</small>
+                <small v-if="bathhouseErrorWrong" class="booking__error error">Выберите дату в пределах 3х месяцев</small>
+                <div class="booking__input-field booking__input-field--bath" :class="(bathhouseErrorEmpty || bathhouseErrorWrong) ? 'input-error' : ''" @click="showTimeDD">
                   <div v-if="timeDDActive" class="bathhouse-dropdown">
                     <h3 v-if="!firstPickedTime" class="bathhouse-dropdown__header">Выберите начало бронирования</h3>
                     <h3 v-if="firstPickedTime" class="bathhouse-dropdown__header">Выберите конец бронирования</h3>
@@ -275,7 +278,7 @@
                     </div>
                   </div>
                   <img src="@/assets/icons/clock.svg" alt="">
-                 <input v-maska="'##:##'" type="text" placeholder="15:00">
+                 <span>{{getHoursString()}}</span>
                 </div>
               </label>
 
@@ -293,9 +296,7 @@
                 <h4 class="booking__sub-header">Количество человек</h4>
                 <div class="booking__input-field">
                   <img src="@/assets/icons/people.svg" alt="">
-                  <span> 
-                    6 человек
-                  </span>
+                  <input v-model="bathhouseData.people" v-maska="'##'" type="number" placeholder="0 человек">
                 </div>
                 <h4 class="booking__sub-header booking__last-header">+400₽/чел от 6ти человек</h4>
               </label>
@@ -310,9 +311,7 @@
                   <h4 class="booking__sub-header">Добавить банные принадлежности</h4>
                   <div class="booking__input-field">
                     <img src="@/assets/icons/slippers.svg" alt="">
-                    <span> 
-                      количество банных наборов
-                    </span>
+                    <input v-model="bathhouseData.sets" v-maska="'##'" type="number" placeholder="количество банных наборов">
                   </div>
                   <h4 class="booking__sub-header booking__last-header">+400₽/чел от 6ти человек</h4>
                 </label>
@@ -320,16 +319,14 @@
                 <label class="booking-label">
                   <h4 class="booking__sub-header">Добавить банные принадлежности</h4>
                   <div class="booking__input-field">
-                    <span> 
-                      Количество дубовых веников
-                    </span>
+                    <input v-model="bathhouseData.brooms" v-maska="'##'" type="number" placeholder="Количество дубовых веников">
                   </div>
                   <h4 class="booking__sub-header booking__last-header">+350₽/шт</h4>
                 </label>
 
                 <label class="booking__checkbox-label">
                   <div class="booking__checkbox-wrapper">
-                    <input type="checkbox" class="checkbox">
+                    <input v-model="bathhouseData.helper" type="checkbox" class="checkbox">
                     <span class="booking__sub-header booking__checkbox-header">
                       Добавить услуги парильщика       
                     </span>
@@ -338,7 +335,7 @@
                 </label>
                 <label class="booking__checkbox-label">
                   <div class="booking__checkbox-wrapper">
-                    <input type="checkbox" class="checkbox">
+                    <input v-model="bathhouseData.furako" type="checkbox" class="checkbox">
                     <span class="booking__sub-header booking__checkbox-header">
                       Добавить Фурако    
                     </span>
@@ -347,7 +344,7 @@
                 </label>
                 <label class="booking__checkbox-label">
                   <div class="booking__checkbox-wrapper">
-                    <input type="checkbox" class="checkbox">
+                    <input v-model="bathhouseData.jacuzzi"  type="checkbox" class="checkbox">
                     <span class="booking__sub-header booking__checkbox-header">
                       Добавить Джакузи      
                     </span>
@@ -497,7 +494,8 @@ import {createHoursString} from '@/helpers/helpers'
       includedHours: [],
       bathDay: {},
       theNextDay: new Date(),
-      bathhouseError: false,
+      bathhouseErrorEmpty: false,
+      bathhouseErrorWrong: false,
       currentYear: 2022, 
       currentMonthNumber: 8,
       currentMonth: {
@@ -513,6 +511,15 @@ import {createHoursString} from '@/helpers/helpers'
       },
       month: [],
       pickedDates: [],
+      bathhousePrice: 0,
+      bathhouseData: {
+        people: null,
+        sets: null,
+        brooms: null,
+        helper: false,
+        furako: false,
+        jacuzzi: false
+      },
       userData: {
         guest_house: "",
         bathhouse_order: "",
@@ -537,6 +544,10 @@ import {createHoursString} from '@/helpers/helpers'
       },
       priceTable: {},
       bathhousePriceTable: {},
+      bathhousePriceOption: {priceInterval: [{
+        from: '',
+        to: ''
+      }]},
       ordersList: [],
       personalAgreement: false,
       personalData: false,
@@ -557,7 +568,8 @@ import {createHoursString} from '@/helpers/helpers'
     this.getTakenDates()
     this.calculatePrice()
     this.assembleDisabledHours()
-    console.log(this.disabledHours)
+
+    this.bathhousePriceOption = this.bathhousePriceTable.friday
   },
   methods: {
     createHoursString,
@@ -566,8 +578,11 @@ import {createHoursString} from '@/helpers/helpers'
       this.calculatePrice()
     },
     showTimeDD(e){
+      if (this.bathhouseErrorWrong){
+        return
+      }
       if(this.bathDay.date == null || isNaN(this.bathDay.date)){
-        this.bathhouseError = true
+        this.bathhouseErrorEmpty = true
         return 
       }
 
@@ -576,8 +591,31 @@ import {createHoursString} from '@/helpers/helpers'
       e.preventDefault();
       e.stopPropagation();
     },
+    getHoursString(){
+      if (this.includedHours.length === 0){
+        return '00:00'
+      }
+
+      if (this.includedHours.length === 1){
+        return `${this.addZero(this.includedHours[0].hour)}:00`
+      }
+
+      return `${this.addZero(this.includedHours[0].hour)}:00 - ${this.addZero(this.includedHours[this.includedHours.length-1].hour+1)}:00`
+    },
+    setBathhousePriceOption(day){
+      this.bathhousePriceOption = this.bathhousePriceTable[day]
+    },
     pickBathDay(e){
+      const now = new Date()
       const pickedDay = new Date(e.target.value)
+
+      if (((pickedDay.getMonth() - now.getMonth()) >= 3) || now.getTime() > pickedDay.getTime()){
+        this.bathhouseErrorWrong = true
+        this.bathhouseErrorEmpty = false
+        return
+      }
+      this.bathhouseErrorWrong = false
+      
       const next = new Date()
       next.setDate((new Date(e.target.value)).getDate() + 1)
 
@@ -594,7 +632,7 @@ import {createHoursString} from '@/helpers/helpers'
       }
 
       this.includedHours = []
-      this.bathhouseError = false
+      this.bathhouseErrorEmpty = false
       this.addDaysInfo()
       this.firstPickedTime = {}
       this.secondPickedTime = {}
@@ -732,6 +770,7 @@ import {createHoursString} from '@/helpers/helpers'
       this.ordersList = (await this.$http.$get(`guest-house-orders?populate=deep%2C10%20`)).data
       this.bathhouseOrdersList = (await this.$http.$get(`bathhouse-orders?populate=deep%2C%2010`)).data
       this.options = [(await this.$http.$get(`guest-house-options/${this.$route.params.house}`)).data]
+      console.log(this.bathhousePriceTable)
     },
 
     async bookHouse(){
@@ -759,7 +798,7 @@ import {createHoursString} from '@/helpers/helpers'
       }
 
       dataToSend.contactInformation.phone = dataToSend.contactInformation.phone.replaceAll(/[ ()-]/g, '')
-      console.log(dataToSend.contactInformation.phone)
+
 
       if (this.userData.bathhouse_order){
         dataToSend.bathhouse_order = this.userData.bathhouse_order
@@ -781,10 +820,8 @@ import {createHoursString} from '@/helpers/helpers'
       return str
     },
     pickTime(hour){
-      console.log(hour)
       hour = this.getHourInfo(hour.id)
-      console.log(hour)
-      // console.log(this.disabledHours.some(x => x.date === hour.date && hour.month === hour.month))
+
       if (!this.firstPickedTime.id){
         this.firstPickedTime = hour
         this.includedHours = [hour]
@@ -816,12 +853,7 @@ import {createHoursString} from '@/helpers/helpers'
         }
       }
 
-      // this.includedHours.forEach(x => {
-      //   // if ()
-      // })
-
       this.clearCopies()
-      console.log(this.includedHours)
     },
     clearExcessHours(){
       for (const hour of this.includedHours){
@@ -845,10 +877,7 @@ import {createHoursString} from '@/helpers/helpers'
             this.secondPickedTime = this.getHourInfo(i-1)
             return
           }
-          // if (~this.disabledHours.findIndex(x => x.id === i)){
-          //   this.secondPickedTime = this.month.find(y => y.id === i-1)  
-          //   return
-          // }
+
           this.includedHours.push(hour)
         }
     },
@@ -860,10 +889,7 @@ import {createHoursString} from '@/helpers/helpers'
             this.secondPickedTime = this.getHourInfo(i+1)
             return
           }
-          //  if (~this.disabledHours.findIndex(x => x.id === i)){
-          //   this.secondPickedTime = this.month.find(y => y.id === i+1)
-          //   return
-          // }
+
           this.includedHours.push({id: i })
         }
     },
@@ -904,20 +930,7 @@ import {createHoursString} from '@/helpers/helpers'
           }
         }
       }
-      this.disabledHours.forEach(x => {
-        // console.log()
-        console.log(this.isHourDisabled(x))
-      })
     },
-// extendIncludedHours = (includedHours) => {
-//   for (let hour of includedHours){
-//     hour.hour = hour.id % 24
-//     hour.date = hour.id > 23 ? theNextDay.date : bathDay.date
-//     hour.month = hour.id > 23 ? theNextDay.month : bathDay.month
-//     hour.year = hour.id > 23 ? theNextDay.year : bathDay.year
-//   }
-//   // console.log(includedHours)
-// }
 
     getHourInfo(id){
       return {
