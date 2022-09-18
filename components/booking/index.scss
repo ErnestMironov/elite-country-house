@@ -67,6 +67,12 @@
       margin-bottom: 1.5rem;
     }
 
+    &--checkbox{
+      &:not(:last-child){
+        margin-bottom: 1.25rem;
+      }
+    }
+
     &__bath-time{
       &:not(:last-child){
         margin-bottom: 0.75rem;
@@ -247,6 +253,7 @@
     line-height: 1.5rem;
     letter-spacing: 0em;
     text-align: left;
+    margin-bottom: 0;
 
     @include mobile{
       font-size: 18px;
@@ -905,6 +912,23 @@
       line-height: 0.875rem;
       letter-spacing: 0em;
     }
+  }
+
+
+  &__option-wrapper{
+    &--checkbox{
+      display: flex;
+      justify-content: space-between;
+      .booking__checkbox-header{
+        font-size: 1.1875rem;
+        font-weight: 400;
+        line-height: 1.5rem;
+        letter-spacing: 0em;
+        text-align: left;
+      }
+    }
+
+    &--number{}
   }
 }
 
