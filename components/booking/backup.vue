@@ -132,13 +132,13 @@
                   <h4 class="booking__sub-header">{{option.title}}</h4>
                   <div class="booking__input-field">
                     <img src="@/assets/icons/slippers.svg" alt="">
-                    <input v-maska="'##'" type="number" :placeholder="option.placeholder" @change="($event)=>pickOption($event, option)">
+                    <input v-maska="'##'" type="number" :placeholder="option.placeholder" @change="($event)=>changeBathhouseOption($event, option)">
                   </div>
                   <h4 v-if="option.notice" class="booking__sub-header booking__last-header">{{option.notice}}</h4>
                 </div>
                 <div v-if="option.type === 'checkbox'" class="booking__option-wrapper--checkbox">
                   <div v-if="option.type === 'checkbox'" class="booking__checkbox-wrapper">
-                    <input type="checkbox" class="checkbox" @change="($event)=>pickCheckboxOption($event, option)">
+                    <input type="checkbox" class="checkbox" @change="($event)=>changeBathhouseOption($event, option)">
                     <span class="booking__sub-header booking__checkbox-header">
                       {{option.title}}    
                     </span>
@@ -149,7 +149,7 @@
                   <h4 class="booking__sub-header">{{option.title}}</h4>
                   <div class="booking__input-field">
                     <img src="@/assets/icons/clock.svg" alt="">
-                    <input v-maska="'##:##'" type="text" placeholder="15:00" @change="($event)=>pickOption($event, option)">
+                    <input v-maska="'##:##'" type="text" placeholder="15:00" @input="onLeaveInput">
                   </div>
                   <span v-if="option.notice">{{option.notice}}</span>
                 </div>
@@ -157,25 +157,19 @@
                   <h4 class="booking__sub-header">{{option.title}}</h4>
                   <div class="booking__input-field">
                     <img src="@/assets/icons/calendar.svg" alt="">
-                    <input  type="date" @change="($event)=>pickOption($event, option)">
+                    <input  type="date" @change="pickBathDay">
                   </div>
                   <span v-if="option.notice">{{option.notice}}</span>
                 </div> 
                 <div v-if="option.type === 'select'" class="booking__option-wrapper--number booking-label">
-                  <h4 class="booking__sub-header booking__sub-header--thematic">{{option.title}}<img class="booking__decoration-btn" src="@/assets/icons/question.svg" alt=""></h4>
-                  <div class="option-dropdown">
-                    <div v-if="isDDActive(option.id)" :id="option.id" class="option-dropdown__wrapper">
-                      <span 
-                      v-for="item of option.variants" 
-                      :id="option.id" 
-                      :key="item.id" 
-                      class="option-dropdown__option"
-                      @click="()=>pickSelectOption(option, item)">
-                      {{item.value}}
-                    </span>
-                  </div>
-                  <div :id="option.id" class="option-dropdown__selected booking__input-field" @click="showDD(option.id)">{{getSelectedItem(option.id) ? getSelectedItem(option.id) : option.placeholder }}</div>
+                  <h4 class="booking__sub-header booking__sub-header--thematic">Тематическое украшение <img class="booking__decoration-btn" src="@/assets/icons/question.svg" alt=""></h4>
+                  <div class="booking__input-field">Выберите тип украшения</div>
                   <span v-if="option.notice">{{option.notice}}</span>
+                  <div class="option-dropdown">
+                    <div :id="option.id" class="option-dropdown__selected booking__input-field" @click="showDD(option.id)">{{getSelectedItem(option.id) ?? option.placeholder }}</div>
+                    <div v-if="isDDActive(option.id)" :id="option.id" class="option-dropdown__wrapper">
+                      <span v-for="item of option.variants" :id="option.id" :key="item.id" class="option-dropdown__option">{{item.value}}</span>
+                    </div>
                   </div>
                 </div>
               </label>
@@ -507,7 +501,6 @@ import 'vue-select/dist/vue-select.css';
       bathhouseOrdersList: [],
       bathhouseOptions: [],
       bathhouseSelectedOptions:[],
-      selectedOptions:[],
       disabledHours: [],
       firstPickedTime: {},
       secondPickedTime: {},
@@ -631,53 +624,11 @@ import 'vue-select/dist/vue-select.css';
     isDDActive(id){
       return this.dropdowns.find(x => x.id === id).active
     },
-    pickOption(e, option){
-      const existingOption = this.selectedOptions.find(x => +x.id === +option.id)
-
-      if  (existingOption){
-        existingOption.value = e.target.value
-      } else {
-        this.selectedOptions.push({
-          id: option.id,
-          value: e.target.value,
-          price: option.price
-        })
-      }
-    },
-    pickCheckboxOption(e, option){
-      if (e.target.checked){
-        this.selectedOptions.push({
-          id: option.id,
-          value: 'true',
-          price: option.price
-        })
-      } else {
-        this.selectedOptions = this.selectedOptions.filter(x => +x.id !== +option.id)
-      }
-    },
-    pickSelectOption(option, item){
-      console.log(option.placeholder)
-      const dropdown = this.dropdowns.find(x => +x.id === +option.id)
-      dropdown.selected = item
-
-      const existingOption = this.selectedOptions.find(x => +x.id === +option.id)
-
-      if  (existingOption){
-        existingOption.value = item.value
-      } else {
-        this.selectedOptions.push({
-          id: option.id,
-          value: item.value,
-          price: option.price
-        })
-      }
-
-      this.closeDropdowns()
-    },
     getSelectedItem(id){
       return this.dropdowns.find(x => x.id === id).selected.value
     },
     showDD(id){
+      console.log('here')
       this.dropdowns.find(x => x.id === id).active = true
     },
     getHoursString(){
@@ -739,20 +690,15 @@ import 'vue-select/dist/vue-select.css';
     handleDocumentClick(e){
       this.closeDropdowns(e)
     },
-    closeDropdowns(e = null){
-      if (e === null){
-        for (const dropdown of this.dropdowns){
-          dropdown.active = false
-        }
-        return
-      }
-
+    closeDropdowns(e){
+      console.log(e.target)
       if (!e.target.classList.contains('bathhouse-dropdown')){
         this.timeDDActive = false
       }
-
+      console.log(e.target.getAttribute('id'))
+      console.log(this.dropdowns[0].id.toString())
       for (const dropdown of this.dropdowns){
-        if (+dropdown.id !== +e.target.getAttribute('id')) {
+        if (dropdown.id !== e.target.getAttribute('id')) {
           dropdown.active = false
         }
       }
@@ -870,11 +816,7 @@ import 'vue-select/dist/vue-select.css';
           return sum + (this.getMult(day) * this.basePrice);
       }, 0);
 
-      const optionsPrice = this.selectedOptions.reduce((sum, option,) => {
-        return sum + option.price
-      }, 0)
-
-      this.price = (beforeDiscount + this.bathhousePrice + optionsPrice) * (this.userData.refundable ? 1 : 0.8);
+      this.price = (beforeDiscount + this.bathhousePrice) * (this.userData.refundable ? 1 : 0.8);
     },
     getMult(day) {
       const strDate = `${day.year}-${day.month > 9 ? day.month : '0' + day.month}-${day.date > 9 ? day.date : '0' + day.date}`;
@@ -997,12 +939,6 @@ import 'vue-select/dist/vue-select.css';
 
       dataToSend.contactInformation.phone = dataToSend.contactInformation.phone.replaceAll(/[ ()-]/g, '')
 
-      dataToSend.options = this.selectedOptions.map(x =>{
-        return {
-          id: x.id,
-          value: x.value
-        }
-      })
 
       if (this.bathhousePrice){
         dataToSend.bathhouse_order = this.assembleBathhouseData()
@@ -1179,7 +1115,109 @@ import 'vue-select/dist/vue-select.css';
   }
 }
 
+
 </script>
 
 <style lang="scss" src="./index.scss" scoped>
 </style>
+
+<style lang="scss">
+  .vs__actions{
+    display: none;
+  }
+
+  .vs--searchable .vs__dropdown-toggle{
+    cursor: pointer;
+    background-color: #f2f2f2;
+    border: none;
+    min-height: 2.625rem;
+    border-radius: 0.3125rem;
+    padding-bottom: 0;
+    display: flex;
+    align-items: center;
+  }
+  
+  .vs__search{
+    cursor: pointer;
+    background-color: #f2f2f2;
+    border: none;
+    border-radius: 0.3125rem;
+    min-height: 2.625rem;
+    margin-top: 0;
+    padding-left: 1rem;
+    // pointer-events: none;
+
+    &:focus{
+      margin-top: 0;
+      padding-left: 1rem;
+      // pointer-events: none;
+    }
+  }
+  
+  .v-select{
+    /* min-height: 2.625rem; */
+    background-color: #f2f2f2;
+    border-radius: 0.3125rem;
+    border: none;
+    padding-left: 0;
+    width: 100%;
+    // pointer-events: none;
+  }
+  
+  .vs__selected-options {
+    padding-left: 0;
+    // pointer-events: none;
+  }
+  
+  .vs__selected{
+    // pointer-events: none;
+  }
+  
+  .vs--single .vs--open{
+    // pointer-events: none;
+    position: static;
+  }
+
+</style>
+
+<!-- {
+  "guest_house": "1",
+  "people": 1,
+  "arrivalTime": "12:54:00.000",
+  "leaveTime": "12:54:00.000",
+  "from": "2022-09-19",
+  "to": "2022-09-19",
+  "contactInformation": {
+      "firstName": "dfgdfg",
+      "lastName": "dfgdfg",
+      "email": "dfgdf@sdf.re",
+      "phone": "+72343453453"
+  },
+  "refundable": false,
+  "options": [],
+  "bathhouse_order": {
+      "people": "7",
+      "bathhouse": 1,
+      "hours": 2,
+      "dateTime": "2022-10-19T00:00:00.000Z",
+      "refundable": false,
+      "options": [
+          {
+              "id": 1,
+              "value": "2"
+          },
+          {
+              "id": 2,
+              "value": "3"
+          },
+          {
+              "id": 3,
+              "value": true
+          },
+          {
+              "id": 5,
+              "value": true
+          }
+      ]
+  }
+} -->
