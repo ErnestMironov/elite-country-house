@@ -6,11 +6,21 @@
     width: 25.75rem;
     height: 23.125rem;
 
+    @include mobile{
+      width: 100%;
+      margin-top: 96px;
+      height: 342px;
+    }
+
     &__month-slider{
       display: flex;
       justify-content: space-between;
       padding: 0 1.5rem;
       margin-bottom: 1.75rem;
+
+      @include mobile{
+        margin-bottom: 24px;
+      }
     }
 
     &__month{
@@ -20,6 +30,12 @@
       line-height: 1.375rem;
       letter-spacing: 0em;
       text-align: left;
+
+      @include mobile{
+        font-size: 15px;
+        font-weight: 450;
+        line-height: 18px;
+      }
     }
 
     &__controls{
@@ -27,11 +43,19 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      
+      @include mobile{
+        width: 40px;
+      }
 
       img{
         width: 1.125rem;
         height: auto;
         cursor: pointer;
+
+        @include mobile{
+          width: 15px;
+        }
       }
     }
     
@@ -45,6 +69,9 @@
       width: 100%;
       justify-content: space-between;
       margin-bottom: 2rem;
+      @include mobile{
+        margin-bottom: 26px;
+      }
     }
 
     &__week-day{
@@ -56,6 +83,12 @@
       line-height: 1.25rem;
       letter-spacing: 0em;
       text-align: left;
+
+      @include mobile{
+        font-size: 13px;
+        font-weight: 700;
+        line-height: 16px;
+      }
     }
 
     &__day{
@@ -68,6 +101,15 @@
       &:not(:last-child){
         margin-bottom: 0.5625rem;
       }
+
+      @include mobile{
+        height: 38px;
+        padding-top: 4px;
+        
+        &:not(:last-child){
+          margin-bottom: 8px;
+        }
+      }
     }
 
     &__day-number{
@@ -77,6 +119,12 @@
       line-height: 1.25rem;
       letter-spacing: 0em;
       margin-bottom: 0.25rem;
+
+      @include mobile{
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 16px;
+      }
     }
 
     &__day-price{
@@ -85,6 +133,12 @@
       font-weight: 400;
       line-height: 0.875rem;
       letter-spacing: 0em;
+
+      @include mobile{
+        font-size: 8px;
+        font-weight: 400;
+        line-height: 12px;
+      }
     }
   }
 }
@@ -98,11 +152,21 @@
 }
 
 .last-disabled{
+  @include mobile{
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+
   border-top-right-radius: 0.3125rem;
   border-bottom-right-radius: 0.3125rem;
 }
 
 .first-disabled{
+  @include mobile{
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+  }
+
   border-top-left-radius: 0.3125rem;
   border-bottom-left-radius: 0.3125rem;
 }
@@ -112,11 +176,21 @@
 }
 
 .last-included{
+  @include mobile{
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+
   border-top-right-radius: 0.3125rem;
   border-bottom-right-radius: 0.3125rem;
 }
 
 .first-included{
+  @include mobile{
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+  }
+
   border-top-left-radius: 0.3125rem;
   border-bottom-left-radius: 0.3125rem;
 }
