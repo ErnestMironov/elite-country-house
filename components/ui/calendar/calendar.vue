@@ -42,7 +42,10 @@ import {months} from '@/assets/calendar';
 
  export default {
   props: {
-    takenDates: Array
+    takenDates: {
+      type:Array,
+      default: []
+    }
   },
    setup() {
   },
