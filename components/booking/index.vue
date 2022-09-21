@@ -127,7 +127,7 @@
 
           <h3 class="booking__header">Дополнительный функционал</h3>
 
-          <label v-for="option of options[0]" :key="option.id" class="booking-label" :class="{'booking-label--checkbox' :  option.type === 'checkbox'}">
+          <label v-for="option of options" :key="option.id" class="booking-label" :class="{'booking-label--checkbox' :  option.type === 'checkbox'}">
                 <div v-if="option.type === 'number'" class="booking__option-wrapper--number">
                   <h4 class="booking__sub-header">{{option.title}}</h4>
                   <div class="booking__input-field">
@@ -614,7 +614,7 @@ import 'vue-select/dist/vue-select.css';
       e.stopPropagation();
     },
     setDropdowns(){
-      for (const option of this.options[0]){
+      for (const option of this.options){
         if (option.type === 'select'){
           this.dropdowns.push({
             id: option.id,
@@ -626,7 +626,6 @@ import 'vue-select/dist/vue-select.css';
           })
         }
       }
-      console.log(this.dropdowns)
     },
     isDDActive(id){
       return this.dropdowns.find(x => x.id === id).active
@@ -656,7 +655,6 @@ import 'vue-select/dist/vue-select.css';
       }
     },
     pickSelectOption(option, item){
-      console.log(option.placeholder)
       const dropdown = this.dropdowns.find(x => +x.id === +option.id)
       dropdown.selected = item
 
@@ -965,9 +963,10 @@ import 'vue-select/dist/vue-select.css';
       this.bathhousePriceTable = (await this.$http.$get('bathhouse-price-table?populate=deep%2C10')).data
       this.ordersList = (await this.$http.$get(`guest-house-orders?populate=deep%2C10%20`)).data
       this.bathhouseOrdersList = (await this.$http.$get(`bathhouse-orders?populate=deep%2C%2010`)).data
-      // this.options = [(await this.$http.$get(`guest-house-options/${this.$route.params.house}`)).data]
-      this.options = [(await this.$http.$get(`guest-house-options?populate=deep%2C%2010`)).data]
+      this.options = [(await this.$http.$get(`guest-house-options/${this.$route.params.house}`)).data]
+      // this.options = [(await this.$http.$get(`guest-house-options?populate=deep%2C%2010`)).data]
       this.bathhouseOptions = [(await this.$http.$get(`bathhouse-options?populate=deep%2C%2010`)).data]
+
       console.log(this.options)
     },
 
@@ -1032,7 +1031,6 @@ import 'vue-select/dist/vue-select.css';
           value: x.value
         }
       })
-      console.log(options)
       return options
     },
     isPersonalFilled(){
