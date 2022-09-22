@@ -6,38 +6,39 @@
       :options="swiperOptions"
     >
       <swiper-slide
-        v-for="image in images"
+        v-for="image in houseParams.heroImages"
         :key="image.id"
         class="swiper-slide house__slide"
       >
-        <img class="house__slide-img" :src="image.src" />
+        <img class="house__slide-img" :src="`http://185.46.10.102:1337${image.url}`" />
         <!-- <img class="house__slide-img" :src="image.src" /> -->
       </swiper-slide>
     </swiper>
 
   <section class="container">
-    <Booking :base-price="houseParams.data.basePrice"/>
+    <Booking :base-price="houseParams.basePrice"/>
   </section>
 
     <section class="container">
       <HouseName
-        :name="houseParams.data.name"
-        :about="houseParams.data.description"
+        :name="houseParams.name"
+        :about="houseParams.description"
       />
     </section>
 
     <HouseParameters
-      :area="houseParams.data.area"
-      :rooms="houseParams.data.rooms"
-      :floors="houseParams.data.floors"
+      :area="houseParams.area"
+      :rooms="houseParams.rooms"
+      :floors="houseParams.floors"
+      :images="houseParams.images"
     />
 
     <section class="container">
-      <HouseAbout :features="houseParams.data.feature" />
+      <HouseAbout :features="houseParams.feature" />
     </section>
 
     <section class="container">
-      <HouseFunctional />
+      <HouseFunctional :options="options"/>
     </section>
   </div>
 </template>
@@ -57,12 +58,6 @@ export default {
     HouseFunctional,
     Booking,
   },
-  // async asyncData({params, $http }) {
-  //     const data = (await $http.$get(`guest-houses/${params.house}?populate=*`)).data
-  //     console.log(data)
-
-  //     return { data }
-  // },
   data() {
     return {
       id: 0,
@@ -81,6 +76,7 @@ export default {
           src: 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/260533832.jpg?k=23dad23a669810f1d022dc58a00e3455219dfcbc19ed12930217990b178e8b20&o=&hp=1',
         },
       ],
+      options: [],
       swiperOptions: {
         // slidesPerView: '3',
         slidesPerView: '1.2',
@@ -113,12 +109,14 @@ export default {
   //   // return { data }
   // },
   async created() {
-    this.id = this.$route.params.house.replace(':', '')
-    const resp = await fetch(
-      `http://185.46.10.102:1337/api/guest-houses/${this.id}?populate=*`
-    )
-    this.houseParams = await resp.json()
-    console.log(this.houseParams.data)
+    // this.id = this.$route.params.house.replace(':', '')
+    // const resp = await fetch(
+    //   `http://185.46.10.102:1337/api/guest-houses/${this.id}?populate=*`
+    // )
+    this.houseParams = [(await this.$http.$get(`guest-houses/${this.$route.params.house}?populate=*`)).data][0]
+    console.log(this.houseParams)
+    this.options = [(await this.$http.$get(`guest-house-options/${this.$route.params.house}?populate=*`)).data]
+    console.log(this.options)
   },
 }
 </script>

@@ -8,18 +8,10 @@
         >
           <swiper-slide
             class="swiper-slide parameters__slide"
+            v-for="image in props.images"
+            :key="image.id"
           >
-            <img class="parameters__slide-img" src="~/assets/images/mock/parameters-slider__1.jpg" />
-          </swiper-slide>
-          <swiper-slide
-            class="swiper-slide parameters__slide"
-          >
-            <img class="parameters__slide-img" src="~/assets/images/mock/parameters-slider__2.jpg" />
-          </swiper-slide>
-          <swiper-slide
-            class="swiper-slide parameters__slide"
-          >
-            <img class="parameters__slide-img" src="~/assets/images/mock/parameters-slider__3.jpg" />
+            <img class="parameters__slide-img" :src="`http://185.46.10.102:1337${image.url}`" />
           </swiper-slide>
        </swiper>
           <!-- <swiper-slide
@@ -151,6 +143,10 @@ const props = defineProps({
         type: Number,
         default: null
         },
+      images: {
+        type: Array,
+        default: []
+      }
     },)
 </script>
 

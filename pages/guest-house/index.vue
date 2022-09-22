@@ -15,22 +15,22 @@
           </swiper-slide>
     </swiper>
 
-  <section class="container">
-    <Booking/>
-  </section>
+    <section class="container">
+      <Booking/>
+    </section>
 
-  <section class="container">
-    <HouseName/>
-  </section>
+    <section class="container">
+      <HouseName/>
+    </section>
 
     <HouseParameters />
 
     <section class="container">
-      <HouseAbout />
+      <HouseAbout :options="options"/>
     </section>
 
     <section class="container">
-      <HouseFunctional />
+      <HouseFunctional :options="options" />
     </section>
   </div>
 </template>
@@ -85,7 +85,13 @@ export default {
           }
         }
       },
+      options: []
     }
+  },
+  async created() {
+    console.log('here')
+    this.options = [(await this.$http.$get(`guest-house-options/${this.$route.params.house}`)).data]
+    console.log(this.options)
   },
 }
 </script>

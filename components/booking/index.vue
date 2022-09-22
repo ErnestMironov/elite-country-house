@@ -30,6 +30,11 @@
       </div>
     </div>
 
+    <div class="booking__back" :class="(currentProgress === 0) ? 'hidden' : ''" @click="fuckGoBack">
+      <img src="@/assets/icons/back.svg" alt="back">
+      <span>Назад</span>
+    </div>
+
     <button 
       v-if="currentProgress === 0" 
       class="btn booking__next-btn--first" 
@@ -180,24 +185,6 @@
                 </div>
               </label>
 
-          <!-- <label class="booking-label">
-            <div class="booking-fireplace">
-              <h4 class="booking__sub-header">Камин</h4>
-              <span>1000₽</span>
-            </div>
-            <div class="booking__input-field">
-              <input type="number" placeholder="Количество вязанок дров"/>
-            </div>
-            <div class="booking__fireplace-lit">
-              <input type="checkbox" class="checkbox">
-              <span>Растопить камин к приезду</span>
-            </div>
-          </label>
-
-          <label class="booking-label">
-            <h4 class="booking__sub-header booking__sub-header--thematic">Тематическое украшение <button class="booking__decoration-btn"><img src="@/assets/icons/question.svg" alt=""></button></h4>
-            <div class="booking__input-field">Выберите тип украшения</div>
-          </label> -->
           </div>
 
           <div class="booking__buttons-wrapper">
@@ -231,7 +218,7 @@
           </div>
 
           <div class="booking__buttons-wrapper">
-            <button class="btn booking__next-btn booking__btn" @click="setProgress(3)">Далее</button>
+            <button class="btn booking__next-btn booking__btn booking__btn--third" @click="setProgress(3)">Далее</button>
             <button class="btn btn_white booking__skip-btn booking__btn" @click="setProgress(4)">Пропустить</button>
           </div>
       </div>
@@ -1038,6 +1025,14 @@ import 'vue-select/dist/vue-select.css';
         return 'Заполнено'
       } 
       return '-'
+    },
+    fuckGoBack(){
+      if (this.currentProgress === 4 && !this.bathhousePrice){
+        this.currentProgress = 2
+        return
+      }
+
+      this.currentProgress--
     },
     isBathhouseBtnDisabled(){
       return (!this.bathhouseData.people || !this.includedHours.length)
