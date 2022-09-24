@@ -470,7 +470,6 @@ import {maska} from 'maska'
 import {months, hours} from '@/assets/calendar';
 import calendar from '@/components/ui/calendar/calendar.vue'
 import {createHoursString} from '@/helpers/helpers'
-import 'vue-select/dist/vue-select.css';
 
  export default {
   directives: { maska },
@@ -617,6 +616,14 @@ import 'vue-select/dist/vue-select.css';
     isDDActive(id){
       return this.dropdowns.find(x => x.id === id).active
     },
+    // verifyOption(option, e){
+    //   if (option.type === time && (+e.target.value.split(':')[0]>24 || +e.target.value.split(':')[1]>59)){
+    //     option.error = true
+    //     return 
+    //   } else {
+    //     option.error = false 
+    //   }
+    // },
     pickOption(e, option){
       const existingOption = this.selectedOptions.find(x => +x.id === +option.id)
 
@@ -954,7 +961,8 @@ import 'vue-select/dist/vue-select.css';
       // this.options = [(await this.$http.$get(`guest-house-options?populate=deep%2C%2010`)).data]
       this.bathhouseOptions = [(await this.$http.$get(`bathhouse-options?populate=deep%2C%2010`)).data]
 
-      console.log(this.options)
+      // this.ordersList.filter(x => x.guest_house.id === this.$route.params.house)
+      // console.log(this.ordersList)
     },
 
     async bookHouse(){

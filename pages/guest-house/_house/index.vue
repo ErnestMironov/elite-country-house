@@ -83,10 +83,6 @@ export default {
         loop: true,
         slideToClickedSlide: true,
         spaceBetween: 21,
-        // navigation: {
-        //   prevEl: '#guestHousesSLiderPrev',
-        //   nextEl: '#guestHousesSliderNext',
-        // },
         breakpoints: {
           648: {
             slidesPerView: '3',
@@ -100,19 +96,7 @@ export default {
       },
     }
   },
-  // async fetch({ $http, $route }) {
-  //   console.log($route)
-  //   // this.id = $route.params.house.replace(':', '')
-  //   // const data = (await $http.$get(`http://185.46.10.102:1337/api/guest-houses/${this.id}?populate=*`)).data
-
-  // // console.log(data)
-  //   // return { data }
-  // },
   async created() {
-    // this.id = this.$route.params.house.replace(':', '')
-    // const resp = await fetch(
-    //   `http://185.46.10.102:1337/api/guest-houses/${this.id}?populate=*`
-    // )
     this.houseParams = [(await this.$http.$get(`guest-houses/${this.$route.params.house}?populate=*`)).data][0]
     console.log(this.houseParams)
     this.options = [(await this.$http.$get(`guest-house-options/${this.$route.params.house}?populate=*`)).data]
