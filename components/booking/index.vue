@@ -93,6 +93,8 @@
 
       <Calendar
         :taken-dates="getTakenDates()"
+        :getMult="getMult"
+        :basePrice="basePrice"
         @picked="onDatePick($event)"
       ></Calendar>
 
@@ -235,8 +237,8 @@
             <div class="booking__info-wrapper--xs">
               <h4 class="booking__sub-header booking__conditions-header">День недели</h4>
               <div class="booking__radio-wrapper">
-                <button class="booking__radio-btn" :class="{'active-radio': bathhousePriceOption.id === 3}" @click="()=>setBathhousePriceOption('friday')">Пятница</button>
                 <button class="booking__radio-btn" :class="{'active-radio': bathhousePriceOption.id === 2}" @click="()=>setBathhousePriceOption('weekday')">Будние дни</button>
+                <button class="booking__radio-btn" :class="{'active-radio': bathhousePriceOption.id === 3}" @click="()=>setBathhousePriceOption('friday')">Пятница</button>
                 <button class="booking__radio-btn" :class="{'active-radio': bathhousePriceOption.id === 4}" @click="()=>setBathhousePriceOption('saturday')">Суббота</button>
                 <button class="booking__radio-btn" :class="{'active-radio': bathhousePriceOption.id === 5}" @click="()=>setBathhousePriceOption('sunday')">Воскресенье</button>
               </div>
@@ -548,7 +550,9 @@ import {createHoursString} from '@/helpers/helpers'
         },
         refundable: true,
       },
-      priceTable: {},
+      priceTable: {
+        exceptions: []
+      },
       bathhousePriceTable: {},
       bathhousePriceOption: {priceInterval: [{
         from: '',
@@ -681,7 +685,7 @@ import {createHoursString} from '@/helpers/helpers'
         return `${this.addZero(this.includedHours[0].hour)}:00`
       }
 
-      return `${this.addZero(this.includedHours[0].hour)}:00 - ${this.addZero(this.includedHours[this.includedHours.length-1].hour+1)}:00`
+      return `${this.addZero(this.includedHours[0].hour)}:00 - ${this.addZero(this.includedHours[this.includedHours.length-1].hour)}:00`
     },
     setBathhousePriceOption(day){
       this.bathhousePriceOption = this.bathhousePriceTable[day]
@@ -1106,6 +1110,7 @@ import {createHoursString} from '@/helpers/helpers'
       })
     },
     includeForward(){
+      // todo
        for (let i = this.firstPickedTime.id; i <= this.secondPickedTime.id; i++){
           const hour = this.getHourInfo(i)
           if (this.disabledHours.some(x => (x.date === hour.date && x.month === hour.month && x.year === hour.year && x.hour === hour.hour))){
@@ -1118,6 +1123,7 @@ import {createHoursString} from '@/helpers/helpers'
     },
 
     includeBackward(){
+      // todo
        for (let i = this.firstPickedTime.id; i >= this.secondPickedTime.id; i--){
         const hour = this.getHourInfo(i)
           if (this.disabledHours.some(x => (x.date === hour.date && x.month === hour.month && x.year === hour.year && x.hour === hour.hour))){

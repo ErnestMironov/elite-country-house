@@ -14,14 +14,14 @@
           alt="about"
         />
         <img 
-          v-if="(props.features.length > 2)"
+          v-if="(features.length > 2)"
           class="about__img about__img--3"
           src="../../../assets/imgs/house-about_3.jpg"
           alt="about"
         />
       </div>
       <div class="about-info">
-        <div v-for="feature, idx in props.features" :key="feature.id" class="about-info__card">
+        <div v-for="feature, idx in features" :key="feature.id" class="about-info__card">
           <span>{{ idx+1 }}</span>
           <h4 class="info-title">
             {{ feature.title }}
@@ -40,15 +40,19 @@
   </section>
 </template>
 
-<script setup>
+<script>
 import Title from '@/components/ui/simple-title/simple-title'
 
-const props = defineProps({
-      features: {
-        type: Array,
-        default: []
-        },
-    })
+export default {
+  components:{
+    Title
+  },  
+  props:{
+    features: {
+      type: Array,
+    },
+  }
+}
 </script>
 
 <style lang="scss" scoped>

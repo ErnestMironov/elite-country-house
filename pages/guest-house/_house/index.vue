@@ -31,6 +31,7 @@
       :rooms="houseParams.rooms"
       :floors="houseParams.floors"
       :images="houseParams.images"
+      :price="houseParams.basePrice"
     />
 
     <section class="container">
@@ -97,6 +98,8 @@ export default {
     }
   },
   async created() {
+    this.houseParams.feature = []
+    this.houseParams.images = []
     this.houseParams = [(await this.$http.$get(`guest-houses/${this.$route.params.house}?populate=*`)).data][0]
     console.log(this.houseParams)
     this.options = [(await this.$http.$get(`guest-house-options/${this.$route.params.house}?populate=*`)).data]

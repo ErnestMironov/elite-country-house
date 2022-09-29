@@ -30,7 +30,7 @@
           {{day.date}}
         </div>
         <span class="booking-calendar__day-price">
-          {{'2300'}}
+          {{day.price}}
         </span>
       </div>
     </div>
@@ -43,8 +43,14 @@ import {months} from '@/assets/calendar';
  export default {
   props: {
     takenDates: {
-      type:Array,
-      default: []
+      type: Array,
+      default: () => ([])
+    },
+    getMult: {
+      type: Function
+    },
+    basePrice: {
+      type: Number
     }
   },
    setup() {
@@ -66,6 +72,13 @@ import {months} from '@/assets/calendar';
       }
     };
   },
+  // watch:{
+  //   takenDates(newDates, oldDates){
+  //     for (const interval of newDates){
+  //       this.disabledDays.push(...this.countDisabledDays(interval.from, interval.to))
+  //     }
+  //   }
+  // },
   created() {
     const now = new Date()
     this.currentYear = now.getFullYear()
@@ -83,9 +96,16 @@ import {months} from '@/assets/calendar';
 
     this.disabledDays.forEach(x => {
       x.id = this.getId(x)
-      })
+    })
+
+    this.month.forEach(x => {
+      x.price = this.calcPriceFunction(x)
+    })
   },
   methods: {
+    calcPriceFunction(day){
+      return (this.$props.getMult(day) * this.$props.basePrice)
+    },
     getClass(day){
       const disabled = ~this.disabledDays.findIndex(x=> x.id === day.id) ? 'disabled' : ''
       const lastDisabled = (disabled && (!~this.disabledDays.findIndex(x=> x.id === day.id+1) || day.day === 0)) ? 'last-disabled' : ''
@@ -244,7 +264,7 @@ import {months} from '@/assets/calendar';
       let k = 1
       for (let i = lastDay; i < 7; i++){
         const day = {
-          day: i+1,
+          day: i === 6 ? 0 : i + 1,
           date: k,
           month: currentMonth === 12 ? 1 : currentMonth + 1,
           year: nextMonthYear
