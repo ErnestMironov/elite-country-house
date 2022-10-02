@@ -62,12 +62,12 @@
     </div>
     <div v-if="isMounted" class="hide-on-mobile">
       <yandex-map
-        :coords="[59.92520765443169, 30.342260232398356]"
-        :zoom="8"
+        :coords="data?.coordinate[0].text | convertStringToArr"
+        :zoom="3"
         class="map"
       >
         <ymap-marker
-          v-for="coordinate of data.coordinate"
+          v-for="coordinate of data?.coordinate"
           :key="coordinate.text"
           marker-id="123"
           marker-type="placemark"

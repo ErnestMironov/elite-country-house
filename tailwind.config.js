@@ -11,6 +11,7 @@ module.exports = {
     extend: {
       fontFamily: {
         cormorant: ['Cormorant'],
+        avenir: ['Avenir Next Cyr'],
       },
     },
     container: {

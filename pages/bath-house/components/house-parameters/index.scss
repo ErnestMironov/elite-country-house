@@ -10,17 +10,17 @@
   position: relative;
   padding-right: 0;
 
-  @include mobile{
+  @include mobile {
     min-height: 596px;
   }
 
-  &__title{
-    @include mobile{
+  &__title {
+    @include mobile {
       display: none;
     }
   }
 
-  &__background{
+  &__background {
     background-color: $cPrimaryBrown;
     height: 27.875rem;
     position: absolute;
@@ -29,7 +29,7 @@
     min-width: 100%;
     z-index: -1;
 
-    @include mobile{
+    @include mobile {
       height: 464px;
     }
   }
@@ -47,7 +47,7 @@
     margin-left: 15rem;
     width: 100%;
 
-    @include mobile{
+    @include mobile {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
@@ -55,13 +55,13 @@
       width: 250px;
     }
   }
-  
-  &__mobile-wrapper{
+
+  &__mobile-wrapper {
     display: flex;
     justify-content: space-between;
     width: 61%;
 
-    @include mobile{
+    @include mobile {
       margin: 24px 0;
       width: 100%;
       flex-direction: row-reverse;
@@ -78,7 +78,7 @@
       text-align: left;
       color: $cBeige;
 
-      @include mobile{
+      @include mobile {
         font-family: Avenir Next Cyr;
         font-size: 28px;
         font-weight: 300;
@@ -87,7 +87,7 @@
       }
     }
 
-    span {
+    > span {
       font-family: Avenir Next Cyr;
       font-size: 1.5rem;
       font-weight: 400;
@@ -96,7 +96,7 @@
       text-align: left;
       color: white;
 
-      @include mobile{
+      @include mobile {
         font-size: 14px;
         font-weight: 400;
         line-height: 24px;
@@ -115,30 +115,30 @@
     height: 100%;
     min-height: 39.375rem;
 
-    @include mobile{
+    @include mobile {
       min-height: 596px;
     }
   }
 
-  &__slide{
+  &__slide {
     // width: 29.0625rem;
     width: auto;
     height: 27.5rem;
 
-    @include mobile{
+    @include mobile {
       height: 375px;
     }
   }
 }
 
-.swiper-container{
+.swiper-container {
   left: 0;
   top: 0;
   width: 100%;
   height: 27.5rem;
   margin-bottom: 3.75rem;
 
-  @include mobile{
+  @include mobile {
     height: 375px;
     margin-bottom: 24px;
   }
