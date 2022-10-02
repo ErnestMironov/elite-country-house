@@ -98,11 +98,14 @@ import {months} from '@/assets/calendar';
       x.id = this.getId(x)
     })
 
-    this.month.forEach(x => {
-      x.price = this.calcPriceFunction(x)
-    })
+    this.setPrices()
   },
   methods: {
+    setPrices(){
+      this.month.forEach(x => {
+        x.price = this.calcPriceFunction(x)
+      })
+    },
     calcPriceFunction(day){
       return (this.$props.getMult(day) * this.$props.basePrice)
     },
@@ -214,13 +217,15 @@ import {months} from '@/assets/calendar';
       this.currentYear = this.currentMonthNumber === 0 ? this.currentYear + 1 : this.currentYear
 
       this.assembleMonth(this.currentMonthNumber + 1, this.currentYear)
+      this.setPrices()
     },
-
+    
     prevMonth(){
       this.currentMonthNumber = this.currentMonthNumber === 0 ? 11 : this.currentMonthNumber - 1
       this.currentYear = this.currentMonthNumber === 11 ? this.currentYear - 1 : this.currentYear
-
+      
       this.assembleMonth(this.currentMonthNumber + 1, this.currentYear)
+      this.setPrices()
     },
 
     assembleMonth(currentMonth, currentYear){

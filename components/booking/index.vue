@@ -93,8 +93,8 @@
 
       <Calendar
         :taken-dates="getTakenDates()"
-        :getMult="getMult"
-        :basePrice="basePrice"
+        :get-mult="getMult"
+        :base-price="basePrice"
         @picked="onDatePick($event)"
       ></Calendar>
 
@@ -457,7 +457,7 @@
                 <h3 class="booking__header booking__precheck-header">Цена за полный перечень услуг:</h3>
                 <span class="booking__price">{{price}} <img src="@/assets/icons/rouble.svg" alt=""></span>
                 <div class="booking__buttons-wrapper booking__buttons--4">
-                  <button class="btn booking__next-btn booking-button--4" :disabled="!personalAgreement || !personalData" @click="bookHouse()">Посмотреть пречек и оплатить</button>
+                  <button class="btn booking__next-btn booking-button--4" :disabled="isPrecheckDisabled()" @click="bookHouse()">Посмотреть пречек и оплатить</button>
                 </div>
             </div>
 
@@ -630,20 +630,24 @@ import {createHoursString} from '@/helpers/helpers'
     // },
     pickOption(e, option){
       const existingOption = this.selectedOptions.find(x => +x.id === +option.id)
+      console.log(option)
 
       if  (existingOption){
         existingOption.value = e.target.value
       } else {
         this.selectedOptions.push({
+          title: option.title,
           id: option.id,
           value: e.target.value,
-          price: option.price
+          price: option.price,
+          type: option.type
         })
       }
     },
     pickCheckboxOption(e, option){
       if (e.target.checked){
         this.selectedOptions.push({
+          title: option.title,
           id: option.id,
           value: 'true',
           price: option.price
@@ -662,6 +666,7 @@ import {createHoursString} from '@/helpers/helpers'
         existingOption.value = item.value
       } else {
         this.selectedOptions.push({
+          title: option.title,
           id: option.id,
           value: item.value,
           price: option.price
@@ -685,7 +690,7 @@ import {createHoursString} from '@/helpers/helpers'
         return `${this.addZero(this.includedHours[0].hour)}:00`
       }
 
-      return `${this.addZero(this.includedHours[0].hour)}:00 - ${this.addZero(this.includedHours[this.includedHours.length-1].hour)}:00`
+      return `с ${this.addZero(this.includedHours[0].hour)}:00 до ${this.addZero(this.includedHours[this.includedHours.length-1].hour + 1)}:00`
     },
     setBathhousePriceOption(day){
       this.bathhousePriceOption = this.bathhousePriceTable[day]
@@ -823,7 +828,7 @@ import {createHoursString} from '@/helpers/helpers'
         !this.personalAgreement 
         || !this.personalData 
         || !this.userData.contactInformation.email 
-        || !this.userData.contactInformation.phone 
+        || this.userData.contactInformation.phone.length < 18
         || !this.userData.contactInformation.firstName 
         || !this.userData.contactInformation.lastName)
     },
@@ -858,6 +863,8 @@ import {createHoursString} from '@/helpers/helpers'
       const price = withoutService + 
                     guestsOverprice +
                     servicesPrice
+
+      localStorage.setItem('BHOptions', JSON.stringify(this.bathhouseSelectedOptions))
     
       this.bathhousePrice = price
     },
@@ -867,10 +874,15 @@ import {createHoursString} from '@/helpers/helpers'
       }, 0);
 
       const optionsPrice = this.selectedOptions.reduce((sum, option,) => {
+        if (option.type === 'number'){
+          return sum + (option.price * +option.value)
+        }
         return sum + option.price
       }, 0)
 
-      this.price = (beforeDiscount + this.bathhousePrice + optionsPrice) * (this.userData.refundable ? 1 : 0.8);
+      localStorage.setItem('GHOptions', JSON.stringify(this.selectedOptions))
+
+      this.price = (beforeDiscount + this.bathhousePrice + optionsPrice) * (this.userData.refundable ? 1 : 0.9);
     },
     getMult(day) {
       const strDate = `${day.year}-${day.month > 9 ? day.month : '0' + day.month}-${day.date > 9 ? day.date : '0' + day.date}`;
@@ -905,6 +917,7 @@ import {createHoursString} from '@/helpers/helpers'
           type: option.type,
           value: option.type === 'checkbox' ? e.target.checked : e.target.value,
           id: option.id,
+          title: option.title,
           price: option.price
         }
         this.bathhouseSelectedOptions.push(item)
