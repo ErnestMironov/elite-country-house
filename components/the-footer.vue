@@ -10,20 +10,31 @@
         </ul>
       </div>
       <ul class="footer__soc">
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
+        <li v-for="social of socials" :key="social.id">
+          <a :href="social?.link" target="_blank">
+            <img
+              :src="`http://185.46.10.102:1337${social?.icon?.url}`"
+              alt=""
+            />
+          </a>
+        </li>
       </ul>
     </div>
     <div class="footer__bottom">
-      <NuxtLink to="/" class="footer__link">
+      <a
+        :href="`http://185.46.10.102:1337${userAgreement?.file?.url}`"
+        target="_blank"
+        class="footer__link"
+      >
         Пользовательское соглашение
-      </NuxtLink>
-      <NuxtLink to="/" class="footer__link">
+      </a>
+      <a
+        :href="`http://185.46.10.102:1337${privacyPolicy?.file?.url}`"
+        target="_blank"
+        class="footer__link"
+      >
         Политика конфиденциальности
-      </NuxtLink>
+      </a>
     </div>
   </footer>
 </template>
@@ -40,7 +51,23 @@ export default {
         { label: 'Гостевые дома', link: '#guesthouses' },
         { label: 'О нас', link: '#advantages' },
       ],
+      socials: [],
+      userAgreement: null,
+      privacyPolicy: null,
     }
+  },
+  async fetch() {
+    this.socials = (
+      await this.$http.$get(`social-medias?populate=deep,10`)
+    ).data
+
+    this.userAgreement = (
+      await this.$http.$get(`user-agreement?populate=deep,10`)
+    ).data
+
+    this.privacyPolicy = (
+      await this.$http.$get(`privacy-policy?populate=deep,10`)
+    ).data
   },
   methods: {
     goToTheLink(link) {
@@ -137,7 +164,6 @@ export default {
     li {
       height: 2.25rem;
       width: 2.25rem;
-      background: #fff;
 
       @include tablet {
         height: 36px;

@@ -17,7 +17,7 @@
       @click="openMenu()"
     />
     <div :class="['mobile-menu', { active: isMobileMenuOpen }]">
-      <img src="~/assets/icons/logo_white.svg" alt="" />
+      <img src="~/assets/icons/logo_white.svg" alt="" width="200" />
       <nav>
         <ul>
           <li v-for="item in menu" :key="item.label" class="mobile-menu__item">
@@ -26,14 +26,22 @@
         </ul>
       </nav>
       <img src="~/assets/icons/close_menu.svg" alt="" @click="closeMenu()" />
-      <div class="flex flex-row justify-between mt-[78px] w-[290px]">
-        <img src="~/assets/icons/vk.svg" alt="" />
-        <img src="~/assets/icons/vk.svg" alt="" />
-        <img src="~/assets/icons/vk.svg" alt="" />
-        <img src="~/assets/icons/vk.svg" alt="" />
-        <img src="~/assets/icons/vk.svg" alt="" />
-      </div>
-      <a href="" class="mobile-menu__link">Пользовательское соглашение</a>
+      <ul class="flex flex-row justify-between mt-[78px] w-[290px]">
+        <li v-for="social of socials" :key="social.id">
+          <a :href="social?.link" target="_blank">
+            <img
+              :src="`http://185.46.10.102:1337${social?.icon?.url}`"
+              alt=""
+            />
+          </a>
+        </li>
+      </ul>
+      <a
+        :href="`http://185.46.10.102:1337${userAgreement?.file?.url}`"
+        target="_blank"
+        class="mobile-menu__link"
+        >Пользовательское соглашение</a
+      >
     </div>
   </header>
 </template>
@@ -52,7 +60,18 @@ export default {
         { label: 'О нас', link: '#advantages' },
         { label: 'Связаться с нами', link: '#contacts' },
       ],
+      socials: [],
+      userAgreement: null,
     }
+  },
+  async fetch() {
+    this.socials = (
+      await this.$http.$get(`social-medias?populate=deep,10`)
+    ).data
+
+    this.userAgreement = (
+      await this.$http.$get(`user-agreement?populate=deep,10`)
+    ).data
   },
   methods: {
     closeMenu() {
