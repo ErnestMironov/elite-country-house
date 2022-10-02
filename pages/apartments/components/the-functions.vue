@@ -6,22 +6,19 @@
     >
       <div class="w-4/12 flex flex-col">
         <img
-          src="https://langformula.ru/wp-content/uploads/2019/04/house.jpg"
+          :src="`http://185.46.10.102:1337${data?.images[0].url}`"
           alt=""
           class="w-[19.375rem] h-[19.375rem] object-cover"
         />
         <div
           class="flex-1 flex flex-col justify-between border-r mt-[3rem] border-black border-solid pr-[1.875rem]"
         >
-          <h3 class="subtitle">Наименование опции</h3>
+          <h3 class="subtitle">{{ data?.title }}</h3>
           <p>
-            Здесь нам необходим текст, который в общих чертах расскажет про то,
-            какие качественные услуги представляет компания. Не забыть упомянуть
-            высокотехнологичность домов и апартаментов и премиальный уровень
-            класса
+            {{ data?.description }}
           </p>
           <div class="price">
-            3200
+            {{ data?.price }}
             <img
               src="@/assets/icons/rouble.svg"
               alt=""
@@ -72,6 +69,7 @@ import SimpleTitle from '~/components/ui/simple-title/simple-title.vue'
 export default {
   name: 'TheFunctions',
   components: { SimpleTitle },
+  props: ['data'],
 }
 </script>
 

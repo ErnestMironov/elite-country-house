@@ -29,16 +29,16 @@
 
     <TheAdvantages :data="data?.features" />
 
-    <TheFunctions />
+    <TheFunctions :data="options" />
   </div>
 </template>
 
 <script>
-  import Booking from './components/booking'
-  import HouseParameters from './components/house-parameters'
-  import TheAdvantages from './components/the-advantages.vue'
-  import TheFunctions from './components/the-functions.vue'
-  import HouseName from '@/components/blocks/house-name'
+import HouseName from '@/components/blocks/house-name'
+import Booking from './components/booking'
+import HouseParameters from './components/house-parameters'
+import TheAdvantages from './components/the-advantages.vue'
+import TheFunctions from './components/the-functions.vue'
 
 // import Swiper from 'swiper/swiper-bundle.min'
 // import 'swiper/swiper-bundle.min.css'
@@ -62,7 +62,11 @@ export default {
     const data = (await $http.$get(`apartments/${params.id}?populate=deep,10`))
       .data
 
-    return { data }
+    const options = (
+      await $http.$get(`apartment-options/${params.id}?populate=deep,10`)
+    ).data
+
+    return { data, options }
   },
   data() {
     return {

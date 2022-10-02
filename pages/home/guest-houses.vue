@@ -96,6 +96,11 @@
           <span class="param__value">Спальни</span>
         </li>
       </ul>
+      <nuxt-link
+        :to="`/guest-house/${currentHouse?.id}`"
+        class="btn btn_light px-[10rem] hide-on-desktop mb-[20px]"
+        >Узнать больше</nuxt-link
+      >
     </div>
   </section>
 </template>

@@ -1023,6 +1023,8 @@ import {createHoursString} from '@/helpers/helpers'
         dataToSend.bathhouse_order = this.assembleBathhouseData()
       }
 
+      localStorage.setItem('order', JSON.stringify(dataToSend))
+
       const resp = await this.$http.$post('guest-house-orders', dataToSend)
       console.log(resp)
     },
