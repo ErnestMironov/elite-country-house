@@ -29,21 +29,21 @@ jobs:
 
       # Deploy built frontend
       # Way to deploy built app to VPS
-      - name: ssh deploy
-        uses: easingthemes/ssh-deploy@v2.2.11
-        with:
-          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
-          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-          REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          # REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
-          # Source directory
-          SOURCE: 'dist/, .nuxt/'
-          # Target directory
-          TARGET: '/var/hedonist-frontend-nuxt' # optional, default is /home/REMOTE_USER/
-          # Arguments to pass to rsync
-          # ARGS: # optional, default is -rltgoDzvO
-          # An array of folder to exclude
-          # EXCLUDE: '/dist/, /node_modules/'
+      # - name: ssh deploy
+      #   uses: easingthemes/ssh-deploy@v2.2.11
+      #   with:
+      #     SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+      #     REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+      #     REMOTE_USER: ${{ secrets.REMOTE_USER }}
+      #     # REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
+      #     # Source directory
+      #     SOURCE: 'dist/, .nuxt/'
+      #     # Target directory
+      #     TARGET: '/var/hedonist-frontend-nuxt' # optional, default is /home/REMOTE_USER/
+      #     # Arguments to pass to rsync
+      #     # ARGS: # optional, default is -rltgoDzvO
+      #     # An array of folder to exclude
+      #     # EXCLUDE: '/dist/, /node_modules/'
 
       - name: Restart pm2 process
         uses: appleboy/ssh-action@master
