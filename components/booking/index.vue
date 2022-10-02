@@ -864,7 +864,9 @@ import {createHoursString} from '@/helpers/helpers'
                     guestsOverprice +
                     servicesPrice
 
-      localStorage.setItem('BHOptions', JSON.stringify(this.bathhouseSelectedOptions))
+      if (process.client){
+        localStorage.setItem('BHOptions', JSON.stringify(this.bathhouseSelectedOptions))
+      }
     
       this.bathhousePrice = price
     },
@@ -880,7 +882,9 @@ import {createHoursString} from '@/helpers/helpers'
         return sum + option.price
       }, 0)
 
-      localStorage.setItem('GHOptions', JSON.stringify(this.selectedOptions))
+      if (process.client){
+        localStorage.setItem('GHOptions', JSON.stringify(this.selectedOptions))
+      }
 
       this.price = (beforeDiscount + this.bathhousePrice + optionsPrice) * (this.userData.refundable ? 1 : 0.9);
     },
