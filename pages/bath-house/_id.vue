@@ -6,11 +6,14 @@
       :options="swiperOptions"
     >
       <swiper-slide
-        v-for="image in images"
-        :key="image.id"
+        v-for="image in data?.heroImages"
+        :key="image?.id"
         class="swiper-slide house__slide"
       >
-        <img class="house__slide-img" :src="image.src" />
+        <img
+          class="house__slide-img"
+          :src="`http://185.46.10.102:1337${image.url}`"
+        />
       </swiper-slide>
     </swiper>
 
@@ -19,10 +22,10 @@
     </section>
 
     <section class="container">
-      <HouseName />
+      <HouseName :name="data?.name" :about="data?.description" />
     </section>
 
-    <HouseParameters />
+    <HouseParameters :data="data" />
 
     <section class="container">
       <HouseAbout />
@@ -33,10 +36,10 @@
 </template>
 
 <script>
-import Booking from '@/components/booking'
+import HouseName from '@/components/blocks/house-name'
+import Booking from './components/booking'
 import HouseAbout from './components/house-about'
 import HouseFunctions from './components/house-functions/index.vue'
-import HouseName from './components/house-name'
 import HouseParameters from './components/house-parameters'
 
 // import Swiper from 'swiper/swiper-bundle.min'
@@ -56,6 +59,12 @@ export default {
     HouseParameters,
     Booking,
     HouseFunctions,
+  },
+  async asyncData({ $http, params }) {
+    const data = (await $http.$get(`bathhouses/${params.id}?populate=deep,10`))
+      .data
+
+    return { data }
   },
   data() {
     return {

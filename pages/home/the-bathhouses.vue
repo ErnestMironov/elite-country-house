@@ -36,7 +36,7 @@
         </p>
       </div>
       <nuxt-link
-        to="/bath-house"
+        :to="`/bath-house/${bathInfo?.id}`"
         class="btn px-[2.9375rem] mt-5 bathhouses__btn"
         >Узнать больше</nuxt-link
       >
