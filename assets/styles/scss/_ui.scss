@@ -157,6 +157,11 @@
       display: none !important;
     }
   }
+  &-tablet {
+    @media (max-width: $desktop-small) {
+      display: none !important;
+    }
+  }
   &-desktop {
     @media (min-width: $desktop-small) {
       display: none !important;

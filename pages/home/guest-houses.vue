@@ -62,7 +62,7 @@
             />
             <nuxt-link
               :to="`/guest-house/${currentHouse?.id}`"
-              class="btn btn_light absolute bottom-0 right-0 px-[2.9375rem] hide-on-mobile"
+              class="btn btn_light absolute bottom-0 right-0 px-[2.9375rem] hide-on-tablet"
               >Узнать больше</nuxt-link
             >
           </swiper-slide>
