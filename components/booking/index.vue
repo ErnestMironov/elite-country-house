@@ -173,12 +173,12 @@
                   <div class="option-dropdown">
                     <div v-if="isDDActive(option.id)" :id="option.id" class="option-dropdown__wrapper">
                       <span 
-                      v-for="item of option.variants" 
-                      :id="option.id" 
-                      :key="item.id" 
-                      class="option-dropdown__option"
-                      @click="()=>pickSelectOption(option, item)">
-                      {{item.value}}
+                        v-for="item of option.variants" 
+                        :id="option.id" 
+                        :key="item.id" 
+                        class="option-dropdown__option"
+                        @click="()=>pickSelectOption(option, item)">
+                        {{item.value}}
                     </span>
                   </div>
                   <div :id="option.id" class="option-dropdown__selected booking__input-field" @click="showDD(option.id)">{{getSelectedItem(option.id) ? getSelectedItem(option.id) : option.placeholder }}</div>
@@ -978,7 +978,7 @@ import {createHoursString} from '@/helpers/helpers'
       this.bathhousePriceTable = (await this.$http.$get('bathhouse-price-table?populate=deep%2C10')).data
       this.ordersList = (await this.$http.$get(`guest-house-orders?populate=deep%2C10%20`)).data
       this.bathhouseOrdersList = (await this.$http.$get(`bathhouse-orders?populate=deep%2C%2010`)).data
-      this.options = [(await this.$http.$get(`guest-house-options/${this.$route.params.house}`)).data]
+      this.options = [(await this.$http.$get(`guest-house-options/${this.$route.params.house}?populate=deep%2C%2010`)).data]
       // this.options = [(await this.$http.$get(`guest-house-options?populate=deep%2C%2010`)).data]
       this.bathhouseOptions = [(await this.$http.$get(`bathhouse-options?populate=deep%2C%2010`)).data]
 
