@@ -95,9 +95,6 @@ export default {
       },
     }
   },
-  created() {
-    // console.log(this.$props)
-  },
   methods: {
     createFloorsString,
   },

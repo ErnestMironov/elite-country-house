@@ -89,9 +89,7 @@ export default {
     }
   },
   async created() {
-    console.log('here')
     this.options = [(await this.$http.$get(`guest-house-options/${this.$route.params.house}`)).data]
-    console.log(this.options)
   },
 }
 </script>

@@ -38,8 +38,9 @@
     <button 
       v-if="currentProgress === 0" 
       class="btn booking__next-btn--first" 
+      :disabled="isBookingDisabled()"
       @click="setProgress(1)"
-    >
+      >
       Забронировать
     </button>
 
@@ -139,13 +140,13 @@
                   <h4 class="booking__sub-header">{{option.title}}</h4>
                   <div class="booking__input-field">
                     <img src="@/assets/icons/slippers.svg" alt="">
-                    <input v-maska="'##'" type="number" :placeholder="option.placeholder" @change="($event)=>pickOption($event, option)">
+                    <input :ref="`option${option.id}`" v-maska="'##'" type="number" :placeholder="option.placeholder" @change="($event)=>pickOption($event, option)">
                   </div>
                   <h4 v-if="option.notice" class="booking__sub-header booking__last-header">{{option.notice}}</h4>
                 </div>
                 <div v-if="option.type === 'checkbox'" class="booking__option-wrapper--checkbox">
                   <div v-if="option.type === 'checkbox'" class="booking__checkbox-wrapper">
-                    <input type="checkbox" class="checkbox" @change="($event)=>pickCheckboxOption($event, option)">
+                    <input :ref="`option${option.id}`" type="checkbox" class="checkbox" @change="($event)=>pickCheckboxOption($event, option)">
                     <span class="booking__sub-header booking__checkbox-header">
                       {{option.title}}    
                     </span>
@@ -156,7 +157,7 @@
                   <h4 class="booking__sub-header">{{option.title}}</h4>
                   <div class="booking__input-field">
                     <img src="@/assets/icons/clock.svg" alt="">
-                    <input v-maska="'##:##'" type="text" placeholder="15:00" @change="($event)=>pickOption($event, option)">
+                    <input :ref="`option${option.id}`" v-maska="'##:##'" type="text" placeholder="15:00" @change="($event)=>pickOption($event, option)">
                   </div>
                   <span v-if="option.notice">{{option.notice}}</span>
                 </div>
@@ -164,7 +165,7 @@
                   <h4 class="booking__sub-header">{{option.title}}</h4>
                   <div class="booking__input-field">
                     <img src="@/assets/icons/calendar.svg" alt="">
-                    <input  type="date" @change="($event)=>pickOption($event, option)">
+                    <input :ref="`option${option.id}`"  type="date" @change="($event)=>pickOption($event, option)">
                   </div>
                   <span v-if="option.notice">{{option.notice}}</span>
                 </div> 
@@ -173,15 +174,20 @@
                   <div class="option-dropdown">
                     <div v-if="isDDActive(option.id)" :id="option.id" class="option-dropdown__wrapper">
                       <span 
-                        v-for="item of option.variants" 
-                        :id="option.id" 
+                        v-for="item of option.variants"
+                        :id="option.id"  
                         :key="item.id" 
                         class="option-dropdown__option"
                         @click="()=>pickSelectOption(option, item)">
                         {{item.value}}
-                    </span>
+                      </span>
+                    </div>
+                  <div 
+                    :id="option.id" 
+                    :ref="`option${option.id}`" 
+                    class="option-dropdown__selected booking__input-field" 
+                    @click="showDD(option.id)">{{getSelectedItem(option.id) ? getSelectedItem(option.id) : option.placeholder }}
                   </div>
-                  <div :id="option.id" class="option-dropdown__selected booking__input-field" @click="showDD(option.id)">{{getSelectedItem(option.id) ? getSelectedItem(option.id) : option.placeholder }}</div>
                   <span v-if="option.notice">{{option.notice}}</span>
                   </div>
                 </div>
@@ -341,13 +347,13 @@
                     <h4 class="booking__sub-header">{{option.title}}</h4>
                     <div class="booking__input-field">
                       <img src="@/assets/icons/slippers.svg" alt="">
-                      <input v-maska="'##'" type="number" :placeholder="option.placeholder" @change="($event)=>changeBathhouseOption($event, option)">
+                      <input :ref="`BHOption${option.id}`" v-maska="'##'" type="number" :placeholder="option.placeholder" @change="($event)=>changeBathhouseOption($event, option)">
                     </div>
                     <h4 class="booking__sub-header booking__last-header">{{option.notice}}</h4>
                   </div>
                   <div v-if="option.type === 'checkbox'" class="booking__option-wrapper--checkbox">
                     <div v-if="option.type === 'checkbox'" class="booking__checkbox-wrapper">
-                      <input type="checkbox" class="checkbox" @change="($event)=>changeBathhouseOption($event, option)">
+                      <input :ref="`BHOption${option.id}`" type="checkbox" class="checkbox" @change="($event)=>changeBathhouseOption($event, option)">
                       <span class="booking__sub-header booking__checkbox-header">
                         {{option.title}}    
                       </span>
@@ -564,7 +570,8 @@ import {createHoursString} from '@/helpers/helpers'
       test: {},
       takenDates: [],
       price: 0,
-      options: []
+      options: [],
+      houseDataLoaded: false
     };
   },
   beforeMount () {
@@ -582,12 +589,39 @@ import {createHoursString} from '@/helpers/helpers'
     this.bathhousePriceOption = this.bathhousePriceTable.friday
 
     this.setDropdowns()
+
+    this.clearStorage()
   },
   methods: {
+    clearStorage(){
+      localStorage.removeItem('BHOptions')
+      localStorage.removeItem('GHOptions')
+    },
+    isBookingDisabled(){
+      return !this.houseDataLoaded
+    },
     createHoursString,
     setProgress(count){
       this.currentProgress = count
       this.calculatePrice()
+      this.saveHouseOptions()
+      this.saveBathhouseOptions()
+      this.getHouseOptionsFromLS()
+      this.getBathhouseOptionsFromLS()
+    },
+    saveBathhouseOptions(){
+      if (this.currentProgress !== 4){
+         return 
+      }
+
+      localStorage.setItem('BHOptions', JSON.stringify(this.bathhouseSelectedOptions))
+    },
+    saveHouseOptions(){
+      if (this.currentProgress !== 2){
+        return 
+      }
+
+      localStorage.setItem('GHOptions', JSON.stringify(this.selectedOptions))
     },
     showTimeDD(e){
       if (this.bathhouseErrorWrong){
@@ -618,19 +652,13 @@ import {createHoursString} from '@/helpers/helpers'
       }
     },
     isDDActive(id){
-      return this.dropdowns.find(x => x.id === id).active
+      const dd = this.dropdowns.find(x => x.id === id)
+      if (dd){
+        return dd.active
+      }
     },
-    // verifyOption(option, e){
-    //   if (option.type === time && (+e.target.value.split(':')[0]>24 || +e.target.value.split(':')[1]>59)){
-    //     option.error = true
-    //     return 
-    //   } else {
-    //     option.error = false 
-    //   }
-    // },
     pickOption(e, option){
       const existingOption = this.selectedOptions.find(x => +x.id === +option.id)
-      console.log(option)
 
       if  (existingOption){
         existingOption.value = e.target.value
@@ -982,8 +1010,7 @@ import {createHoursString} from '@/helpers/helpers'
       // this.options = [(await this.$http.$get(`guest-house-options?populate=deep%2C%2010`)).data]
       this.bathhouseOptions = [(await this.$http.$get(`bathhouse-options?populate=deep%2C%2010`)).data]
 
-      // this.ordersList.filter(x => x.guest_house.id === this.$route.params.house)
-      // console.log(this.ordersList)
+      this.houseDataLoaded = true
     },
 
     async bookHouse(){
@@ -1026,7 +1053,6 @@ import {createHoursString} from '@/helpers/helpers'
       localStorage.setItem('order', JSON.stringify(dataToSend))
 
       const resp = await this.$http.$post('guest-house-orders', dataToSend)
-      console.log(resp)
     },
     assembleBathhouseData(){
       const dateTime = new Date(this.firstPickedTime.year, this.firstPickedTime.month, this.firstPickedTime.date, this.firstPickedTime.hour)
@@ -1064,6 +1090,59 @@ import {createHoursString} from '@/helpers/helpers'
       }
 
       this.currentProgress--
+
+      this.getHouseOptionsFromLS()
+      this.getBathhouseOptionsFromLS()
+    },
+    async getBathhouseOptionsFromLS(){
+      if (this.currentProgress !== 3){
+        return
+      }
+
+      const LSBHOptions = JSON.parse(await localStorage.getItem('BHOptions'))
+
+      if (!LSBHOptions){
+        return
+      }
+
+      for (const option of LSBHOptions){
+
+        if (this.$refs[`BHOption${option.id}`][0].tagName !== 'INPUT'){
+          continue
+        }
+
+        if (this.$refs[`BHOption${option.id}`][0].type === 'checkbox'){
+          this.$refs[`BHOption${option.id}`][0].checked = option.value
+          continue
+        }
+
+        this.$refs[`BHOption${option.id}`][0].value = option.value
+      }
+    },
+    async getHouseOptionsFromLS(){
+      if (this.currentProgress !== 1){
+        return
+      }
+
+      const LSHouseOptions = JSON.parse(await localStorage.getItem('GHOptions'))
+
+      if (!LSHouseOptions){
+        return
+      }
+
+      for (const option of LSHouseOptions){
+
+        if (this.$refs[`option${option.id}`][0].tagName !== 'INPUT'){
+          continue
+        }
+
+        if (this.$refs[`option${option.id}`][0].type === 'checkbox'){
+          this.$refs[`option${option.id}`][0].checked = option.value === 'true'
+          continue
+        }
+
+        this.$refs[`option${option.id}`][0].value = option.value
+      }
     },
     isBathhouseBtnDisabled(){
       return (!this.bathhouseData.people || !this.includedHours.length)

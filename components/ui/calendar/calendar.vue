@@ -69,17 +69,12 @@ import {months} from '@/assets/calendar';
       currentMonth: {
         month: 9,
         year: 2022
-      }
+      },
+      now: {}
     };
   },
-  // watch:{
-  //   takenDates(newDates, oldDates){
-  //     for (const interval of newDates){
-  //       this.disabledDays.push(...this.countDisabledDays(interval.from, interval.to))
-  //     }
-  //   }
-  // },
   created() {
+    this.getNow()
     const now = new Date()
     this.currentYear = now.getFullYear()
     this.currentMonthNumber = now.getMonth()
@@ -87,8 +82,6 @@ import {months} from '@/assets/calendar';
     this.currentMonth.year = this.currentYear
 
     this.assembleMonth(this.currentMonthNumber + 1, this.currentYear)
-
-    this.getDayById(1096)
 
     for (const interval of this.$props.takenDates){
       this.disabledDays.push(...this.countDisabledDays(interval.from, interval.to))
@@ -101,6 +94,15 @@ import {months} from '@/assets/calendar';
     this.setPrices()
   },
   methods: {
+    getNow(){
+      this.now = {
+        date: new Date().getDate(),
+        month: new Date().getMonth() + 1,
+        year: new Date().getFullYear()
+      }
+      
+      this.now.id = this.getId(this.now)
+    },
     setPrices(){
       this.month.forEach(x => {
         x.price = this.calcPriceFunction(x)
@@ -110,6 +112,9 @@ import {months} from '@/assets/calendar';
       return (this.$props.getMult(day) * this.$props.basePrice)
     },
     getClass(day){
+      const past = (day.id < this.now.id) ? 'past' : ''
+      const lastPast = (past && (day.id === this.now.id - 1)) ? 'last-past' : ''
+      const firstPast = (past && day.id === this.month[0].id) ? 'first-past' : ''
       const disabled = ~this.disabledDays.findIndex(x=> x.id === day.id) ? 'disabled' : ''
       const lastDisabled = (disabled && (!~this.disabledDays.findIndex(x=> x.id === day.id+1) || day.day === 0)) ? 'last-disabled' : ''
       const firstDisabled = (disabled && (!~this.disabledDays.findIndex(x=> x.id === day.id-1)  || day.day === 1)) ? 'first-disabled' : ''
@@ -117,13 +122,14 @@ import {months} from '@/assets/calendar';
       const lastIncluded = (included && (!~this.includedDays.findIndex(x=> x.id === day.id+1) || day.day === 0)) ? 'last-included' : ''
       const firstIncluded = (included && (!~this.includedDays.findIndex(x=> x.id === day.id-1) || day.day === 1)) ? 'first-included' : ''
 
-      return [disabled, lastDisabled, firstDisabled, included, lastIncluded, firstIncluded].join(' ')
+      return [disabled, lastDisabled, firstDisabled, included, lastIncluded, firstIncluded, past, lastPast, firstPast].join(' ')
     },
 
     pickDate(day){
-      if (~this.disabledDays.findIndex(x=> x.id === day.id)){
+      if (~this.disabledDays.findIndex(x=> x.id === day.id) || day.id < this.now.id){
         return
       }
+
       if (!this.firstPickedDay.id){
         this.firstPickedDay = day
         this.includedDays = [day]

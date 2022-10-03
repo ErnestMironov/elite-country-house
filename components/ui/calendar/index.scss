@@ -146,8 +146,9 @@
   background-color: #EBD5C5;
 }
 
-.past{ 
-  background-color: rgba(255, 255, 255, 0.769);
+div.past{ 
+  background-color: rgba(0, 0, 0, 0.14);
+  cursor: default;
 }
 
 .last-disabled{
@@ -160,7 +161,27 @@
   border-bottom-right-radius: 0.3125rem;
 }
 
+div.last-past{
+  @include mobile{
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+
+  border-top-right-radius: 0.3125rem;
+  border-bottom-right-radius: 0.3125rem;
+}
+
 .first-disabled{
+  @include mobile{
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+  }
+
+  border-top-left-radius: 0.3125rem;
+  border-bottom-left-radius: 0.3125rem;
+}
+
+div.first-past{
   @include mobile{
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;

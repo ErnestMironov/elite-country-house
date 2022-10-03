@@ -594,9 +594,7 @@ export default {
     },
     onDatePick(data) {
       this.pickedDates.length = 0
-      // console.log(data)
       this.pickedDates = [...data]
-      // console.log(this.pickedDates)
     },
     createDatesString() {
       if (this.pickedDates[0] == null) {
@@ -743,16 +741,12 @@ export default {
       return dates
     },
     calculatePrice() {
-      console.log(this.pickedDates)
-      console.log(this.priceTable)
-      console.log(this.basePrice)
       const beforeDiscount = this.pickedDates.reduce((sum, day) => {
         return sum + this.getMult(day) * this.basePrice
       }, 0)
 
       const price = beforeDiscount * (this.userData.refundable ? 1 : 0.8)
       this.price = price
-      console.log(price)
     },
     getMult(day) {
       const strDate = `${day.year}-${
@@ -785,7 +779,6 @@ export default {
         (await this.$http.$get(`guest-house-options/${this.$route.params.id}`))
           .data,
       ]
-      console.log(this.options)
     },
 
     async bookHouse() {
@@ -823,7 +816,6 @@ export default {
       }
 
       const resp = await this.$http.$post('guest-house-orders', dataToSend)
-      console.log(resp)
     },
     isPersonalFilled() {
       if (
