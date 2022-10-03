@@ -28,7 +28,7 @@
     <HouseParameters :data="data" />
 
     <section class="container">
-      <HouseAbout />
+      <HouseAbout :data="data?.features" />
     </section>
 
     <HouseFunctions />

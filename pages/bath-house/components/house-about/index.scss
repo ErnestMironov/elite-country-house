@@ -3,12 +3,12 @@
 .about {
   margin-top: 10.875rem;
 
-  @include mobile{
+  @include mobile {
     margin-top: 96px;
   }
 
-  &__images-wrapper{
-    @include mobile{
+  &__images-wrapper {
+    @include mobile {
       height: 350px;
       margin-bottom: 98px;
     }
@@ -21,7 +21,7 @@
     align-items: flex-start;
     margin-top: 3.75rem;
 
-    @include mobile{
+    @include mobile {
       margin-top: 42px;
     }
   }
@@ -31,7 +31,7 @@
     flex-direction: column;
     max-width: 33.4375rem;
 
-    @include mobile{
+    @include mobile {
       max-width: 100%;
     }
 
@@ -45,7 +45,7 @@
         margin-bottom: 3.5rem;
       }
 
-      @include mobile{
+      @include mobile {
         &:not(:last-child) {
           margin-bottom: 76px;
         }
@@ -64,7 +64,7 @@
         color: #2d2929;
         opacity: 0.1;
 
-        @include mobile{
+        @include mobile {
           font-size: 84px;
           top: -22px;
         }
@@ -74,7 +74,7 @@
         margin-top: 2.625rem;
         margin-bottom: 1.5rem;
 
-        @include mobile{
+        @include mobile {
           font-family: Cormorant;
           font-size: 18px;
           font-weight: 500;
@@ -90,41 +90,41 @@
     position: absolute;
     right: -4rem;
 
-    @include mobile{
+    @include mobile {
       right: 0;
     }
 
-    &--1 {
+    &:nth-child(1) {
       top: 0;
       max-width: 45.75rem;
       height: auto;
       z-index: 1;
 
-      @include mobile{
+      @include mobile {
         max-width: 320px;
       }
     }
-    &--2 {
+    &:nth-child(2) {
       top: 19.875rem;
       right: 6.875rem;
       max-width: 38.625rem;
       height: auto;
       z-index: 2;
 
-      @include mobile{
+      @include mobile {
         max-width: 269px;
         right: 76px;
         top: 138px;
       }
     }
-    &--3 {
+    &:nth-child(3) {
       // bottom: 0;
       top: 27.75rem;
       max-width: 32.5rem;
       height: auto;
       z-index: 3;
 
-      @include mobile{
+      @include mobile {
         max-width: 226px;
         top: 193px;
       }
