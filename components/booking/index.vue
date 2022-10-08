@@ -638,6 +638,7 @@ import {createHoursString} from '@/helpers/helpers'
       e.stopPropagation();
     },
     setDropdowns(){
+      console.log(this.options)
       for (const option of this.options){
         if (option.type === 'select'){
           this.dropdowns.push({
@@ -1006,7 +1007,7 @@ import {createHoursString} from '@/helpers/helpers'
       this.bathhousePriceTable = (await this.$http.$get('bathhouse-price-table?populate=deep%2C10')).data
       this.ordersList = (await this.$http.$get(`guest-house-orders?populate=deep%2C10%20`)).data
       this.bathhouseOrdersList = (await this.$http.$get(`bathhouse-orders?populate=deep%2C%2010`)).data
-      this.options = [(await this.$http.$get(`guest-house-options/${this.$route.params.house}?populate=deep%2C%2010`)).data]
+      this.options = (await this.$http.$get(`guest-house-options?populate=deep%2C%2010`)).data
       // this.options = [(await this.$http.$get(`guest-house-options?populate=deep%2C%2010`)).data]
       this.bathhouseOptions = [(await this.$http.$get(`bathhouse-options?populate=deep%2C%2010`)).data]
 
