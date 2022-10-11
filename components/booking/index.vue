@@ -1,51 +1,47 @@
 <template>
-
   <section class="booking">
     <div class="booking-info">
       <div class="booking__info-section">
-        <h5 class="booking__info-title">
-          Даты бронирования
-        </h5>
+        <h5 class="booking__info-title">Даты бронирования</h5>
         <span class="booking__info-value">
-          {{createDatesString()}}
+          {{ createDatesString() }}
         </span>
       </div>
       <div class="booking__info-section">
-        <h5 class="booking__info-title">
-          Добавление бани
-        </h5>
-        <span class="booking__info-value">{{bathhousePrice ? 'Добавлено' : '-'}}</span>
+        <h5 class="booking__info-title">Добавление бани</h5>
+        <span class="booking__info-value">{{
+          bathhousePrice ? 'Добавлено' : '-'
+        }}</span>
       </div>
       <div class="booking__info-section">
-        <h5 class="booking__info-title">
-          Личные данные 
-        </h5>
+        <h5 class="booking__info-title">Личные данные</h5>
         <span class="booking__info-value">{{ isPersonalFilled() }}</span>
       </div>
       <div class="booking__info-section">
-        <h5 class="booking__info-title">
-          Оплата
-        </h5>
+        <h5 class="booking__info-title">Оплата</h5>
         <span class="booking__info-value">Ожидание</span>
       </div>
     </div>
 
-    <div class="booking__back" :class="(currentProgress === 0) ? 'hidden' : ''" @click="fuckGoBack">
-      <img src="@/assets/icons/back.svg" alt="back">
+    <div
+      class="booking__back"
+      :class="currentProgress === 0 ? 'hidden' : ''"
+      @click="fuckGoBack"
+    >
+      <img src="@/assets/icons/back.svg" alt="back" />
       <span>Назад</span>
     </div>
 
-    <button 
-      v-if="currentProgress === 0" 
-      class="btn booking__next-btn--first" 
+    <button
+      v-if="currentProgress === 0"
+      class="btn booking__next-btn--first"
       :disabled="isBookingDisabled()"
       @click="setProgress(1)"
-      >
+    >
       Забронировать
     </button>
 
     <div v-if="currentProgress === 1" class="booking-wrapper booking-1">
-
       <!-- <client-only>
         <DatePicker
           range 
@@ -99,393 +95,676 @@
         @picked="onDatePick($event)"
       ></Calendar>
 
+      <div class="booking__info-container booking__arrival">
+        <h3 class="booking__header">Основные параметры</h3>
+        <label class="booking-label">
+          <h4 class="booking__sub-header">Фактическое время заселения</h4>
+          <div class="booking__input-field">
+            <img src="@/assets/icons/clock.svg" alt="" />
+            <span class="booking__input-day">{{ getStartDay() }}</span>
+            <input
+              v-maska="'##:##'"
+              type="text"
+              placeholder="15:00"
+              @input="onArrivalInput"
+            />
+          </div>
+          <span>Стандартное время заселения: 14:00</span>
+        </label>
+        <label class="booking-label">
+          <h4 class="booking__sub-header">Фактическое время выезда</h4>
+          <div class="booking__input-field">
+            <img src="@/assets/icons/clock.svg" alt="" />
+            <span class="booking__input-day">{{ getEndDay() }}</span>
+            <input
+              v-maska="'##:##'"
+              type="text"
+              placeholder="15:00"
+              @input="onLeaveInput"
+            />
+          </div>
+          <span>Стандартное время выезда: 14:00</span>
+        </label>
+        <label class="booking-label">
+          <h4 class="booking__sub-header">Количество человек</h4>
+          <div class="booking__input-field">
+            <img src="@/assets/icons/people.svg" alt="" />
+            <input
+              v-model="userData.people"
+              type="number"
+              placeholder="0 человек"
+            />
+          </div>
+        </label>
+      </div>
 
-        
-        <div class="booking__info-container booking__arrival">
-          <h3 class="booking__header">Основные параметры</h3>
-          <label class="booking-label">
-            <h4 class="booking__sub-header">Фактическое время заселения</h4>
-            <div class="booking__input-field">
-              <img src="@/assets/icons/clock.svg" alt="">
-              <span class="booking__input-day">{{getStartDay()}}</span>
-              <input v-maska="'##:##'" type="text" placeholder="15:00" @input="onArrivalInput">
-            </div>
-            <span>Стандартное время заселения: 14:00</span>
-          </label>
-          <label class="booking-label">
-            <h4 class="booking__sub-header">Фактическое время выезда</h4>
-            <div class="booking__input-field">
-              <img src="@/assets/icons/clock.svg" alt="">
-              <span class="booking__input-day">{{getEndDay()}}</span>
-              <input v-maska="'##:##'" type="text" placeholder="15:00" @input="onLeaveInput">
-            </div>
-            <span>Стандартное время выезда: 14:00</span>
-          </label>
-          <label class="booking-label">
-            <h4 class="booking__sub-header">Количество человек</h4>
-            <div class="booking__input-field">
-              <img src="@/assets/icons/people.svg" alt="">
-              <input v-model="userData.people" type="number" placeholder="0 человек">
-            </div>
-          </label>
-        </div>
-
-        <div class="booking__info-container">
-          <div class="booking__info-wrapper">
-
+      <div class="booking__info-container">
+        <div class="booking__info-wrapper">
           <h3 class="booking__header">Дополнительный функционал</h3>
 
-          <label v-for="option of options" :key="option.id" class="booking-label" :class="{'booking-label--checkbox' :  option.type === 'checkbox'}">
-                <div v-if="option.type === 'number'" class="booking__option-wrapper--number">
-                  <h4 class="booking__sub-header">{{option.title}}</h4>
-                  <div class="booking__input-field">
-                    <img src="@/assets/icons/slippers.svg" alt="">
-                    <input :ref="`option${option.id}`" v-maska="'##'" type="number" :placeholder="option.placeholder" @change="($event)=>pickOption($event, option)">
-                  </div>
-                  <h4 v-if="option.notice" class="booking__sub-header booking__last-header">{{option.notice}}</h4>
+          <label
+            v-for="option of options"
+            :key="option.id"
+            class="booking-label"
+            :class="{ 'booking-label--checkbox': option.type === 'checkbox' }"
+          >
+            <div
+              v-if="option.type === 'number'"
+              class="booking__option-wrapper--number"
+            >
+              <h4 class="booking__sub-header">{{ option.title }}</h4>
+              <div class="booking__input-field">
+                <img src="@/assets/icons/slippers.svg" alt="" />
+                <input
+                  :ref="`option${option.id}`"
+                  v-maska="'##'"
+                  type="number"
+                  :placeholder="option.placeholder"
+                  @change="($event) => pickOption($event, option)"
+                />
+              </div>
+              <h4
+                v-if="option.notice"
+                class="booking__sub-header booking__last-header"
+              >
+                {{ option.notice }}
+              </h4>
+            </div>
+            <div
+              v-if="option.type === 'checkbox'"
+              class="booking__option-wrapper--checkbox"
+            >
+              <div
+                v-if="option.type === 'checkbox'"
+                class="booking__checkbox-wrapper"
+              >
+                <input
+                  :ref="`option${option.id}`"
+                  type="checkbox"
+                  class="checkbox"
+                  @change="($event) => pickCheckboxOption($event, option)"
+                />
+                <span class="booking__sub-header booking__checkbox-header">
+                  {{ option.title }}
+                </span>
+              </div>
+              <span v-if="option.price" class="booking__checkbox-price">{{
+                option.price + '₽'
+              }}</span>
+            </div>
+            <div
+              v-if="option.type === 'time'"
+              class="booking__option-wrapper--number"
+            >
+              <h4 class="booking__sub-header">{{ option.title }}</h4>
+              <div class="booking__input-field">
+                <img src="@/assets/icons/clock.svg" alt="" />
+                <input
+                  :ref="`option${option.id}`"
+                  v-maska="'##:##'"
+                  type="text"
+                  placeholder="15:00"
+                  @change="($event) => pickOption($event, option)"
+                />
+              </div>
+              <span v-if="option.notice">{{ option.notice }}</span>
+            </div>
+            <div
+              v-if="option.type === 'date'"
+              class="booking__option-wrapper--number"
+            >
+              <h4 class="booking__sub-header">{{ option.title }}</h4>
+              <div class="booking__input-field">
+                <img src="@/assets/icons/calendar.svg" alt="" />
+                <input
+                  :ref="`option${option.id}`"
+                  type="date"
+                  @change="($event) => pickOption($event, option)"
+                />
+              </div>
+              <span v-if="option.notice">{{ option.notice }}</span>
+            </div>
+            <div
+              v-if="option.type === 'select'"
+              class="booking__option-wrapper--number booking-label"
+            >
+              <h4 class="booking__sub-header booking__sub-header--thematic">
+                {{ option.title
+                }}<img
+                  class="booking__decoration-btn"
+                  src="@/assets/icons/question.svg"
+                  alt=""
+                />
+              </h4>
+              <div class="option-dropdown">
+                <div
+                  v-if="isDDActive(option.id)"
+                  :id="option.id"
+                  class="option-dropdown__wrapper"
+                >
+                  <span
+                    v-for="item of option.variants"
+                    :id="option.id"
+                    :key="item.id"
+                    class="option-dropdown__option"
+                    @click="() => pickSelectOption(option, item)"
+                  >
+                    {{ item.value }}
+                  </span>
                 </div>
-                <div v-if="option.type === 'checkbox'" class="booking__option-wrapper--checkbox">
-                  <div v-if="option.type === 'checkbox'" class="booking__checkbox-wrapper">
-                    <input :ref="`option${option.id}`" type="checkbox" class="checkbox" @change="($event)=>pickCheckboxOption($event, option)">
-                    <span class="booking__sub-header booking__checkbox-header">
-                      {{option.title}}    
-                    </span>
-                  </div>
-                  <span v-if="option.price" class="booking__checkbox-price">{{option.price+"₽"}}</span>
+                <div
+                  :id="option.id"
+                  :ref="`option${option.id}`"
+                  class="option-dropdown__selected booking__input-field"
+                  @click="showDD(option.id)"
+                >
+                  {{
+                    getSelectedItem(option.id)
+                      ? getSelectedItem(option.id)
+                      : option.placeholder
+                  }}
                 </div>
-                <div v-if="option.type === 'time'" class="booking__option-wrapper--number">
-                  <h4 class="booking__sub-header">{{option.title}}</h4>
-                  <div class="booking__input-field">
-                    <img src="@/assets/icons/clock.svg" alt="">
-                    <input :ref="`option${option.id}`" v-maska="'##:##'" type="text" placeholder="15:00" @change="($event)=>pickOption($event, option)">
-                  </div>
-                  <span v-if="option.notice">{{option.notice}}</span>
-                </div>
-                <div v-if="option.type === 'date'" class="booking__option-wrapper--number">
-                  <h4 class="booking__sub-header">{{option.title}}</h4>
-                  <div class="booking__input-field">
-                    <img src="@/assets/icons/calendar.svg" alt="">
-                    <input :ref="`option${option.id}`"  type="date" @change="($event)=>pickOption($event, option)">
-                  </div>
-                  <span v-if="option.notice">{{option.notice}}</span>
-                </div> 
-                <div v-if="option.type === 'select'" class="booking__option-wrapper--number booking-label">
-                  <h4 class="booking__sub-header booking__sub-header--thematic">{{option.title}}<img class="booking__decoration-btn" src="@/assets/icons/question.svg" alt=""></h4>
-                  <div class="option-dropdown">
-                    <div v-if="isDDActive(option.id)" :id="option.id" class="option-dropdown__wrapper">
-                      <span 
-                        v-for="item of option.variants"
-                        :id="option.id"  
-                        :key="item.id" 
-                        class="option-dropdown__option"
-                        @click="()=>pickSelectOption(option, item)">
-                        {{item.value}}
-                      </span>
-                    </div>
-                  <div 
-                    :id="option.id" 
-                    :ref="`option${option.id}`" 
-                    class="option-dropdown__selected booking__input-field" 
-                    @click="showDD(option.id)">{{getSelectedItem(option.id) ? getSelectedItem(option.id) : option.placeholder }}
-                  </div>
-                  <span v-if="option.notice">{{option.notice}}</span>
-                  </div>
-                </div>
-              </label>
-
-          </div>
-
-          <div class="booking__buttons-wrapper">
-            <button class="btn booking__next-btn booking__next-btn--second" :disabled="!isFirstEnabled()" @click="setProgress(2)">Далее</button>
-          </div>
+                <span v-if="option.notice">{{ option.notice }}</span>
+              </div>
+            </div>
+          </label>
         </div>
 
+        <div class="booking__buttons-wrapper">
+          <button
+            class="btn booking__next-btn booking__next-btn--second"
+            :disabled="!isFirstEnabled()"
+            @click="setProgress(2)"
+          >
+            Далее
+          </button>
+        </div>
+      </div>
     </div>
 
     <div v-if="currentProgress === 2" class="booking-wrapper booking-2">
       <div class="booking__images-wrapper">
-        <img src="@/assets/images/bathhouse_1.jpg" alt="bathhouse">
-        <img src="@/assets/images/bathhouse_2.jpg" alt="bathhouse">
+        <img src="@/assets/images/bathhouse_1.jpg" alt="bathhouse" />
+        <img src="@/assets/images/bathhouse_2.jpg" alt="bathhouse" />
       </div>
 
       <div class="booking__info-container">
-          <div class="booking__info-wrapper">
+        <div class="booking__info-wrapper">
+          <h3 class="booking__header booking__header--bathhouse">
+            Хотите забронировать баню?
+          </h3>
 
-            <h3 class="booking__header booking__header--bathhouse">Хотите забронировать баню?</h3>
-
-            <p class="booking__paragraph">
-              Situé au reLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-            </p>
-            <h3 class="booking__header booking__price-header booking__header--bathhouse">
-              Стоимость бронирования бани
-            </h3>
-            <div class="booking__price">
-              от 3600
-              <img src="@/assets/icons/rouble.svg" alt="" class="booking__price-ticker">
-            </div>
+          <p class="booking__paragraph">
+            Situé au reLorem ipsum dolor sit amet, consectetur adipiscing elit,
+            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          </p>
+          <h3
+            class="booking__header booking__price-header booking__header--bathhouse"
+          >
+            Стоимость бронирования бани
+          </h3>
+          <div class="booking__price">
+            от 3600
+            <img
+              src="@/assets/icons/rouble.svg"
+              alt=""
+              class="booking__price-ticker"
+            />
           </div>
+        </div>
 
-          <div class="booking__buttons-wrapper">
-            <button class="btn booking__next-btn booking__btn booking__btn--third" @click="setProgress(3)">Далее</button>
-            <button class="btn btn_white booking__skip-btn booking__btn" @click="setProgress(4)">Пропустить</button>
-          </div>
+        <div class="booking__buttons-wrapper">
+          <button
+            class="btn booking__next-btn booking__btn booking__btn--third"
+            @click="setProgress(3)"
+          >
+            Далее
+          </button>
+          <button
+            class="btn btn_white booking__skip-btn booking__btn"
+            @click="setProgress(4)"
+          >
+            Пропустить
+          </button>
+        </div>
       </div>
-
     </div>
 
     <div v-if="currentProgress === 3" class="booking-wrapper booking-3">
-
       <div class="booking__conditions-wrapper">
+        <h3 class="booking__header booking__header--conditions">
+          Условия бронирования
+        </h3>
 
-        <h3 class="booking__header booking__header--conditions">Условия бронирования</h3>
-        
-          <div class="booking__info-wrapper--horizontal">
-            <div class="booking__info-wrapper--xs">
-              <h4 class="booking__sub-header booking__conditions-header">День недели</h4>
-              <div class="booking__radio-wrapper">
-                <button class="booking__radio-btn" :class="{'active-radio': bathhousePriceOption.id === 2}" @click="()=>setBathhousePriceOption('weekday')">Будние дни</button>
-                <button class="booking__radio-btn" :class="{'active-radio': bathhousePriceOption.id === 3}" @click="()=>setBathhousePriceOption('friday')">Пятница</button>
-                <button class="booking__radio-btn" :class="{'active-radio': bathhousePriceOption.id === 4}" @click="()=>setBathhousePriceOption('saturday')">Суббота</button>
-                <button class="booking__radio-btn" :class="{'active-radio': bathhousePriceOption.id === 5}" @click="()=>setBathhousePriceOption('sunday')">Воскресенье</button>
-              </div>
+        <div class="booking__info-wrapper--horizontal">
+          <div class="booking__info-wrapper--xs">
+            <h4 class="booking__sub-header booking__conditions-header">
+              День недели
+            </h4>
+            <div class="booking__radio-wrapper">
+              <button
+                class="booking__radio-btn"
+                :class="{ 'active-radio': bathhousePriceOption.id === 2 }"
+                @click="() => setBathhousePriceOption('weekday')"
+              >
+                Будние дни
+              </button>
+              <button
+                class="booking__radio-btn"
+                :class="{ 'active-radio': bathhousePriceOption.id === 3 }"
+                @click="() => setBathhousePriceOption('friday')"
+              >
+                Пятница
+              </button>
+              <button
+                class="booking__radio-btn"
+                :class="{ 'active-radio': bathhousePriceOption.id === 4 }"
+                @click="() => setBathhousePriceOption('saturday')"
+              >
+                Суббота
+              </button>
+              <button
+                class="booking__radio-btn"
+                :class="{ 'active-radio': bathhousePriceOption.id === 5 }"
+                @click="() => setBathhousePriceOption('sunday')"
+              >
+                Воскресенье
+              </button>
             </div>
+          </div>
 
+          <div class="booking__info-wrapper--s">
+            <h4 class="booking__sub-header booking__conditions-header">
+              Время
+            </h4>
 
-            <div class="booking__info-wrapper--s">
-              <h4 class="booking__sub-header booking__conditions-header">Время</h4>
-
-
-
-              <div v-for="option of bathhousePriceOption.priceInterval" :key="option.id" class="booking-time-label">
-                <h5 class="booking-time-label__time">{{option.from.slice(0,5) + ' - ' + option.to.slice(0,5)}}</h5>
-                <span class="booking-time-label__price booking-time-label__price--desktop">Стоимость бронирования</span>
-                <span class="booking-time-label__price booking-time-label__price--mobile">Стоимость</span>
-                <span class="booking-time-label__value">{{option.price + '₽/Час'}}</span>
-              </div>
-
+            <div
+              v-for="option of bathhousePriceOption.priceInterval"
+              :key="option.id"
+              class="booking-time-label"
+            >
+              <h5 class="booking-time-label__time">
+                {{ option.from.slice(0, 5) + ' - ' + option.to.slice(0, 5) }}
+              </h5>
+              <span
+                class="booking-time-label__price booking-time-label__price--desktop"
+                >Стоимость бронирования</span
+              >
+              <span
+                class="booking-time-label__price booking-time-label__price--mobile"
+                >Стоимость</span
+              >
+              <span class="booking-time-label__value">{{
+                option.price + '₽/Час'
+              }}</span>
             </div>
-
+          </div>
         </div>
-
       </div>
-      
+
       <div class="booking__info-container">
+        <div class="booking__info-wrapper">
+          <h3 class="booking__header">Основные параметры</h3>
 
-          <div class="booking__info-wrapper">
-              <h3 class="booking__header">Основные параметры</h3>
+          <label class="booking-label">
+            <h4 class="booking__sub-header">Дата</h4>
+            <div class="booking__input-field">
+              <img src="@/assets/icons/calendar.svg" alt="" />
+              <input type="date" @change="pickBathDay" />
+            </div>
+          </label>
 
-              <label class="booking-label">
-                <h4 class="booking__sub-header">Дата</h4>
-                <div class="booking__input-field">
-                  <img src="@/assets/icons/calendar.svg" alt="">
-                  <input  type="date" @change="pickBathDay">
-                </div>
-              </label>
+          <label class="booking-label">
+            <h4 class="booking__sub-header">Время</h4>
+            <small v-if="bathhouseErrorEmpty" class="booking__error error"
+              >Сначала выберите дату!</small
+            >
+            <small v-if="bathhouseErrorWrong" class="booking__error error"
+              >Выберите дату в пределах 3х месяцев</small
+            >
+            <div
+              class="booking__input-field booking__input-field--bath"
+              :class="
+                bathhouseErrorEmpty || bathhouseErrorWrong ? 'input-error' : ''
+              "
+              @click="showTimeDD"
+            >
+              <div v-if="timeDDActive" class="bathhouse-dropdown">
+                <h3 v-if="!firstPickedTime" class="bathhouse-dropdown__header">
+                  Выберите начало бронирования
+                </h3>
+                <h3 v-if="firstPickedTime" class="bathhouse-dropdown__header">
+                  Выберите конец бронирования
+                </h3>
+                <div class="scroll-wrapper">
+                  <div
+                    ref="dropdown"
+                    class="bathhouse-dropdown__wrapper"
+                    @scroll="handleDDScroll"
+                  >
+                    <!-- <h4 class="test">{{'10.03.10'}}</h4> -->
+                    <h4
+                      ref="firstDate"
+                      class="bathhouse-dropdown__date bathhouse-dropdown__date--first"
+                    >
+                      {{
+                        addZero(bathDay.date) +
+                        '.' +
+                        addZero(bathDay.month) +
+                        '.' +
+                        bathDay.year
+                      }}
+                    </h4>
+                    <div ref="firstDay" class="bathhouse-dropdown__first-day">
+                      <div
+                        v-for="hour in hours.firstDay"
+                        :key="hour.id"
+                        class="bathhouse-dropdown__hour"
+                        :class="getClass(hour)"
+                        @click="pickTime(hour)"
+                      >
+                        <span>{{ addZero(hour.hour) + ':00' }}</span>
+                        <span class="bathhouse-dropdown__booked"
+                          >Время забронировано</span
+                        >
+                      </div>
+                    </div>
 
-              <label class="booking-label">
-                <h4 class="booking__sub-header">Время</h4>
-                <small v-if="bathhouseErrorEmpty" class="booking__error error">Сначала выберите дату!</small>
-                <small v-if="bathhouseErrorWrong" class="booking__error error">Выберите дату в пределах 3х месяцев</small>
-                <div class="booking__input-field booking__input-field--bath" :class="(bathhouseErrorEmpty || bathhouseErrorWrong) ? 'input-error' : ''" @click="showTimeDD">
-                  <div v-if="timeDDActive" class="bathhouse-dropdown">
-                    <h3 v-if="!firstPickedTime" class="bathhouse-dropdown__header">Выберите начало бронирования</h3>
-                    <h3 v-if="firstPickedTime" class="bathhouse-dropdown__header">Выберите конец бронирования</h3>
-                    <div class="scroll-wrapper">
-                      <div ref="dropdown" class="bathhouse-dropdown__wrapper" @scroll="handleDDScroll">
-                        <!-- <h4 class="test">{{'10.03.10'}}</h4> -->
-                        <h4 ref="firstDate" class="bathhouse-dropdown__date bathhouse-dropdown__date--first">{{addZero(bathDay.date)+'.'+addZero(bathDay.month)+'.'+bathDay.year}}</h4>
-                        <div ref="firstDay" class="bathhouse-dropdown__first-day">
-                          <div v-for="hour in hours.firstDay" :key="hour.id" class="bathhouse-dropdown__hour"  :class="getClass(hour)" @click="pickTime(hour)">
-                            <span>{{addZero(hour.hour) + ':00'}}</span>
-                            <span class="bathhouse-dropdown__booked">Время забронировано</span>
-                          </div>
-                        </div>
-                        
-                        <h4 ref="secondDate"  class="bathhouse-dropdown__date bathhouse-dropdown__date--second">{{addZero(theNextDay.date)+'.'+addZero(theNextDay.month)+'.'+theNextDay.year}}</h4>
-                        <div ref="secondDay" class="bathhouse-dropdown__first-day">
-                          <div v-for="hour in hours.secondDay" :key="hour.id" class="bathhouse-dropdown__hour" :class="getClass(hour)" @click="pickTime(hour)">
-                            <span>{{addZero(hour.hour) + ':00'}}</span>
-                            <span class="bathhouse-dropdown__booked">Время забронировано</span>
-                          </div>
-                        </div>
-
+                    <h4
+                      ref="secondDate"
+                      class="bathhouse-dropdown__date bathhouse-dropdown__date--second"
+                    >
+                      {{
+                        addZero(theNextDay.date) +
+                        '.' +
+                        addZero(theNextDay.month) +
+                        '.' +
+                        theNextDay.year
+                      }}
+                    </h4>
+                    <div ref="secondDay" class="bathhouse-dropdown__first-day">
+                      <div
+                        v-for="hour in hours.secondDay"
+                        :key="hour.id"
+                        class="bathhouse-dropdown__hour"
+                        :class="getClass(hour)"
+                        @click="pickTime(hour)"
+                      >
+                        <span>{{ addZero(hour.hour) + ':00' }}</span>
+                        <span class="bathhouse-dropdown__booked"
+                          >Время забронировано</span
+                        >
                       </div>
                     </div>
                   </div>
-                  <img src="@/assets/icons/clock.svg" alt="">
-                 <span>{{getHoursString()}}</span>
                 </div>
-              </label>
+              </div>
+              <img src="@/assets/icons/clock.svg" alt="" />
+              <span>{{ getHoursString() }}</span>
+            </div>
+          </label>
 
-              <label class="booking-label booking-label__bath-time">
-                <h4 class="booking__sub-header">Длительность</h4>
-                <div class="booking__input-field booking__input-field--transparent">
-                  <img src="@/assets/icons/duration.svg" alt="">
-                  <span> 
-                    {{includedHours.length + ' ' + createHoursString(includedHours.length)}}
-                  </span>
-                </div>
-              </label>
+          <label class="booking-label booking-label__bath-time">
+            <h4 class="booking__sub-header">Длительность</h4>
+            <div class="booking__input-field booking__input-field--transparent">
+              <img src="@/assets/icons/duration.svg" alt="" />
+              <span>
+                {{
+                  includedHours.length +
+                  ' ' +
+                  createHoursString(includedHours.length)
+                }}
+              </span>
+            </div>
+          </label>
 
-              <label class="booking-label">
-                <h4 class="booking__sub-header">Количество человек</h4>
-                <div class="booking__input-field">
-                  <img src="@/assets/icons/people.svg" alt="">
-                  <input v-model="bathhouseData.people" v-maska="'##'" type="number" placeholder="0 человек" @change="calculateBathhousePrice">
-                </div>
-                <h4 class="booking__sub-header booking__last-header">+400₽/чел от 6ти человек</h4>
-              </label>
-          </div>
-
+          <label class="booking-label">
+            <h4 class="booking__sub-header">Количество человек</h4>
+            <div class="booking__input-field">
+              <img src="@/assets/icons/people.svg" alt="" />
+              <input
+                v-model="bathhouseData.people"
+                v-maska="'##'"
+                type="number"
+                placeholder="0 человек"
+                @change="calculateBathhousePrice"
+              />
+            </div>
+            <h4 class="booking__sub-header booking__last-header">
+              +400₽/чел от 6ти человек
+            </h4>
+          </label>
+        </div>
       </div>
 
-            <div class="booking__info-wrapper">
-                <h3 class="booking__header">Дополнительные параметры</h3>
+      <div class="booking__info-wrapper">
+        <h3 class="booking__header">Дополнительные параметры</h3>
 
-                <label v-for="option of bathhouseOptions[0]" :key="option.id" class="booking-label" :class="{'booking-label--checkbox' :  option.type === 'checkbox'}">
-                  <div v-if="option.type === 'number'" class="booking__option-wrapper--number">
-                    <h4 class="booking__sub-header">{{option.title}}</h4>
-                    <div class="booking__input-field">
-                      <img src="@/assets/icons/slippers.svg" alt="">
-                      <input :ref="`BHOption${option.id}`" v-maska="'##'" type="number" :placeholder="option.placeholder" @change="($event)=>changeBathhouseOption($event, option)">
-                    </div>
-                    <h4 class="booking__sub-header booking__last-header">{{option.notice}}</h4>
-                  </div>
-                  <div v-if="option.type === 'checkbox'" class="booking__option-wrapper--checkbox">
-                    <div v-if="option.type === 'checkbox'" class="booking__checkbox-wrapper">
-                      <input :ref="`BHOption${option.id}`" type="checkbox" class="checkbox" @change="($event)=>changeBathhouseOption($event, option)">
-                      <span class="booking__sub-header booking__checkbox-header">
-                        {{option.title}}    
-                      </span>
-                    </div>
-                    <span v-if="option.price" class="booking__checkbox-price">{{option.price+"₽"}}</span>
-                  </div>
-                </label>
-
-              <div class="booking__price booking__price--bathhouse">
-                {{'Цена: '+ bathhousePrice}}
-                <img src="@/assets/icons/rouble.svg" alt="" class="booking__price-ticker">
-              </div>
-              <div class="booking__buttons-wrapper booking__buttons--3">
-                <button class="btn booking__next-btn booking-button--3" :disabled="isBathhouseBtnDisabled()" @click="setProgress(4)">Далее</button>
-              </div>
+        <label
+          v-for="option of bathhouseOptions[0]"
+          :key="option.id"
+          class="booking-label"
+          :class="{ 'booking-label--checkbox': option.type === 'checkbox' }"
+        >
+          <div
+            v-if="option.type === 'number'"
+            class="booking__option-wrapper--number"
+          >
+            <h4 class="booking__sub-header">{{ option.title }}</h4>
+            <div class="booking__input-field">
+              <img src="@/assets/icons/slippers.svg" alt="" />
+              <input
+                :ref="`BHOption${option.id}`"
+                v-maska="'##'"
+                type="number"
+                :placeholder="option.placeholder"
+                @change="($event) => changeBathhouseOption($event, option)"
+              />
             </div>
-
+            <h4 class="booking__sub-header booking__last-header">
+              {{ option.notice }}
+            </h4>
           </div>
-
-          <div v-if="currentProgress === 4" class="booking-wrapper booking-4">
-            <div class="booking__info-wrapper booking__info-wrapper--l">
-                  <div class="booking__checkbox-wrapper booking__checkbox-wrapper--l">
-                    <input type="checkbox" class="checkbox" @input="toggleRefundable">
-                    <span class="booking__sub-header booking__checkbox-header">
-                      Невозвратное бронирование     
-                    </span>
-                  </div>
-
-                <label class="booking__discount-label">
-                    <span> 
-                      -20% при невозвратном бронировании
-                    </span>
-                </label>
-
-                <h3 class="booking__header booking__accompanying-header">Сопроводительная информация</h3>
-
-                <p class="booking__accompanying-text">
-                  Какой-то текст про возвратность/невозвратность тразакции, вряд ли займет больше трех-четырех строк(узнать у заказчика)
-                </p>
-                <p class="booking__accompanying-text">
-                  Какой-то текст про возвратность/невозвратность тразакции, вряд ли займет больше трех-четырех строк(узнать у заказчика)
-                </p>
-
+          <div
+            v-if="option.type === 'checkbox'"
+            class="booking__option-wrapper--checkbox"
+          >
+            <div
+              v-if="option.type === 'checkbox'"
+              class="booking__checkbox-wrapper"
+            >
+              <input
+                :ref="`BHOption${option.id}`"
+                type="checkbox"
+                class="checkbox"
+                @change="($event) => changeBathhouseOption($event, option)"
+              />
+              <span class="booking__sub-header booking__checkbox-header">
+                {{ option.title }}
+              </span>
             </div>
+            <span v-if="option.price" class="booking__checkbox-price">{{
+              option.price + '₽'
+            }}</span>
+          </div>
+        </label>
 
-            <div class="booking__info-wrapper">
+        <div class="booking__price booking__price--bathhouse">
+          {{ 'Цена: ' + bathhousePrice }}
+          <img
+            src="@/assets/icons/rouble.svg"
+            alt=""
+            class="booking__price-ticker"
+          />
+        </div>
+        <div class="booking__buttons-wrapper booking__buttons--3">
+          <button
+            class="btn booking__next-btn booking-button--3"
+            :disabled="isBathhouseBtnDisabled()"
+            @click="setProgress(4)"
+          >
+            Далее
+          </button>
+        </div>
+      </div>
+    </div>
 
-                <label class="booking-label">
-                  <h4 class="booking__sub-header">Фамилия</h4>
-                  <div class="booking__input-field">
-                    <input v-model="userData.contactInformation.lastName" type="text" placeholder="Введите вашу фамилию">
-                  </div>
-                </label>
+    <div v-if="currentProgress === 4" class="booking-wrapper booking-4">
+      <div class="booking__info-wrapper booking__info-wrapper--l">
+        <div class="booking__checkbox-wrapper booking__checkbox-wrapper--l">
+          <input type="checkbox" class="checkbox" @input="toggleRefundable" />
+          <span class="booking__sub-header booking__checkbox-header">
+            Невозвратное бронирование
+          </span>
+        </div>
 
-                <label class="booking-label">
-                  <h4 class="booking__sub-header">Имя</h4>
-                  <div class="booking__input-field">
-                    <input v-model="userData.contactInformation.firstName" type="text" placeholder="Введите ваше имя">
-                  </div>
-                </label>
+        <label class="booking__discount-label">
+          <span> -20% при невозвратном бронировании </span>
+        </label>
 
-                <label class="booking-label">
-                  <h4 class="booking__sub-header">Email</h4>
-                  <div class="booking__input-field">
-                      <input v-model="userData.contactInformation.email" type="email" placeholder="Введите ваш email">
-                  </div>
-                </label>
+        <h3 class="booking__header booking__accompanying-header">
+          Сопроводительная информация
+        </h3>
 
-                <label class="booking-label">
-                  <h4 class="booking__sub-header">Номер телефона</h4>
-                  <div class="booking__input-field">
-                   <input v-model="userData.contactInformation.phone" v-maska="'+7 (###) ###-##-##'" type="text" placeholder="Введите номер телефона">
-                  </div>
-                </label>
-            </div>
-
-            <div class="booking__info-wrapper">
-                 <label class="booking__agreement-label">
-                  <div class="booking__checkbox-wrapper booking__checkbox-wrapper--l">
-                    <input v-model="personalData" type="checkbox" class="checkbox">
-                    <span class="booking__sub-header booking__checkbox-header">
-                      Персональные данные
-                    </span>
-                  </div>
-                  <p class="booking__agreement-text">
-                    Подтверждая выбор, вы даете <span>
-                      Cогласие на обработку своих персональных данных
-                    </span>
-                  </p>
-                </label>
-
-                <label class="booking__agreement-label">
-                  <div class="booking__checkbox-wrapper booking__checkbox-wrapper--l">
-                    <input v-model="personalAgreement" type="checkbox" class="checkbox">
-                    <span class="booking__sub-header booking__checkbox-header">
-                      Пользовательское соглашение
-                    </span>
-                  </div>
-                  <p class="booking__agreement-text">
-                    Вы подтверждаете, что внимательно ознакомились с 
-                    <span>
-                      пользовательским соглашением 
-                    </span>
-                  </p>
-                </label>
-
-                <h3 class="booking__header booking__precheck-header">Цена за полный перечень услуг:</h3>
-                <span class="booking__price">{{price}} <img src="@/assets/icons/rouble.svg" alt=""></span>
-                <div class="booking__buttons-wrapper booking__buttons--4">
-                  <button class="btn booking__next-btn booking-button--4" :disabled="isPrecheckDisabled()" @click="bookHouse()">Посмотреть пречек и оплатить</button>
-                </div>
-            </div>
-
+        <p class="booking__accompanying-text">
+          Какой-то текст про возвратность/невозвратность тразакции, вряд ли
+          займет больше трех-четырех строк(узнать у заказчика)
+        </p>
+        <p class="booking__accompanying-text">
+          Какой-то текст про возвратность/невозвратность тразакции, вряд ли
+          займет больше трех-четырех строк(узнать у заказчика)
+        </p>
       </div>
 
+      <div class="booking__info-wrapper">
+        <label class="booking-label">
+          <h4 class="booking__sub-header">Фамилия</h4>
+          <div class="booking__input-field">
+            <input
+              v-model="userData.contactInformation.lastName"
+              type="text"
+              placeholder="Введите вашу фамилию"
+              autocomplete="family-name"
+            />
+          </div>
+        </label>
 
+        <label class="booking-label">
+          <h4 class="booking__sub-header">Имя</h4>
+          <div class="booking__input-field">
+            <input
+              v-model="userData.contactInformation.firstName"
+              type="text"
+              placeholder="Введите ваше имя"
+              autocomplete="name"
+            />
+          </div>
+        </label>
+
+        <label class="booking-label">
+          <h4 class="booking__sub-header">Email</h4>
+          <div class="booking__input-field">
+            <input
+              v-model="userData.contactInformation.email"
+              type="email"
+              placeholder="Введите ваш email"
+              autocomplete="email"
+            />
+          </div>
+        </label>
+
+        <label class="booking-label">
+          <h4 class="booking__sub-header">Номер телефона</h4>
+          <div class="booking__input-field">
+            <input
+              v-model="userData.contactInformation.phone"
+              v-maska="'+7 (###) ###-##-##'"
+              type="text"
+              placeholder="Введите номер телефона"
+              autocomplete="tel"
+            />
+          </div>
+        </label>
+      </div>
+
+      <div class="booking__info-wrapper">
+        <label class="booking__agreement-label">
+          <div class="booking__checkbox-wrapper booking__checkbox-wrapper--l">
+            <input v-model="personalData" type="checkbox" class="checkbox" />
+            <span class="booking__sub-header booking__checkbox-header">
+              Персональные данные
+            </span>
+          </div>
+          <p class="booking__agreement-text">
+            Подтверждая выбор, вы даете
+            <span> Cогласие на обработку своих персональных данных </span>
+          </p>
+        </label>
+
+        <label class="booking__agreement-label">
+          <div class="booking__checkbox-wrapper booking__checkbox-wrapper--l">
+            <input
+              v-model="personalAgreement"
+              type="checkbox"
+              class="checkbox"
+            />
+            <span class="booking__sub-header booking__checkbox-header">
+              Пользовательское соглашение
+            </span>
+          </div>
+          <p class="booking__agreement-text">
+            Вы подтверждаете, что внимательно ознакомились с
+            <span> пользовательским соглашением </span>
+          </p>
+        </label>
+
+        <h3 class="booking__header booking__precheck-header">
+          Цена за полный перечень услуг:
+        </h3>
+        <span class="booking__price"
+          >{{ price }} <img src="@/assets/icons/rouble.svg" alt=""
+        /></span>
+        <div class="booking__buttons-wrapper booking__buttons--4">
+          <button
+            class="btn booking__next-btn booking-button--4"
+            :disabled="isPrecheckDisabled"
+            @click="bookHouse()"
+          >
+            Посмотреть пречек и оплатить
+          </button>
+        </div>
+      </div>
+    </div>
   </section>
 </template>
 
-<script>  
-import {maska} from 'maska'
-import {months, hours} from '@/assets/calendar';
+<script>
+import { hours, months } from '@/assets/calendar'
 import calendar from '@/components/ui/calendar/calendar.vue'
-import {createHoursString} from '@/helpers/helpers'
+import { createHoursString } from '@/helpers/helpers'
+import { maska } from 'maska'
 
- export default {
+export default {
   directives: { maska },
   components: {
     Calendar: calendar,
   },
   props: {
-    basePrice: Number
+    basePrice: Number,
+    /**
+     * It can be:
+     * 0 - guest house
+     * 1 - apartments
+     * 2 - bath house
+     */
+    objectType: {
+      type: Number,
+      required: true,
+    },
+    objectParams: {
+      type: Object,
+      required: true,
+    },
   },
   data() {
     return {
@@ -499,9 +778,10 @@ import {createHoursString} from '@/helpers/helpers'
       disabledDays: [],
       includedDays: [],
       bathhouseOrdersList: [],
+      bathhouseBasePrice: 0,
       bathhouseOptions: [],
-      bathhouseSelectedOptions:[],
-      selectedOptions:[],
+      bathhouseSelectedOptions: [],
+      selectedOptions: [],
       disabledHours: [],
       firstPickedTime: {},
       secondPickedTime: {},
@@ -510,18 +790,18 @@ import {createHoursString} from '@/helpers/helpers'
       theNextDay: new Date(),
       bathhouseErrorEmpty: false,
       bathhouseErrorWrong: false,
-      currentYear: 2022, 
+      currentYear: 2022,
       currentMonthNumber: 8,
       currentMonth: {
         year: '2022',
         month: '09',
         monthIdx: 0,
-        days:[]
+        days: [],
       },
       newMonth: {
         month: '01',
         year: '2022',
-        days:[]
+        days: [],
       },
       month: [],
       pickedDates: [],
@@ -532,38 +812,39 @@ import {createHoursString} from '@/helpers/helpers'
         brooms: null,
         helper: false,
         furako: false,
-        jacuzzi: false
+        jacuzzi: false,
       },
       userData: {
-        guest_house: "",
-        bathhouse_order: "",
+        guest_house: '',
+        bathhouse_order: '',
         people: null,
-        arrivalTime: "12:54:00.000",
-        leaveTime: "12:54:00.000",
-        status: "waiting for payment",
-        from: "2022-09-07",
-        to: "2022-09-07",
+        arrivalTime: '12:54:00.000',
+        leaveTime: '12:54:00.000',
+        status: 'waiting for payment',
+        from: '2022-09-07',
+        to: '2022-09-07',
         totalPrice: 0,
-        options: [
-          "",
-          ""
-        ],
+        options: ['', ''],
         contactInformation: {
-          firstName: "",
-          lastName: "",
-          email: "",
-          phone: ""
+          firstName: '',
+          lastName: '',
+          email: '',
+          phone: '',
         },
         refundable: true,
       },
       priceTable: {
-        exceptions: []
+        exceptions: [],
       },
       bathhousePriceTable: {},
-      bathhousePriceOption: {priceInterval: [{
-        from: '',
-        to: ''
-      }]},
+      bathhousePriceOption: {
+        priceInterval: [
+          {
+            from: '',
+            to: '',
+          },
+        ],
+      },
       ordersList: [],
       personalAgreement: false,
       personalData: false,
@@ -571,13 +852,31 @@ import {createHoursString} from '@/helpers/helpers'
       takenDates: [],
       price: 0,
       options: [],
-      houseDataLoaded: false
-    };
+      houseDataLoaded: false,
+    }
   },
-  beforeMount () {
+  computed: {
+    isPrecheckDisabled() {
+      return (
+        !this.personalAgreement ||
+        !this.personalData ||
+        !this.userData.contactInformation.email ||
+        // this.userData.contactInformation.phone.length < 18 ||
+        !this.userData.contactInformation.firstName ||
+        !this.userData.contactInformation.lastName
+      )
+    },
+  },
+  beforeMount() {
+    if (window.localStorage) {
+      window.localStorage.removeItem('order')
+      window.localStorage.removeItem('BHOptions')
+      window.localStorage.removeItem('GHOptions')
+    }
+
     document.addEventListener('click', this.handleDocumentClick)
   },
-  beforeDestroy () {
+  beforeDestroy() {
     document.removeEventListener('click', this.handleDocumentClick)
   },
   async created() {
@@ -593,15 +892,15 @@ import {createHoursString} from '@/helpers/helpers'
     this.clearStorage()
   },
   methods: {
-    clearStorage(){
+    clearStorage() {
       localStorage.removeItem('BHOptions')
       localStorage.removeItem('GHOptions')
     },
-    isBookingDisabled(){
+    isBookingDisabled() {
       return !this.houseDataLoaded
     },
     createHoursString,
-    setProgress(count){
+    setProgress(count) {
       this.currentProgress = count
       this.calculatePrice()
       this.saveHouseOptions()
@@ -609,59 +908,64 @@ import {createHoursString} from '@/helpers/helpers'
       this.getHouseOptionsFromLS()
       this.getBathhouseOptionsFromLS()
     },
-    saveBathhouseOptions(){
-      if (this.currentProgress !== 4){
-         return 
+    saveBathhouseOptions() {
+      if (this.currentProgress !== 4) {
+        return
       }
 
-      localStorage.setItem('BHOptions', JSON.stringify(this.bathhouseSelectedOptions))
+      localStorage.setItem(
+        'BHOptions',
+        JSON.stringify(this.bathhouseSelectedOptions)
+      )
     },
-    saveHouseOptions(){
-      if (this.currentProgress !== 2){
-        return 
+    saveHouseOptions() {
+      if (this.currentProgress !== 2) {
+        return
       }
 
       localStorage.setItem('GHOptions', JSON.stringify(this.selectedOptions))
     },
-    showTimeDD(e){
-      if (this.bathhouseErrorWrong){
+    showTimeDD(e) {
+      if (this.bathhouseErrorWrong) {
         return
       }
-      if(this.bathDay.date == null || isNaN(this.bathDay.date)){
+      if (this.bathDay.date == null || isNaN(this.bathDay.date)) {
         this.bathhouseErrorEmpty = true
-        return 
+        return
       }
 
       this.timeDDActive = true
 
-      e.preventDefault();
-      e.stopPropagation();
+      e.preventDefault()
+      e.stopPropagation()
     },
-    setDropdowns(){
+    setDropdowns() {
       console.log(this.options)
-      for (const option of this.options){
-        if (option.type === 'select'){
+      for (const option of this.options) {
+        if (option.type === 'select') {
           this.dropdowns.push({
             id: option.id,
             active: false,
             selected: {
               id: null,
-              value: ''
-            }
+              value: '',
+            },
           })
         }
       }
     },
-    isDDActive(id){
-      const dd = this.dropdowns.find(x => x.id === id)
-      if (dd){
+    isDDActive(id) {
+      const dd = this.dropdowns.find((x) => x.id === id)
+      if (dd) {
         return dd.active
       }
     },
-    pickOption(e, option){
-      const existingOption = this.selectedOptions.find(x => +x.id === +option.id)
+    pickOption(e, option) {
+      const existingOption = this.selectedOptions.find(
+        (x) => +x.id === +option.id
+      )
 
-      if  (existingOption){
+      if (existingOption) {
         existingOption.value = e.target.value
       } else {
         this.selectedOptions.push({
@@ -669,87 +973,98 @@ import {createHoursString} from '@/helpers/helpers'
           id: option.id,
           value: e.target.value,
           price: option.price,
-          type: option.type
+          type: option.type,
         })
       }
     },
-    pickCheckboxOption(e, option){
-      if (e.target.checked){
+    pickCheckboxOption(e, option) {
+      if (e.target.checked) {
         this.selectedOptions.push({
           title: option.title,
           id: option.id,
           value: 'true',
-          price: option.price
+          price: option.price,
         })
       } else {
-        this.selectedOptions = this.selectedOptions.filter(x => +x.id !== +option.id)
+        this.selectedOptions = this.selectedOptions.filter(
+          (x) => +x.id !== +option.id
+        )
       }
     },
-    pickSelectOption(option, item){
-      const dropdown = this.dropdowns.find(x => +x.id === +option.id)
+    pickSelectOption(option, item) {
+      const dropdown = this.dropdowns.find((x) => +x.id === +option.id)
       dropdown.selected = item
 
-      const existingOption = this.selectedOptions.find(x => +x.id === +option.id)
+      const existingOption = this.selectedOptions.find(
+        (x) => +x.id === +option.id
+      )
 
-      if  (existingOption){
+      if (existingOption) {
         existingOption.value = item.value
       } else {
         this.selectedOptions.push({
           title: option.title,
           id: option.id,
           value: item.value,
-          price: option.price
+          price: option.price,
         })
       }
 
       this.closeDropdowns()
     },
-    getSelectedItem(id){
-      return this.dropdowns.find(x => x.id === id).selected.value
+    getSelectedItem(id) {
+      return this.dropdowns.find((x) => x.id === id).selected.value
     },
-    showDD(id){
-      this.dropdowns.find(x => x.id === id).active = true
+    showDD(id) {
+      this.dropdowns.find((x) => x.id === id).active = true
     },
-    getHoursString(){
-      if (this.includedHours.length === 0){
+    getHoursString() {
+      if (this.includedHours.length === 0) {
         return '00:00'
       }
 
-      if (this.includedHours.length === 1){
+      if (this.includedHours.length === 1) {
         return `${this.addZero(this.includedHours[0].hour)}:00`
       }
 
-      return `с ${this.addZero(this.includedHours[0].hour)}:00 до ${this.addZero(this.includedHours[this.includedHours.length-1].hour + 1)}:00`
+      return `с ${this.addZero(
+        this.includedHours[0].hour
+      )}:00 до ${this.addZero(
+        this.includedHours[this.includedHours.length - 1].hour + 1
+      )}:00`
     },
-    setBathhousePriceOption(day){
+    setBathhousePriceOption(day) {
       this.bathhousePriceOption = this.bathhousePriceTable[day]
     },
-    pickBathDay(e){
+    pickBathDay(e) {
       const now = new Date()
       const pickedDay = new Date(e.target.value)
 
-      if (((pickedDay.getMonth() - now.getMonth()) >= 3) || now.getTime()- 86400000 > pickedDay.getTime()){
+      if (
+        pickedDay.getMonth() - now.getMonth() >= 3 ||
+        now.getTime() - 86400000 > pickedDay.getTime()
+      ) {
         this.bathhouseErrorWrong = true
         this.bathhouseErrorEmpty = false
         return
       }
       this.bathhouseErrorWrong = false
-      
+
       const next = new Date()
-      next.setDate((new Date(e.target.value)).getDate() + 1)
+      next.setDate(new Date(e.target.value).getDate() + 1)
 
       this.bathDay = {
         date: pickedDay.getDate(),
         month: pickedDay.getMonth() + 1,
         year: pickedDay.getFullYear(),
-        day: pickedDay.getDay()
+        day: pickedDay.getDay(),
       }
 
       this.theNextDay = {
         date: next.getDate(),
         month: next.getMonth() + 1,
         year: next.getFullYear(),
-        day: next.getDay()
+        day: next.getDay(),
       }
 
       this.includedHours = []
@@ -758,37 +1073,37 @@ import {createHoursString} from '@/helpers/helpers'
       this.firstPickedTime = {}
       this.secondPickedTime = {}
     },
-    addDaysInfo(){
-      this.hours.firstDay.forEach(x => {
+    addDaysInfo() {
+      this.hours.firstDay.forEach((x) => {
         Object.assign(x, this.getHourInfo(x.id))
       })
-      this.hours.secondDay.forEach(x => {
+      this.hours.secondDay.forEach((x) => {
         Object.assign(x, this.getHourInfo(x.id))
       })
     },
-    handleDocumentClick(e){
+    handleDocumentClick(e) {
       this.closeDropdowns(e)
     },
-    closeDropdowns(e = null){
-      if (e === null){
-        for (const dropdown of this.dropdowns){
+    closeDropdowns(e = null) {
+      if (e === null) {
+        for (const dropdown of this.dropdowns) {
           dropdown.active = false
         }
         return
       }
 
-      if (!e.target.classList.contains('bathhouse-dropdown')){
+      if (!e.target.classList.contains('bathhouse-dropdown')) {
         this.timeDDActive = false
       }
 
-      for (const dropdown of this.dropdowns){
+      for (const dropdown of this.dropdowns) {
         if (+dropdown.id !== +e.target.getAttribute('id')) {
           dropdown.active = false
         }
       }
     },
-    handleDDScroll(){
-      if(this.$refs.dropdown.scrollTop >= this.$refs.firstDay.offsetHeight){
+    handleDDScroll() {
+      if (this.$refs.dropdown.scrollTop >= this.$refs.firstDay.offsetHeight) {
         this.$refs.firstDate.classList.add('sticky')
         this.$refs.secondDate.classList.remove('sticky')
       } else {
@@ -796,154 +1111,230 @@ import {createHoursString} from '@/helpers/helpers'
         this.$refs.secondDate.classList.add('sticky')
       }
     },
-    onDatePick(data){
+    onDatePick(data) {
       this.pickedDates.length = 0
       this.pickedDates = [...data]
     },
-    createDatesString(){
-      if (this.pickedDates[0] == null){
+    createDatesString() {
+      if (this.pickedDates[0] == null) {
         return 'Не выбрано'
       }
 
-      if (this.pickedDates[0].id < this.pickedDates[this.pickedDates.length-1].id){
-        return (this.pickedDates[0].date+'.'+this.pickedDates[0].month+'.'+this.pickedDates[0].year+' - '+this.pickedDates[this.pickedDates.length-1].date+'.'+this.pickedDates[this.pickedDates.length-1].month+'.'+this.pickedDates[this.pickedDates.length-1].year)
-      } else if (this.pickedDates[0].id > this.pickedDates[this.pickedDates.length-1].id) {
-        return (this.pickedDates[this.pickedDates.length-1].date+'.'+this.pickedDates[this.pickedDates.length-1].month+'.'+this.pickedDates[this.pickedDates.length-1].year+' - '+this.pickedDates[0].date+'.'+this.pickedDates[0].month+'.'+this.pickedDates[0].year)
+      if (
+        this.pickedDates[0].id <
+        this.pickedDates[this.pickedDates.length - 1].id
+      ) {
+        return (
+          this.pickedDates[0].date +
+          '.' +
+          this.pickedDates[0].month +
+          '.' +
+          this.pickedDates[0].year +
+          ' - ' +
+          this.pickedDates[this.pickedDates.length - 1].date +
+          '.' +
+          this.pickedDates[this.pickedDates.length - 1].month +
+          '.' +
+          this.pickedDates[this.pickedDates.length - 1].year
+        )
+      } else if (
+        this.pickedDates[0].id >
+        this.pickedDates[this.pickedDates.length - 1].id
+      ) {
+        return (
+          this.pickedDates[this.pickedDates.length - 1].date +
+          '.' +
+          this.pickedDates[this.pickedDates.length - 1].month +
+          '.' +
+          this.pickedDates[this.pickedDates.length - 1].year +
+          ' - ' +
+          this.pickedDates[0].date +
+          '.' +
+          this.pickedDates[0].month +
+          '.' +
+          this.pickedDates[0].year
+        )
       } else {
-        return (this.pickedDates[0].date+'.'+this.pickedDates[0].month+'.'+this.pickedDates[0].year)
+        return (
+          this.pickedDates[0].date +
+          '.' +
+          this.pickedDates[0].month +
+          '.' +
+          this.pickedDates[0].year
+        )
       }
     },
-    getStartDay(){
-      if (this.pickedDates[0] == null){
+    getStartDay() {
+      if (this.pickedDates[0] == null) {
         return ''
       }
 
-      if (this.pickedDates[0].id <= this.pickedDates[this.pickedDates.length-1].id){
-        return (this.pickedDates[0].date+'.'+this.pickedDates[0].month+'.'+this.pickedDates[0].year)
+      if (
+        this.pickedDates[0].id <=
+        this.pickedDates[this.pickedDates.length - 1].id
+      ) {
+        return (
+          this.pickedDates[0].date +
+          '.' +
+          this.pickedDates[0].month +
+          '.' +
+          this.pickedDates[0].year
+        )
       } else {
-        return (this.pickedDates[this.pickedDates.length-1].date+'.'+this.pickedDates[this.pickedDates.length-1].month+'.'+this.pickedDates[this.pickedDates.length-1].year)
+        return (
+          this.pickedDates[this.pickedDates.length - 1].date +
+          '.' +
+          this.pickedDates[this.pickedDates.length - 1].month +
+          '.' +
+          this.pickedDates[this.pickedDates.length - 1].year
+        )
       }
     },
-    getEndDay(){
-      if (this.pickedDates[0] == null){
+    getEndDay() {
+      if (this.pickedDates[0] == null) {
         return ''
       }
 
-      if (this.pickedDates[0].id >= this.pickedDates[this.pickedDates.length-1].id){
-        return (this.pickedDates[0].date+'.'+this.pickedDates[0].month+'.'+this.pickedDates[0].year)
+      if (
+        this.pickedDates[0].id >=
+        this.pickedDates[this.pickedDates.length - 1].id
+      ) {
+        return (
+          this.pickedDates[0].date +
+          '.' +
+          this.pickedDates[0].month +
+          '.' +
+          this.pickedDates[0].year
+        )
       } else {
-        return (this.pickedDates[this.pickedDates.length-1].date+'.'+this.pickedDates[this.pickedDates.length-1].month+'.'+this.pickedDates[this.pickedDates.length-1].year)
+        return (
+          this.pickedDates[this.pickedDates.length - 1].date +
+          '.' +
+          this.pickedDates[this.pickedDates.length - 1].month +
+          '.' +
+          this.pickedDates[this.pickedDates.length - 1].year
+        )
       }
     },
-    onArrivalInput(e){
+    onArrivalInput(e) {
       this.userData.arrivalTime = `${e.target.value}:00.000`
     },
 
-    onLeaveInput(e){
+    onLeaveInput(e) {
       this.userData.arrivalTime = `${e.target.value}:00.000`
     },
 
-    isFirstEnabled(){
-      return (this.pickedDates.length > 0 && this.userData.people > 0)
+    isFirstEnabled() {
+      return this.pickedDates.length > 0 && this.userData.people > 0
     },
 
-    toggleRefundable(e){
+    toggleRefundable(e) {
       this.userData.refundable = !e.target.checked
       this.calculatePrice()
     },
 
-    isPrecheckDisabled(){
-      return (
-        !this.personalAgreement 
-        || !this.personalData 
-        || !this.userData.contactInformation.email 
-        || this.userData.contactInformation.phone.length < 18
-        || !this.userData.contactInformation.firstName 
-        || !this.userData.contactInformation.lastName)
-    },
-    getTakenDates(){
-      if (!this.ordersList.length){
+    getTakenDates() {
+      if (!this.ordersList.length) {
         return
       }
       const dates = []
 
-      for (const order of this.ordersList){
+      for (const order of this.ordersList) {
         const interval = {
           from: order.from,
-          to: order.to 
+          to: order.to,
         }
         dates.push(interval)
       }
 
       return dates
     },
-    calculateBathhousePrice(){
+    calculateBathhousePrice() {
       const withoutService = this.includedHours.reduce((sum, hour) => {
-        return sum + (this.getBathHourPrice(hour))
+        return sum + this.getBathHourPrice(hour)
       }, 0)
 
-      const guestsOverprice = this.bathhouseData.people > 6 ? (this.bathhouseData.people - 6) * 400 : 0
+      this.bathhouseBasePrice = withoutService
+
+      const guestsOverprice =
+        this.bathhouseData.people > 6
+          ? (this.bathhouseData.people - 6) * 400
+          : 0
       // const setsOverprice = this.bathhouseData.sets > 6 ? (this.bathhouseData.sets - 6) * 400 : 0
       // const brooms = this.bathhouseData.brooms ?? 0
-      const servicesPrice = this.bathhouseSelectedOptions.reduce((sum, option) => {
-        return sum + (Number(option.value) * option.price)
-      }, 0)
+      const servicesPrice = this.bathhouseSelectedOptions.reduce(
+        (sum, option) => {
+          return sum + Number(option.value) * option.price
+        },
+        0
+      )
 
-      const price = withoutService + 
-                    guestsOverprice +
-                    servicesPrice
+      const price = withoutService + guestsOverprice + servicesPrice
 
-      if (process.client){
-        localStorage.setItem('BHOptions', JSON.stringify(this.bathhouseSelectedOptions))
+      if (process.client) {
+        localStorage.setItem(
+          'BHOptions',
+          JSON.stringify(this.bathhouseSelectedOptions)
+        )
       }
-    
+
       this.bathhousePrice = price
     },
     calculatePrice() {
       const beforeDiscount = this.pickedDates.reduce((sum, day) => {
-          return sum + (this.getMult(day) * this.basePrice);
-      }, 0);
+        return sum + this.getMult(day) * this.basePrice
+      }, 0)
 
-      const optionsPrice = this.selectedOptions.reduce((sum, option,) => {
-        if (option.type === 'number'){
-          return sum + (option.price * +option.value)
+      const optionsPrice = this.selectedOptions.reduce((sum, option) => {
+        if (option.type === 'number') {
+          return sum + option.price * +option.value
         }
         return sum + option.price
       }, 0)
 
-      if (process.client){
+      if (process.client) {
         localStorage.setItem('GHOptions', JSON.stringify(this.selectedOptions))
       }
 
-      this.price = (beforeDiscount + this.bathhousePrice + optionsPrice) * (this.userData.refundable ? 1 : 0.9);
+      this.price =
+        (beforeDiscount + this.bathhousePrice + optionsPrice) *
+        (this.userData.refundable ? 1 : 0.9)
     },
     getMult(day) {
-      const strDate = `${day.year}-${day.month > 9 ? day.month : '0' + day.month}-${day.date > 9 ? day.date : '0' + day.date}`;
+      const strDate = `${day.year}-${
+        day.month > 9 ? day.month : '0' + day.month
+      }-${day.date > 9 ? day.date : '0' + day.date}`
 
-      const overlap = this.priceTable.exceptions.find(x => x.date === strDate);
+      const overlap = this.priceTable.exceptions.find((x) => x.date === strDate)
 
       if (overlap != null) {
-          return overlap.price;
+        return overlap.price
       }
 
-      return {
+      return (
+        {
           0: this.priceTable.sunday,
-          5:  this.priceTable.friday,
-          6:  this.priceTable.saturday,
-      }[day.day] ??  this.priceTable.weekday;
+          5: this.priceTable.friday,
+          6: this.priceTable.saturday,
+        }[day.day] ?? this.priceTable.weekday
+      )
     },
 
-    changeBathhouseOption(e, option){
-      if (option.type === 'checkbox' && !e.target.checked){
-        const idx = this.bathhouseSelectedOptions.findIndex(x => x.id === option.id)
+    changeBathhouseOption(e, option) {
+      if (option.type === 'checkbox' && !e.target.checked) {
+        const idx = this.bathhouseSelectedOptions.findIndex(
+          (x) => x.id === option.id
+        )
         this.bathhouseSelectedOptions.splice(idx, 1)
         this.calculateBathhousePrice()
         return
       }
-      
-      const oldItem = this.bathhouseSelectedOptions.find(x => x.id === option.id)
 
-      if (oldItem != null){
+      const oldItem = this.bathhouseSelectedOptions.find(
+        (x) => x.id === option.id
+      )
+
+      if (oldItem != null) {
         oldItem.value = e.target.value
       } else {
         const item = {
@@ -951,31 +1342,35 @@ import {createHoursString} from '@/helpers/helpers'
           value: option.type === 'checkbox' ? e.target.checked : e.target.value,
           id: option.id,
           title: option.title,
-          price: option.price
+          price: option.price,
         }
         this.bathhouseSelectedOptions.push(item)
       }
 
       this.calculateBathhousePrice()
     },
-    changeOption(e, option){
-      if (option.type === 'checkbox' && !e.target.checked){
-        const idx = this.bathhouseSelectedOptions.findIndex(x => x.id === option.id)
+    changeOption(e, option) {
+      if (option.type === 'checkbox' && !e.target.checked) {
+        const idx = this.bathhouseSelectedOptions.findIndex(
+          (x) => x.id === option.id
+        )
         this.bathhouseSelectedOptions.splice(idx, 1)
         this.calculateBathhousePrice()
         return
       }
-      
-      const oldItem = this.bathhouseSelectedOptions.find(x => x.id === option.id)
 
-      if (oldItem != null){
+      const oldItem = this.bathhouseSelectedOptions.find(
+        (x) => x.id === option.id
+      )
+
+      if (oldItem != null) {
         oldItem.value = e.target.value
       } else {
         const item = {
           type: option.type,
           value: option.type === 'checkbox' ? e.target.checked : e.target.value,
           id: option.id,
-          price: option.price
+          price: option.price,
         }
         this.bathhouseSelectedOptions.push(item)
       }
@@ -983,38 +1378,54 @@ import {createHoursString} from '@/helpers/helpers'
       this.calculateBathhousePrice()
     },
 
-    getBathHourPrice(hour){
-      const day = {
-        5: 'friday',
-        6: 'saturday',
-        0: 'sunday'
-      }[hour.day] ?? 'weekday'
+    getBathHourPrice(hour) {
+      const day =
+        {
+          5: 'friday',
+          6: 'saturday',
+          0: 'sunday',
+        }[hour.day] ?? 'weekday'
 
       const tableDay = this.bathhousePriceTable[day]
 
-      for (const interval of tableDay.priceInterval){
-        const start = Number(interval.from.slice(0,2))
-        const end = Number(interval.to.slice(0,2)) === 0 ? 24 : Number(interval.to.slice(0,2))
+      for (const interval of tableDay.priceInterval) {
+        const start = Number(interval.from.slice(0, 2))
+        const end =
+          Number(interval.to.slice(0, 2)) === 0
+            ? 24
+            : Number(interval.to.slice(0, 2))
 
-        if (hour.hour >= start && hour.hour < end){
+        if (hour.hour >= start && hour.hour < end) {
           return interval.price
         }
       }
     },
 
-    async getData(){
-      this.priceTable = (await this.$http.$get('guest-house-price-table?populate=deep%2C10')).data
-      this.bathhousePriceTable = (await this.$http.$get('bathhouse-price-table?populate=deep%2C10')).data
-      this.ordersList = (await this.$http.$get(`guest-house-orders?populate=deep%2C10%20`)).data
-      this.bathhouseOrdersList = (await this.$http.$get(`bathhouse-orders?populate=deep%2C%2010`)).data
-      this.options = (await this.$http.$get(`guest-house-options?populate=deep%2C%2010`)).data
+    async getData() {
+      this.priceTable = (
+        await this.$http.$get('guest-house-price-table?populate=deep%2C10')
+      ).data
+      this.bathhousePriceTable = (
+        await this.$http.$get('bathhouse-price-table?populate=deep%2C10')
+      ).data
+      this.ordersList = (
+        await this.$http.$get(`guest-house-orders?populate=deep%2C10%20`)
+      ).data
+      this.bathhouseOrdersList = (
+        await this.$http.$get(`bathhouse-orders?populate=deep%2C%2010`)
+      ).data
+      this.options = (
+        await this.$http.$get(`guest-house-options?populate=deep%2C%2010`)
+      ).data
       // this.options = [(await this.$http.$get(`guest-house-options?populate=deep%2C%2010`)).data]
-      this.bathhouseOptions = [(await this.$http.$get(`bathhouse-options?populate=deep%2C%2010`)).data]
+      this.bathhouseOptions = [
+        (await this.$http.$get(`bathhouse-options?populate=deep%2C%2010`)).data,
+      ]
 
       this.houseDataLoaded = true
     },
 
-    async bookHouse(){
+    bookHouse() {
       const splittedStart = this.getStartDay().split('.').reverse()
       const splittedEnd = this.getEndDay().split('.').reverse()
 
@@ -1035,28 +1446,37 @@ import {createHoursString} from '@/helpers/helpers'
         to: end,
         contactInformation: this.userData.contactInformation,
         refundable: this.userData.refundable,
-        options: []
+        options: [],
+        objectType: this.objectType,
+        objectParams: this.objectParams,
       }
 
-      dataToSend.contactInformation.phone = dataToSend.contactInformation.phone.replaceAll(/[ ()-]/g, '')
+      dataToSend.contactInformation.phone =
+        dataToSend.contactInformation.phone.replaceAll(/[ ()-]/g, '')
 
-      dataToSend.options = this.selectedOptions.map(x =>{
+      dataToSend.options = this.selectedOptions.map((x) => {
         return {
           id: x.id,
-          value: x.value
+          value: x.value,
         }
       })
 
-      if (this.bathhousePrice){
+      if (this.bathhousePrice) {
         dataToSend.bathhouse_order = this.assembleBathhouseData()
       }
 
       localStorage.setItem('order', JSON.stringify(dataToSend))
 
-      const resp = await this.$http.$post('guest-house-orders', dataToSend)
+      // await this.$http.$post('guest-house-orders', dataToSend)
+      this.$router.push({ path: '/precheck' })
     },
-    assembleBathhouseData(){
-      const dateTime = new Date(this.firstPickedTime.year, this.firstPickedTime.month, this.firstPickedTime.date, this.firstPickedTime.hour)
+    assembleBathhouseData() {
+      const dateTime = new Date(
+        this.firstPickedTime.year,
+        this.firstPickedTime.month,
+        this.firstPickedTime.date,
+        this.firstPickedTime.hour
+      )
 
       const data = {
         people: this.bathhouseData.people,
@@ -1064,28 +1484,35 @@ import {createHoursString} from '@/helpers/helpers'
         hours: this.includedHours.length,
         dateTime,
         refundable: this.userData.refundable,
-        options: this.assembleBathhouseOptions()
+        options: this.assembleBathhouseOptions(),
+        totalPrice: this.bathhousePrice,
+        basePrice: this.bathhouseBasePrice,
       }
 
       return data
     },
-    assembleBathhouseOptions(){
-      const options = this.bathhouseSelectedOptions.map(x => {
-        return  {
+    assembleBathhouseOptions() {
+      const options = this.bathhouseSelectedOptions.map((x) => {
+        return {
           id: x.id,
-          value: x.value
+          value: x.value,
         }
       })
       return options
     },
-    isPersonalFilled(){
-      if (this.userData.contactInformation.email && this.userData.contactInformation.phone && this.userData.contactInformation.firstName && this.userData.contactInformation.lastName){
+    isPersonalFilled() {
+      if (
+        this.userData.contactInformation.email &&
+        this.userData.contactInformation.phone &&
+        this.userData.contactInformation.firstName &&
+        this.userData.contactInformation.lastName
+      ) {
         return 'Заполнено'
-      } 
+      }
       return '-'
     },
-    fuckGoBack(){
-      if (this.currentProgress === 4 && !this.bathhousePrice){
+    fuckGoBack() {
+      if (this.currentProgress === 4 && !this.bathhousePrice) {
         this.currentProgress = 2
         return
       }
@@ -1095,24 +1522,23 @@ import {createHoursString} from '@/helpers/helpers'
       this.getHouseOptionsFromLS()
       this.getBathhouseOptionsFromLS()
     },
-    async getBathhouseOptionsFromLS(){
-      if (this.currentProgress !== 3){
+    async getBathhouseOptionsFromLS() {
+      if (this.currentProgress !== 3) {
         return
       }
 
       const LSBHOptions = JSON.parse(await localStorage.getItem('BHOptions'))
 
-      if (!LSBHOptions){
+      if (!LSBHOptions) {
         return
       }
 
-      for (const option of LSBHOptions){
-
-        if (this.$refs[`BHOption${option.id}`][0].tagName !== 'INPUT'){
+      for (const option of LSBHOptions) {
+        if (this.$refs[`BHOption${option.id}`][0].tagName !== 'INPUT') {
           continue
         }
 
-        if (this.$refs[`BHOption${option.id}`][0].type === 'checkbox'){
+        if (this.$refs[`BHOption${option.id}`][0].type === 'checkbox') {
           this.$refs[`BHOption${option.id}`][0].checked = option.value
           continue
         }
@@ -1120,24 +1546,23 @@ import {createHoursString} from '@/helpers/helpers'
         this.$refs[`BHOption${option.id}`][0].value = option.value
       }
     },
-    async getHouseOptionsFromLS(){
-      if (this.currentProgress !== 1){
+    async getHouseOptionsFromLS() {
+      if (this.currentProgress !== 1) {
         return
       }
 
       const LSHouseOptions = JSON.parse(await localStorage.getItem('GHOptions'))
 
-      if (!LSHouseOptions){
+      if (!LSHouseOptions) {
         return
       }
 
-      for (const option of LSHouseOptions){
-
-        if (this.$refs[`option${option.id}`][0].tagName !== 'INPUT'){
+      for (const option of LSHouseOptions) {
+        if (this.$refs[`option${option.id}`][0].tagName !== 'INPUT') {
           continue
         }
 
-        if (this.$refs[`option${option.id}`][0].type === 'checkbox'){
+        if (this.$refs[`option${option.id}`][0].type === 'checkbox') {
           this.$refs[`option${option.id}`][0].checked = option.value === 'true'
           continue
         }
@@ -1145,24 +1570,24 @@ import {createHoursString} from '@/helpers/helpers'
         this.$refs[`option${option.id}`][0].value = option.value
       }
     },
-    isBathhouseBtnDisabled(){
-      return (!this.bathhouseData.people || !this.includedHours.length)
+    isBathhouseBtnDisabled() {
+      return !this.bathhouseData.people || !this.includedHours.length
     },
-    addZero(str){
-      if (+str<10){
+    addZero(str) {
+      if (+str < 10) {
         return `0${str.toString()[0]}`
       }
       return str
     },
-    pickTime(hour){
+    pickTime(hour) {
       hour = this.getHourInfo(hour.id)
 
-      if (!this.firstPickedTime.id){
+      if (!this.firstPickedTime.id) {
         this.firstPickedTime = hour
         this.includedHours = [hour]
       } else {
-        if(hour.id === this.firstPickedTime.id){
-          if(!this.secondPickedTime.id){
+        if (hour.id === this.firstPickedTime.id) {
+          if (!this.secondPickedTime.id) {
             this.firstPickedTime = {}
             this.includedHours = []
             this.calculateBathhousePrice()
@@ -1175,7 +1600,7 @@ import {createHoursString} from '@/helpers/helpers'
             return
           }
         }
-        if(hour.id === this.secondPickedTime.id){
+        if (hour.id === this.secondPickedTime.id) {
           this.secondPickedTime = {}
           this.includedHours = [this.firstPickedTime]
           this.calculateBathhousePrice()
@@ -1183,7 +1608,7 @@ import {createHoursString} from '@/helpers/helpers'
         }
         this.secondPickedTime = hour
         this.clearExcessHours()
-        if(hour.id > this.firstPickedTime.id){
+        if (hour.id > this.firstPickedTime.id) {
           this.includeForward()
         } else {
           this.includeBackward()
@@ -1193,76 +1618,144 @@ import {createHoursString} from '@/helpers/helpers'
       this.clearCopies()
       this.calculateBathhousePrice()
     },
-    clearExcessHours(){
-      for (const hour of this.includedHours){
-        if((hour.id > this.firstPickedTime.id && hour.id > this.secondPickedTime.id) || (hour.id < this.firstPickedTime.id && hour.id < this.secondPickedTime.id)){
-          this.includedHours = this.includedHours.filter(x => x.id !== hour.id)
+    clearExcessHours() {
+      for (const hour of this.includedHours) {
+        if (
+          (hour.id > this.firstPickedTime.id &&
+            hour.id > this.secondPickedTime.id) ||
+          (hour.id < this.firstPickedTime.id &&
+            hour.id < this.secondPickedTime.id)
+        ) {
+          this.includedHours = this.includedHours.filter(
+            (x) => x.id !== hour.id
+          )
         }
       }
     },
-    clearCopies(){
-      this.includedHours.forEach(x => {
-        const idx = this.includedHours.findIndex(y => (y.id === x.id && y !== x))
-        if (~idx){
+    clearCopies() {
+      this.includedHours.forEach((x) => {
+        const idx = this.includedHours.findIndex(
+          (y) => y.id === x.id && y !== x
+        )
+        if (~idx) {
           this.includedHours.splice(idx, 1)
         }
       })
     },
-    includeForward(){
+    includeForward() {
       // todo
-       for (let i = this.firstPickedTime.id; i <= this.secondPickedTime.id; i++){
-          const hour = this.getHourInfo(i)
-          if (this.disabledHours.some(x => (x.date === hour.date && x.month === hour.month && x.year === hour.year && x.hour === hour.hour))){
-            this.secondPickedTime = this.getHourInfo(i-1)
-            return
-          }
-
-          this.includedHours.push(hour)
-        }
-    },
-
-    includeBackward(){
-      // todo
-       for (let i = this.firstPickedTime.id; i >= this.secondPickedTime.id; i--){
+      for (
+        let i = this.firstPickedTime.id;
+        i <= this.secondPickedTime.id;
+        i++
+      ) {
         const hour = this.getHourInfo(i)
-          if (this.disabledHours.some(x => (x.date === hour.date && x.month === hour.month && x.year === hour.year && x.hour === hour.hour))){
-            this.secondPickedTime = this.getHourInfo(i+1)
-            return
-          }
-
-          this.includedHours.push(hour)
+        if (
+          this.disabledHours.some(
+            (x) =>
+              x.date === hour.date &&
+              x.month === hour.month &&
+              x.year === hour.year &&
+              x.hour === hour.hour
+          )
+        ) {
+          this.secondPickedTime = this.getHourInfo(i - 1)
+          return
         }
+
+        this.includedHours.push(hour)
+      }
     },
 
-    getClass(hour){
+    includeBackward() {
+      // todo
+      for (
+        let i = this.firstPickedTime.id;
+        i >= this.secondPickedTime.id;
+        i--
+      ) {
+        const hour = this.getHourInfo(i)
+        if (
+          this.disabledHours.some(
+            (x) =>
+              x.date === hour.date &&
+              x.month === hour.month &&
+              x.year === hour.year &&
+              x.hour === hour.hour
+          )
+        ) {
+          this.secondPickedTime = this.getHourInfo(i + 1)
+          return
+        }
+
+        this.includedHours.push(hour)
+      }
+    },
+
+    getClass(hour) {
       const disabled = this.isHourDisabled(hour) ? 'disabled-hour' : ''
-      const lastDisabled = (disabled && (!this.isHourDisabled(this.getHourInfo(hour.id+1)) || hour.hour === 11 || hour.hour === 23)) ? 'last-disabled-hour' : ''
-      const firstDisabled = (disabled && (!this.isHourDisabled(this.getHourInfo(hour.id-1))  || hour.hour === 0)) ? 'first-disabled-hour' : ''
-      const included = ~this.includedHours.findIndex(x=> x.id === hour.id) ? 'included-hour' : ''
-      const lastIncluded = (included && (!~this.includedHours.findIndex(x=> x.id === hour.id+1) || hour.hour === 11 || hour.hour === 23)) ? 'last-included-hour' : ''
-      const firstIncluded = (included && (!~this.includedHours.findIndex(x=> x.id === hour.id-1) || hour.hour === 0)) ? 'first-included-hour' : ''
+      const lastDisabled =
+        disabled &&
+        (!this.isHourDisabled(this.getHourInfo(hour.id + 1)) ||
+          hour.hour === 11 ||
+          hour.hour === 23)
+          ? 'last-disabled-hour'
+          : ''
+      const firstDisabled =
+        disabled &&
+        (!this.isHourDisabled(this.getHourInfo(hour.id - 1)) || hour.hour === 0)
+          ? 'first-disabled-hour'
+          : ''
+      const included = ~this.includedHours.findIndex((x) => x.id === hour.id)
+        ? 'included-hour'
+        : ''
+      const lastIncluded =
+        included &&
+        (!~this.includedHours.findIndex((x) => x.id === hour.id + 1) ||
+          hour.hour === 11 ||
+          hour.hour === 23)
+          ? 'last-included-hour'
+          : ''
+      const firstIncluded =
+        included &&
+        (!~this.includedHours.findIndex((x) => x.id === hour.id - 1) ||
+          hour.hour === 0)
+          ? 'first-included-hour'
+          : ''
 
-      return [disabled, lastDisabled, firstDisabled, included, lastIncluded, firstIncluded].join(' ')
+      return [
+        disabled,
+        lastDisabled,
+        firstDisabled,
+        included,
+        lastIncluded,
+        firstIncluded,
+      ].join(' ')
     },
 
-    isHourDisabled(hour){
-      return this.disabledHours.some(x => (x.date === +hour.date && x.month === hour.month && x.year === hour.year && x.hour === hour.hour))
+    isHourDisabled(hour) {
+      return this.disabledHours.some(
+        (x) =>
+          x.date === +hour.date &&
+          x.month === hour.month &&
+          x.year === hour.year &&
+          x.hour === hour.hour
+      )
     },
 
-    assembleDisabledHours(){
-      for (const date of this.bathhouseOrdersList){
-        if (date.status === 'confirmed'){
+    assembleDisabledHours() {
+      for (const date of this.bathhouseOrdersList) {
+        if (date.status === 'confirmed') {
           const dateObj = new Date(date.datetime)
 
           let hour = dateObj.getHours()
-          
-          for (let i = 0; i < date.hours; i++ ){
 
+          for (let i = 0; i < date.hours; i++) {
             const time = {
               date: dateObj.getDate(),
               month: dateObj.getMonth() + 1,
               year: dateObj.getFullYear(),
-              hour
+              hour,
             }
 
             this.disabledHours.push(time)
@@ -1272,20 +1765,18 @@ import {createHoursString} from '@/helpers/helpers'
       }
     },
 
-    getHourInfo(id){
+    getHourInfo(id) {
       return {
         id,
-        hour : id % 24,
-        date : id > 23 ? this.theNextDay.date : this.bathDay.date,
-        month : id > 23 ? this.theNextDay.month : this.bathDay.month,
-        year : id > 23 ? this.theNextDay.year : this.bathDay.year,
-        day: id > 23 ? this.theNextDay.day : this.bathDay.day
+        hour: id % 24,
+        date: id > 23 ? this.theNextDay.date : this.bathDay.date,
+        month: id > 23 ? this.theNextDay.month : this.bathDay.month,
+        year: id > 23 ? this.theNextDay.year : this.bathDay.year,
+        day: id > 23 ? this.theNextDay.day : this.bathDay.day,
       }
-    }
-  }
+    },
+  },
 }
-
 </script>
 
-<style lang="scss" src="./index.scss" scoped>
-</style>
+<style lang="scss" src="./index.scss" scoped></style>

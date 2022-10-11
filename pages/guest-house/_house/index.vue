@@ -10,20 +10,24 @@
         :key="image.id"
         class="swiper-slide house__slide"
       >
-        <img class="house__slide-img" :src="`http://185.46.10.102:1337${image.url}`" />
+        <img
+          class="house__slide-img"
+          :src="`http://185.46.10.102:1337${image.url}`"
+        />
         <!-- <img class="house__slide-img" :src="image.src" /> -->
       </swiper-slide>
     </swiper>
 
-  <section class="container">
-    <Booking :base-price="houseParams.basePrice"/>
-  </section>
+    <section class="container">
+      <Booking
+        :base-price="houseParams.basePrice"
+        :object-type="0"
+        :object-params="houseParams"
+      />
+    </section>
 
     <section class="container">
-      <HouseName
-        :name="houseParams.name"
-        :about="houseParams.description"
-      />
+      <HouseName :name="houseParams.name" :about="houseParams.description" />
     </section>
 
     <HouseParameters
@@ -39,7 +43,7 @@
     </section>
 
     <section class="container">
-      <HouseFunctional :options="options"/>
+      <HouseFunctional :options="options" />
     </section>
   </div>
 </template>
@@ -100,8 +104,20 @@ export default {
   async created() {
     this.houseParams.feature = []
     this.houseParams.images = []
-    this.houseParams = [(await this.$http.$get(`guest-houses/${this.$route.params.house}?populate=*`)).data][0]
-    this.options = [(await this.$http.$get(`guest-house-options/${this.$route.params.house}?populate=*`)).data]
+    this.houseParams = [
+      (
+        await this.$http.$get(
+          `guest-houses/${this.$route.params.house}?populate=*`
+        )
+      ).data,
+    ][0]
+    this.options = [
+      (
+        await this.$http.$get(
+          `guest-house-options/${this.$route.params.house}?populate=*`
+        )
+      ).data,
+    ]
   },
 }
 </script>

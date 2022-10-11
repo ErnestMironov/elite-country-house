@@ -15,41 +15,118 @@
       <div class="pt-[24px] border-t border-solid border-black">
         <div class="flex">
           <img
-            src="~/assets/images/bathhouse_1.jpg"
+            :src="`http://185.46.10.102:1337${order?.objectParams?.images[0]?.url}`"
             alt=""
             class="w-[83px] h-[83px] object-cover mr-[18px]"
           />
           <div class="flex-1">
             <h3 class="text-[18px] font-medium">
-              Гостевой дом “Название гостевого дома”
+              {{ mainObject }} "{{ order?.objectParams?.name }}"
             </h3>
             <ul class="flex">
-              <li class="text-[#2D292980] text-[16px] mr-[12px]">3 дня</li>
-              <li class="text-[#2D292980] text-[16px] mr-[12px]">6 человек</li>
-              <li class="text-[#2D292980] text-[16px] mr-[12px]">21.07.2022</li>
-              <li class="text-[#2D292980] text-[16px] mr-[12px]">14:00</li>
+              <li class="text-[#2D292980] text-[16px] mr-[12px]">
+                {{ mainObjectDuration }}
+              </li>
+              <li class="text-[#2D292980] text-[16px] mr-[12px]">
+                {{ mainObjectPersons }}
+              </li>
+              <li class="text-[#2D292980] text-[16px] mr-[12px]">
+                {{ new Date(order?.from ?? 0).toLocaleDateString() }}
+              </li>
+              <li class="text-[#2D292980] text-[16px] mr-[12px]">
+                {{ order?.arrivalTime.split('.')[0] }}
+              </li>
             </ul>
             <div class="option option_without_dots mt-[13px]">
               <b>Базовая цена</b>
-              <b>54 000₽</b>
+              <b>{{ order?.objectParams?.basePrice | formatPrice }}₽</b>
             </div>
           </div>
         </div>
-        <div class="option mt-[30px]">
-          <b>Камин</b>
-          <b>16 000₽</b>
+        <div
+          v-for="option in objectOptions"
+          :key="option.id"
+          class="option mt-[30px]"
+        >
+          <b
+            >{{ option.title }}
+            {{ option.type === 'number' ? `(×${option.value})` : '' }}</b
+          >
+          <b
+            >{{
+              (option.type === 'number'
+                ? option.price * option.value
+                : option.price) | formatPrice
+            }}₽</b
+          >
         </div>
-        <div class="text-[18px] mt-[12px]">Камин растопят к приезду</div>
-        <div class="text-[18px] mt-[6px]">8 вязанок дров</div>
-        <div class="option mt-[24px]">
-          <b>Камин</b>
-          <b>16 000₽</b>
-        </div>
-        <div class="text-[18px] mt-[6px]">8 вязанок дров</div>
         <div class="summary">
           <div class="option">
             <b>Итог</b>
-            <b>72 400₽</b>
+            <b>{{ objectTotalPrice | formatPrice }}₽</b>
+          </div>
+        </div>
+      </div>
+      <div v-if="order?.bathhouse_order?.bathhouse" class="pt-[24px] mt-10">
+        <div class="flex">
+          <img
+            :src="`http://185.46.10.102:1337${bathParams?.images[0]?.url}`"
+            alt=""
+            class="w-[83px] h-[83px] object-cover mr-[18px]"
+          />
+          <div class="flex-1">
+            <h3 class="text-[18px] font-medium">
+              {{ mainObject }} "{{ order?.objectParams?.name }}"
+            </h3>
+            <ul class="flex">
+              <li class="text-[#2D292980] text-[16px] mr-[12px]">
+                {{ bathDuration }}
+              </li>
+              <li class="text-[#2D292980] text-[16px] mr-[12px]">
+                {{ bathPersons }}
+              </li>
+              <li class="text-[#2D292980] text-[16px] mr-[12px]">
+                {{
+                  new Date(
+                    order?.bathhouse_order?.dateTime ?? 0
+                  ).toLocaleDateString({ timezone: '' })
+                }}
+              </li>
+              <li class="text-[#2D292980] text-[16px] mr-[12px]">
+                {{
+                  new Date(
+                    order?.bathhouse_order?.dateTime ?? 0
+                  ).toLocaleTimeString()
+                }}
+              </li>
+            </ul>
+            <div class="option option_without_dots mt-[13px]">
+              <b>Базовая цена</b>
+              <b>{{ order?.bathhouse_order?.basePrice | formatPrice }}₽</b>
+            </div>
+          </div>
+        </div>
+        <div
+          v-for="option in bathOptions"
+          :key="option.id"
+          class="option mt-[30px]"
+        >
+          <b
+            >{{ option.title }}
+            {{ option.type === 'number' ? `(×${option.value})` : '' }}</b
+          >
+          <b
+            >{{
+              (option.type === 'number'
+                ? option.price * option.value
+                : option.price) | formatPrice
+            }}₽</b
+          >
+        </div>
+        <div class="summary">
+          <div class="option">
+            <b>Итог</b>
+            <b>{{ order?.bathhouse_order?.totalPrice | formatPrice }}₽</b>
           </div>
         </div>
       </div>
@@ -70,7 +147,103 @@
 
 <script>
 import SimpleTitle from '~/components/ui/simple-title/simple-title.vue'
-export default { components: { SimpleTitle } }
+import {
+  daysPluralize,
+  hoursPluralize,
+  personsPluralize,
+} from '~/helpers/helpers'
+
+export default {
+  components: { SimpleTitle },
+  filters: {
+    formatPrice(val) {
+      return Number(val).toLocaleString()
+    },
+  },
+  data() {
+    return {
+      order: null,
+      objectOptions: null,
+      bathOptions: null,
+      bathParams: null,
+    }
+  },
+  computed: {
+    mainObject() {
+      switch (this?.order?.objectType) {
+        case 0:
+          return 'Гостевой дом'
+        case 1:
+          return 'Апартаменты'
+        case 2:
+          return 'Баня'
+
+        default:
+          return ''
+      }
+    },
+    mainObjectDuration() {
+      let dur = Math.abs(
+        Math.floor(
+          (new Date(this.order?.to) - new Date(this.order?.from)) /
+            1000 /
+            60 /
+            60 /
+            24
+        )
+      )
+
+      dur = dur === 0 ? 1 : dur
+
+      return `${dur} ${daysPluralize(dur)}`
+    },
+    bathDuration() {
+      return `${this.order?.bathhouse_order?.hours} ${hoursPluralize(
+        this.order?.bathhouse_order?.hours
+      )}`
+    },
+    mainObjectPersons() {
+      return `${this.order?.people} ${personsPluralize(this.order?.people)}`
+    },
+    bathPersons() {
+      return `${this.order?.bathhouse_order?.people} ${personsPluralize(
+        this.order?.bathhouse_order?.people
+      )}`
+    },
+
+    objectTotalPrice() {
+      let dur = Math.abs(
+        Math.floor(
+          (new Date(this.order?.to) - new Date(this.order?.from)) /
+            1000 /
+            60 /
+            60 /
+            24
+        )
+      )
+
+      dur = dur === 0 ? 1 : dur
+
+      return (
+        this.order?.objectParams?.basePrice * dur +
+        this.objectOptions?.reduce((prev, cur) => prev + cur.price, 0)
+      )
+    },
+  },
+  async mounted() {
+    if (window.localStorage) {
+      this.order = JSON.parse(localStorage.getItem('order'))
+      this.objectOptions = JSON.parse(localStorage.getItem('GHOptions'))
+      this.bathOptions = JSON.parse(localStorage.getItem('BHOptions'))
+
+      this.bathParams = (
+        await this.$http.$get(
+          `bathhouses/${this.order?.bathhouse_order?.bathhouse}?populate=deep,10`
+        )
+      ).data
+    }
+  },
+}
 </script>
 
 <style lang="scss" scoped>
@@ -118,6 +291,7 @@ export default { components: { SimpleTitle } }
     position: relative;
     bottom: 6px;
     margin: 0 5px;
+    min-width: 20px;
   }
 
   &_without_dots {

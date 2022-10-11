@@ -21,6 +21,7 @@
     "markdown-it-div": "^1.1.0",
     "maska": "^1.5.0",
     "nuxt": "^2.15.8",
+    "pluralize-ru-ts": "^1.1.0",
     "scroll-into-view": "^1.16.2",
     "vue": "^2.6.14",
     "vue-awesome-swiper": "^4.1.1",
