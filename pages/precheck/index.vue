@@ -133,7 +133,7 @@
       <div class="total-summary">
         <div class="option">
           <b>Итог</b>
-          <b>72 400₽</b>
+          <b>{{ totalPrice | formatPrice }}₽</b>
         </div>
       </div>
       <button
@@ -228,6 +228,10 @@ export default {
         this.order?.objectParams?.basePrice * dur +
         this.objectOptions?.reduce((prev, cur) => prev + cur.price, 0)
       )
+    },
+
+    totalPrice() {
+      return this.objectTotalPrice + this.order?.bathhouse_order?.totalPrice
     },
   },
   async mounted() {
