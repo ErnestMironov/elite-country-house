@@ -1418,7 +1418,7 @@ export default {
       ).data
       this.ordersList = (
         await this.$http.$get(`guest-house-orders?populate=deep%2C10%20`)
-      ).data
+      ).data.filter(x => x.status !== 'cancelled')
       this.bathhouseOrdersList = (
         await this.$http.$get(`bathhouse-orders?populate=deep%2C%2010`)
       ).data
@@ -1429,6 +1429,8 @@ export default {
       this.bathhouseOptions = [
         (await this.$http.$get(`bathhouse-options?populate=deep%2C%2010`)).data,
       ]
+
+      console.log(this.ordersList)
 
       this.houseDataLoaded = true
     },
