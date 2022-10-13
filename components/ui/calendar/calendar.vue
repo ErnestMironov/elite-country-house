@@ -46,6 +46,10 @@ import {months} from '@/assets/calendar';
       type: Array,
       default: () => ([])
     },
+    pickedDates: {
+      type: Array,
+      default: () => ([])
+    },
     getMult: {
       type: Function
     },
@@ -74,6 +78,8 @@ import {months} from '@/assets/calendar';
     };
   },
   created() {
+    this.getPickedFromProps()
+
     this.getNow()
     const now = new Date()
     this.currentYear = now.getFullYear()
@@ -102,6 +108,14 @@ import {months} from '@/assets/calendar';
       }
       
       this.now.id = this.getId(this.now)
+    },
+    getPickedFromProps(){
+      if (!this.$props.pickedDates.length){
+        return
+      }
+      this.includedDays = this.$props.pickedDates
+      this.firstPickedDay = this.includedDays[0]
+      this.secondPickedDay = this.includedDays[this.includedDays.length - 1]
     },
     setPrices(){
       this.month.forEach(x => {

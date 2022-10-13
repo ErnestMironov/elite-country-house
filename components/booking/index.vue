@@ -92,6 +92,7 @@
         :taken-dates="getTakenDates()"
         :get-mult="getMult"
         :base-price="basePrice"
+        :picked-dates="pickedDates"
         @picked="onDatePick($event)"
       ></Calendar>
 
@@ -406,13 +407,13 @@
         <div class="booking__info-wrapper">
           <h3 class="booking__header">Основные параметры</h3>
 
-          <label class="booking-label">
-            <h4 class="booking__sub-header">Дата</h4>
-            <div class="booking__input-field">
-              <img src="@/assets/icons/calendar.svg" alt="" />
-              <input type="date" @change="pickBathDay" />
-            </div>
-          </label>
+              <label class="booking-label">
+                <h4 class="booking__sub-header">Дата</h4>
+                <div class="booking__input-field">
+                  <img src="@/assets/icons/calendar.svg" alt="">
+                  <input ref="BHDate"  type="date" @change="pickBathDay">
+                </div>
+              </label>
 
           <label class="booking-label">
             <h4 class="booking__sub-header">Время</h4>
@@ -609,18 +610,20 @@
       </div>
     </div>
 
-    <div v-if="currentProgress === 4" class="booking-wrapper booking-4">
-      <div class="booking__info-wrapper booking__info-wrapper--l">
-        <div class="booking__checkbox-wrapper booking__checkbox-wrapper--l">
-          <input type="checkbox" class="checkbox" @input="toggleRefundable" />
-          <span class="booking__sub-header booking__checkbox-header">
-            Невозвратное бронирование
-          </span>
-        </div>
+          <div v-if="currentProgress === 4" class="booking-wrapper booking-4">
+            <div class="booking__info-wrapper booking__info-wrapper--l">
+                  <div class="booking__checkbox-wrapper booking__checkbox-wrapper--l">
+                    <input ref="refundable" :checked="!userData.refundable" type="checkbox" class="checkbox" @input="toggleRefundable">
+                    <span class="booking__sub-header booking__checkbox-header">
+                      Невозвратное бронирование     
+                    </span>
+                  </div>
 
-        <label class="booking__discount-label">
-          <span> -20% при невозвратном бронировании </span>
-        </label>
+                <label class="booking__discount-label">
+                    <span> 
+                      -20% при невозвратном бронировании
+                    </span>
+                </label>
 
         <h3 class="booking__header booking__accompanying-header">
           Сопроводительная информация
@@ -739,10 +742,10 @@
 </template>
 
 <script>
+import { maska } from 'maska'
 import { hours, months } from '@/assets/calendar'
 import calendar from '@/components/ui/calendar/calendar.vue'
 import { createHoursString } from '@/helpers/helpers'
-import { maska } from 'maska'
 
 export default {
   directives: { maska },
@@ -776,7 +779,6 @@ export default {
       dropdowns: [],
       firstDateOffset: '',
       disabledDays: [],
-      includedDays: [],
       bathhouseOrdersList: [],
       bathhouseBasePrice: 0,
       bathhouseOptions: [],
@@ -872,6 +874,7 @@ export default {
       window.localStorage.removeItem('order')
       window.localStorage.removeItem('BHOptions')
       window.localStorage.removeItem('GHOptions')
+      window.localStorage.removeItem('BHDay')
     }
 
     document.addEventListener('click', this.handleDocumentClick)
@@ -907,6 +910,7 @@ export default {
       this.saveBathhouseOptions()
       this.getHouseOptionsFromLS()
       this.getBathhouseOptionsFromLS()
+      this.getBathhouseDateFromLS()
     },
     saveBathhouseOptions() {
       if (this.currentProgress !== 4) {
@@ -939,10 +943,9 @@ export default {
       e.preventDefault()
       e.stopPropagation()
     },
-    setDropdowns() {
-      console.log(this.options)
-      for (const option of this.options) {
-        if (option.type === 'select') {
+    setDropdowns(){
+      for (const option of this.options){
+        if (option.type === 'select'){
           this.dropdowns.push({
             id: option.id,
             active: false,
@@ -1036,7 +1039,8 @@ export default {
     setBathhousePriceOption(day) {
       this.bathhousePriceOption = this.bathhousePriceTable[day]
     },
-    pickBathDay(e) {
+    pickBathDay(e){
+
       const now = new Date()
       const pickedDay = new Date(e.target.value)
 
@@ -1072,6 +1076,8 @@ export default {
       this.addDaysInfo()
       this.firstPickedTime = {}
       this.secondPickedTime = {}
+
+      localStorage.setItem('BHDay', JSON.stringify(e.target.value))
     },
     addDaysInfo() {
       this.hours.firstDay.forEach((x) => {
@@ -1190,8 +1196,8 @@ export default {
         )
       }
     },
-    getEndDay() {
-      if (this.pickedDates[0] == null) {
+    getEndDay(){
+      if (this.pickedDates[0] == null || this.pickedDates.length <= 1){
         return ''
       }
 
@@ -1224,8 +1230,8 @@ export default {
       this.userData.arrivalTime = `${e.target.value}:00.000`
     },
 
-    isFirstEnabled() {
-      return this.pickedDates.length > 0 && this.userData.people > 0
+    isFirstEnabled(){
+      return (this.pickedDates.length > 1 && this.userData.people > 0)
     },
 
     toggleRefundable(e) {
@@ -1281,9 +1287,11 @@ export default {
       this.bathhousePrice = price
     },
     calculatePrice() {
-      const beforeDiscount = this.pickedDates.reduce((sum, day) => {
-        return sum + this.getMult(day) * this.basePrice
-      }, 0)
+      const slicedDays = this.pickedDates.slice(0, this.pickedDates.length - 1)
+
+      const beforeDiscount = slicedDays.reduce((sum, day) => {
+            return sum + (this.getMult(day) * this.basePrice);
+        }, 0);
 
       const optionsPrice = this.selectedOptions.reduce((sum, option) => {
         if (option.type === 'number') {
@@ -1521,6 +1529,20 @@ export default {
 
       this.getHouseOptionsFromLS()
       this.getBathhouseOptionsFromLS()
+      this.getBathhouseDateFromLS()
+    },
+    async getBathhouseDateFromLS(){
+      if (this.currentProgress !== 3){
+        return
+      }
+
+      const BHDate = JSON.parse(await localStorage.getItem('BHDay'))
+
+      if (!BHDate){
+        return
+      }
+
+      this.$refs.BHDate.value = BHDate
     },
     async getBathhouseOptionsFromLS() {
       if (this.currentProgress !== 3) {
