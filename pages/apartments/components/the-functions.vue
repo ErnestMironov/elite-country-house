@@ -6,7 +6,7 @@
     >
       <div class="w-4/12 flex flex-col">
         <img
-          :src="`http://185.46.10.102:1337${data?.images[0].url}`"
+          :src="`https://admin.hedonistclub.ru${data?.images[0].url}`"
           alt=""
           class="w-[19.375rem] h-[19.375rem] object-cover"
         />

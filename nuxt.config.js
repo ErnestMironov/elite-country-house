@@ -52,7 +52,7 @@ export default {
   ],
 
   http: {
-    baseURL: 'http://185.46.10.102:1337/api/',
+    baseURL: 'https://admin.hedonistclub.ru/api/',
   },
 
   markdownit: {

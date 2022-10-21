@@ -30,14 +30,14 @@
         <li v-for="social of socials" :key="social.id">
           <a :href="social?.link" target="_blank">
             <img
-              :src="`http://185.46.10.102:1337${social?.icon?.url}`"
+              :src="`https://admin.hedonistclub.ru${social?.icon?.url}`"
               alt=""
             />
           </a>
         </li>
       </ul>
       <a
-        :href="`http://185.46.10.102:1337${userAgreement?.file?.url}`"
+        :href="`https://admin.hedonistclub.ru${userAgreement?.file?.url}`"
         target="_blank"
         class="mobile-menu__link"
         >Пользовательское соглашение</a

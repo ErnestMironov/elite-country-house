@@ -13,7 +13,7 @@
         <li v-for="social of socials" :key="social.id">
           <a :href="social?.link" target="_blank">
             <img
-              :src="`http://185.46.10.102:1337${social?.icon?.url}`"
+              :src="`https://admin.hedonistclub.ru${social?.icon?.url}`"
               alt=""
             />
           </a>
@@ -22,19 +22,29 @@
     </div>
     <div class="footer__bottom">
       <a
-        :href="`http://185.46.10.102:1337${userAgreement?.file?.url}`"
+        :href="`https://admin.hedonistclub.ru${userAgreement?.file?.url}`"
         target="_blank"
         class="footer__link"
       >
         Пользовательское соглашение
       </a>
       <a
-        :href="`http://185.46.10.102:1337${privacyPolicy?.file?.url}`"
+        :href="`https://admin.hedonistclub.ru${privacyPolicy?.file?.url}`"
         target="_blank"
         class="footer__link"
       >
         Политика конфиденциальности
       </a>
+    </div>
+    <div class="mt-[30px] text-[14px] font-light">
+      <div>
+        <b>ИНН: </b>
+        780512714953
+      </div>
+      <div>
+        <b>Название: </b>
+        ИП Овсюхно Николай Николаевич
+      </div>
     </div>
   </footer>
 </template>

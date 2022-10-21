@@ -4,7 +4,7 @@
     <ul class="list">
       <li v-for="feature in data" :key="feature.id" class="list-item">
         <img
-          :src="`http://185.46.10.102:1337${feature?.image?.url}`"
+          :src="`https://admin.hedonistclub.ru${feature?.image?.url}`"
           alt=""
           class="list-item__img"
         />

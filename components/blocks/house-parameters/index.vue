@@ -1,20 +1,23 @@
 <template>
   <section class="parameters">
     <div class="swiper-container">
-       <swiper
-          ref="guestHousesSwiper"
-          class="parameters__slider"
-          :options="swiperOptions"
+      <swiper
+        ref="guestHousesSwiper"
+        class="parameters__slider"
+        :options="swiperOptions"
+      >
+        <swiper-slide
+          class="swiper-slide parameters__slide"
+          v-for="image in props.images"
+          :key="image.id"
         >
-          <swiper-slide
-            class="swiper-slide parameters__slide"
-            v-for="image in props.images"
-            :key="image.id"
-          >
-            <img class="parameters__slide-img" :src="`http://185.46.10.102:1337${image.url}`" />
-          </swiper-slide>
-       </swiper>
-          <!-- <swiper-slide
+          <img
+            class="parameters__slide-img"
+            :src="`https://admin.hedonistclub.ru${image.url}`"
+          />
+        </swiper-slide>
+      </swiper>
+      <!-- <swiper-slide
             v-for="image in images"
             :key="image.id"
             class="swiper-slide parameters__slide"
@@ -24,16 +27,14 @@
     </div>
     <div class="parameters__background"></div>
     <div class="parameters-wrapper">
-      <Title :title="'Параметры'" is-light class="parameters__title"/>
+      <Title :title="'Параметры'" is-light class="parameters__title" />
       <div class="parameters-info">
-
         <div class="parameters__property">
           <h3>{{ props.price }}</h3>
           <span>Стоимость аренды</span>
         </div>
 
         <div class="parameters__mobile-wrapper">
-
           <div class="parameters__property">
             <h3>{{ props.floors }}</h3>
             <span>{{ createFloorsString(props.floors) }}</span>
@@ -46,7 +47,6 @@
             <h3>{{ props.area + ' m²' }}</h3>
             <span>Площадь</span>
           </div>
-
         </div>
       </div>
     </div>
@@ -57,9 +57,9 @@
 import Title from '@/components/ui/simple-title/simple-title'
 import { createFloorsString } from '@/helpers/helpers'
 
-export default{
-  components:{
-    Title
+export default {
+  components: {
+    Title,
   },
   // props : {
   //     area: {
@@ -102,51 +102,49 @@ export default{
         //   prevEl: '#guestHousesSLiderPrev',
         //   nextEl: '#guestHousesSliderNext',
         // },
-        breakpoints:{
+        breakpoints: {
           648: {
             slidesPerView: 'auto',
             spaceBetween: 16,
-            loop: true
-          }
-        }
+            loop: true,
+          },
+        },
       },
-      mock : {
+      mock: {
         cost: 50000,
         floors: 2,
         rooms: 4,
         square: 145,
-      }
+      },
     }
   },
   methods: {
-    createFloorsString
-  }
+    createFloorsString,
+  },
 }
-
 </script>
 
 <script setup>
-
 const props = defineProps({
-      area: {
-        type: Number,
-        default: null
-        },
-      rooms: {
-        type: Number,
-        default: null
-        },
-      floors: {
-        type: Number,
-        default: null
-        },
-      images: {
-        type: Array,
-      },
-      price: {
-        type: Number
-      }
-    },)
+  area: {
+    type: Number,
+    default: null,
+  },
+  rooms: {
+    type: Number,
+    default: null,
+  },
+  floors: {
+    type: Number,
+    default: null,
+  },
+  images: {
+    type: Array,
+  },
+  price: {
+    type: Number,
+  },
+})
 </script>
 
 <style lang="scss" scoped>

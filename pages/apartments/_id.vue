@@ -12,7 +12,7 @@
       >
         <img
           class="house__slide-img"
-          :src="`http://185.46.10.102:1337${image.url}`"
+          :src="`https://admin.hedonistclub.ru${image.url}`"
         />
       </swiper-slide>
     </swiper>
@@ -34,11 +34,11 @@
 </template>
 
 <script>
-import HouseName from '@/components/blocks/house-name'
 import Booking from './components/booking'
 import HouseParameters from './components/house-parameters'
 import TheAdvantages from './components/the-advantages.vue'
 import TheFunctions from './components/the-functions.vue'
+import HouseName from '@/components/blocks/house-name'
 
 // import Swiper from 'swiper/swiper-bundle.min'
 // import 'swiper/swiper-bundle.min.css'

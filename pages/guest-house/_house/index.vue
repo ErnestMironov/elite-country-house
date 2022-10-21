@@ -12,7 +12,7 @@
       >
         <img
           class="house__slide-img"
-          :src="`http://185.46.10.102:1337${image.url}`"
+          :src="`https://admin.hedonistclub.ru${image.url}`"
         />
         <!-- <img class="house__slide-img" :src="image.src" /> -->
       </swiper-slide>

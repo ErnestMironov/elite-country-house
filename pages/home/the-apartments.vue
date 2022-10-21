@@ -2,7 +2,7 @@
   <section
     id="apartments"
     :style="{
-      backgroundImage: `url(http://185.46.10.102:1337${currentObject?.images[0].url})`,
+      backgroundImage: `url(https://admin.hedonistclub.ru${currentObject?.images[0].url})`,
     }"
     class="objects"
   >
@@ -55,7 +55,7 @@
         >
           <img
             class="objects__slide-img"
-            :src="`http://185.46.10.102:1337${image.url}`"
+            :src="`https://admin.hedonistclub.ru${image.url}`"
         /></swiper-slide>
       </swiper>
       <div class="nav hide-on-mobile">

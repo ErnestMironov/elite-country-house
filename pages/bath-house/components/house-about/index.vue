@@ -7,7 +7,7 @@
           v-for="card of data"
           :key="card.id"
           class="about__img about__img--1"
-          :src="`http://185.46.10.102:1337${card?.image?.url}`"
+          :src="`https://admin.hedonistclub.ru${card?.image?.url}`"
           :alt="card?.image?.alternativeText"
         />
       </div>

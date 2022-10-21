@@ -58,7 +58,7 @@
           >
             <img
               class="guest-houses__slide-img"
-              :src="`http://185.46.10.102:1337${image.url}`"
+              :src="`https://admin.hedonistclub.ru${image.url}`"
             />
             <nuxt-link
               :to="`/guest-house/${currentHouse?.id}`"

@@ -7,7 +7,7 @@
           :key="banner.id"
           class="swiper-slide hero__slide"
         >
-          <img :src="`http://185.46.10.102:1337${banner.url}`" />
+          <img :src="`https://admin.hedonistclub.ru${banner.url}`" />
         </div>
       </div>
     </div>

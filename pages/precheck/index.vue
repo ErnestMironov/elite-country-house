@@ -15,7 +15,7 @@
       <div class="pt-[24px] border-t border-solid border-black">
         <div class="flex">
           <img
-            :src="`http://185.46.10.102:1337${order?.objectParams?.images[0]?.url}`"
+            :src="`https://admin.hedonistclub.ru${order?.objectParams?.images[0]?.url}`"
             alt=""
             class="w-[83px] h-[83px] object-cover mr-[18px]"
           />
@@ -70,7 +70,7 @@
       <div v-if="order?.bathhouse_order?.bathhouse" class="pt-[24px] mt-10">
         <div class="flex">
           <img
-            :src="`http://185.46.10.102:1337${bathParams?.images[0]?.url}`"
+            :src="`https://admin.hedonistclub.ru${bathParams?.images[0]?.url}`"
             alt=""
             class="w-[83px] h-[83px] object-cover mr-[18px]"
           />

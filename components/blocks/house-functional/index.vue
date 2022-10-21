@@ -9,7 +9,7 @@
       <div v-for="row in options" :key="row.idx" class="functional__row">
         <img
           class="functional__img"
-          :src="`http://185.46.10.102:1337${row.image.url}`"
+          :src="`https://admin.hedonistclub.ru${row.image.url}`"
           alt="function"
         />
         <div class="functional__row-info">
@@ -29,21 +29,19 @@
 </template>
 
 <script>
-  import Title from '@/components/ui/simple-title/simple-title'
+import Title from '@/components/ui/simple-title/simple-title'
 
-  export default{
-
-    components: {
-      Title
+export default {
+  components: {
+    Title,
+  },
+  props: {
+    options: {
+      type: Array,
+      default: () => [],
     },
-    props:{
-      options: {
-        type: Array,
-        default: () => []
-      },
-    },
+  },
 }
-
 </script>
 
 <style lang="scss" scoped>

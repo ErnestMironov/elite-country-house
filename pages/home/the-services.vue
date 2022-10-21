@@ -15,7 +15,7 @@
       >
         <h3 class="service__title">{{ service.title }}</h3>
         <img
-          :src="`http://185.46.10.102:1337${service.image.url}`"
+          :src="`https://admin.hedonistclub.ru${service.image.url}`"
           :alt="service.title + ' изображение'"
           class="service__img"
         />
