@@ -407,13 +407,13 @@
         <div class="booking__info-wrapper">
           <h3 class="booking__header">Основные параметры</h3>
 
-              <label class="booking-label">
-                <h4 class="booking__sub-header">Дата</h4>
-                <div class="booking__input-field">
-                  <img src="@/assets/icons/calendar.svg" alt="">
-                  <input ref="BHDate"  type="date" @change="pickBathDay">
-                </div>
-              </label>
+          <label class="booking-label">
+            <h4 class="booking__sub-header">Дата</h4>
+            <div class="booking__input-field">
+              <img src="@/assets/icons/calendar.svg" alt="" />
+              <input ref="BHDate" type="date" @change="pickBathDay" />
+            </div>
+          </label>
 
           <label class="booking-label">
             <h4 class="booking__sub-header">Время</h4>
@@ -610,20 +610,24 @@
       </div>
     </div>
 
-          <div v-if="currentProgress === 4" class="booking-wrapper booking-4">
-            <div class="booking__info-wrapper booking__info-wrapper--l">
-                  <div class="booking__checkbox-wrapper booking__checkbox-wrapper--l">
-                    <input ref="refundable" :checked="!userData.refundable" type="checkbox" class="checkbox" @input="toggleRefundable">
-                    <span class="booking__sub-header booking__checkbox-header">
-                      Невозвратное бронирование     
-                    </span>
-                  </div>
+    <div v-if="currentProgress === 4" class="booking-wrapper booking-4">
+      <div class="booking__info-wrapper booking__info-wrapper--l">
+        <div class="booking__checkbox-wrapper booking__checkbox-wrapper--l">
+          <input
+            ref="refundable"
+            :checked="!userData.refundable"
+            type="checkbox"
+            class="checkbox"
+            @input="toggleRefundable"
+          />
+          <span class="booking__sub-header booking__checkbox-header">
+            Невозвратное бронирование
+          </span>
+        </div>
 
-                <label class="booking__discount-label">
-                    <span> 
-                      -20% при невозвратном бронировании
-                    </span>
-                </label>
+        <label class="booking__discount-label">
+          <span> -20% при невозвратном бронировании </span>
+        </label>
 
         <h3 class="booking__header booking__accompanying-header">
           Сопроводительная информация
@@ -943,9 +947,9 @@ export default {
       e.preventDefault()
       e.stopPropagation()
     },
-    setDropdowns(){
-      for (const option of this.options){
-        if (option.type === 'select'){
+    setDropdowns() {
+      for (const option of this.options) {
+        if (option.type === 'select') {
           this.dropdowns.push({
             id: option.id,
             active: false,
@@ -1039,8 +1043,7 @@ export default {
     setBathhousePriceOption(day) {
       this.bathhousePriceOption = this.bathhousePriceTable[day]
     },
-    pickBathDay(e){
-
+    pickBathDay(e) {
       const now = new Date()
       const pickedDay = new Date(e.target.value)
 
@@ -1196,8 +1199,8 @@ export default {
         )
       }
     },
-    getEndDay(){
-      if (this.pickedDates[0] == null || this.pickedDates.length <= 1){
+    getEndDay() {
+      if (this.pickedDates[0] == null || this.pickedDates.length <= 1) {
         return ''
       }
 
@@ -1230,8 +1233,8 @@ export default {
       this.userData.arrivalTime = `${e.target.value}:00.000`
     },
 
-    isFirstEnabled(){
-      return (this.pickedDates.length > 1 && this.userData.people > 0)
+    isFirstEnabled() {
+      return this.pickedDates.length > 1 && this.userData.people > 0
     },
 
     toggleRefundable(e) {
@@ -1286,12 +1289,15 @@ export default {
 
       this.bathhousePrice = price
     },
-    calculatePrice() {
+    getTotalBasePrice() {
       const slicedDays = this.pickedDates.slice(0, this.pickedDates.length - 1)
 
-      const beforeDiscount = slicedDays.reduce((sum, day) => {
-            return sum + (this.getMult(day) * this.basePrice);
-        }, 0);
+      return slicedDays.reduce((sum, day) => {
+        return sum + this.getMult(day) * this.basePrice
+      }, 0)
+    },
+    calculatePrice() {
+      const beforeDiscount = this.getTotalBasePrice()
 
       const optionsPrice = this.selectedOptions.reduce((sum, option) => {
         if (option.type === 'number') {
@@ -1418,7 +1424,7 @@ export default {
       ).data
       this.ordersList = (
         await this.$http.$get(`guest-house-orders?populate=deep%2C10%20`)
-      ).data.filter(x => x.status !== 'cancelled')
+      ).data.filter((x) => x.status !== 'cancelled')
       this.bathhouseOrdersList = (
         await this.$http.$get(`bathhouse-orders?populate=deep%2C%2010`)
       ).data
@@ -1459,6 +1465,7 @@ export default {
         options: [],
         objectType: this.objectType,
         objectParams: this.objectParams,
+        totalBasePrice: this.getTotalBasePrice(),
       }
 
       dataToSend.contactInformation.phone =
@@ -1533,14 +1540,14 @@ export default {
       this.getBathhouseOptionsFromLS()
       this.getBathhouseDateFromLS()
     },
-    async getBathhouseDateFromLS(){
-      if (this.currentProgress !== 3){
+    async getBathhouseDateFromLS() {
+      if (this.currentProgress !== 3) {
         return
       }
 
       const BHDate = JSON.parse(await localStorage.getItem('BHDay'))
 
-      if (!BHDate){
+      if (!BHDate) {
         return
       }
 

@@ -34,12 +34,12 @@
                 {{ new Date(order?.from ?? 0).toLocaleDateString() }}
               </li>
               <li class="text-[#2D292980] text-[16px] mr-[12px]">
-                {{ order?.arrivalTime.split('.')[0] }}
+                {{ order?.arrivalTime | formatOrderTime }}
               </li>
             </ul>
             <div class="option option_without_dots mt-[13px]">
               <b>Базовая цена</b>
-              <b>{{ order?.objectParams?.basePrice | formatPrice }}₽</b>
+              <b>{{ order?.totalBasePrice | formatPrice }}₽</b>
             </div>
           </div>
         </div>
@@ -75,9 +75,7 @@
             class="w-[83px] h-[83px] object-cover mr-[18px]"
           />
           <div class="flex-1">
-            <h3 class="text-[18px] font-medium">
-              {{ mainObject }} "{{ order?.objectParams?.name }}"
-            </h3>
+            <h3 class="text-[18px] font-medium">"{{ bathParams?.name }}"</h3>
             <ul class="flex">
               <li class="text-[#2D292980] text-[16px] mr-[12px]">
                 {{ bathDuration }}
@@ -96,7 +94,7 @@
                 {{
                   new Date(
                     order?.bathhouse_order?.dateTime ?? 0
-                  ).toLocaleTimeString()
+                  ).toLocaleTimeString() | formatOrderTime
                 }}
               </li>
             </ul>
@@ -159,6 +157,12 @@ export default {
     formatPrice(val) {
       return Number(val).toLocaleString()
     },
+    formatOrderTime(time) {
+      if (!time) return ''
+
+      const t = time?.split(':')
+      return t[0] + ':' + t[1]
+    },
   },
   data() {
     return {
@@ -212,21 +216,15 @@ export default {
     },
 
     objectTotalPrice() {
-      let dur = Math.abs(
-        Math.floor(
-          (new Date(this.order?.to) - new Date(this.order?.from)) /
-            1000 /
-            60 /
-            60 /
-            24
-        )
-      )
-
-      dur = dur === 0 ? 1 : dur
-
       return (
-        this.order?.objectParams?.basePrice * dur +
-        this.objectOptions?.reduce((prev, cur) => prev + cur.price, 0)
+        this.order?.totalBasePrice +
+        this.objectOptions?.reduce((prev, cur) => {
+          if (cur.type === 'number') {
+            return prev + cur.price * cur.value
+          } else {
+            return prev + cur.price
+          }
+        }, 0)
       )
     },
 

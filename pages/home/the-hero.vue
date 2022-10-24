@@ -123,6 +123,9 @@ export default {
     margin-top: 1.75rem;
     font-size: 1.125rem;
     line-height: 1.75rem;
+    max-height: 40%;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     @include tablet {
       font-size: 14px;
