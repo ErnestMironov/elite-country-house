@@ -63,7 +63,7 @@
     <div v-if="isMounted" class="hide-on-mobile">
       <yandex-map
         :coords="data?.coordinate[0].text | convertStringToArr"
-        :zoom="3"
+        :zoom="8"
         class="map"
       >
         <ymap-marker
@@ -93,7 +93,7 @@ export default {
   components: { SimpleTitle },
   filters: {
     convertStringToArr(val) {
-      return val.split('  ')
+      return val.split(' ')
     },
   },
   props: ['data'],

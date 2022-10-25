@@ -137,7 +137,7 @@
       <button
         class="btn text-[16px] py-[18px] px-[64px] mt-[24px] ml-auto block"
       >
-        Далее
+        Оплатить
       </button>
     </div>
   </div>
@@ -229,7 +229,10 @@ export default {
     },
 
     totalPrice() {
-      return this.objectTotalPrice + this.order?.bathhouse_order?.totalPrice
+      const price =
+        this.objectTotalPrice + (this.order?.bathhouse_order?.totalPrice ?? 0)
+
+      return this.order?.refundable === false ? price * 0.8 : price
     },
   },
   async mounted() {
@@ -238,11 +241,13 @@ export default {
       this.objectOptions = JSON.parse(localStorage.getItem('GHOptions'))
       this.bathOptions = JSON.parse(localStorage.getItem('BHOptions'))
 
-      this.bathParams = (
-        await this.$http.$get(
-          `bathhouses/${this.order?.bathhouse_order?.bathhouse}?populate=deep,10`
-        )
-      ).data
+      if (this.order?.bathhouse_order?.bathhouse) {
+        this.bathParams = (
+          await this.$http.$get(
+            `bathhouses/${this.order?.bathhouse_order?.bathhouse}?populate=deep,10`
+          )
+        ).data
+      }
     }
   },
 }
