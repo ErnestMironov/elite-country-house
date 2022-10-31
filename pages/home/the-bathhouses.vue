@@ -1,12 +1,12 @@
 <template>
   <section id="bathhouses" class="bathhouses">
     <div class="hide-on-desktop bathhouses__head">
-      <SimpleTitle title="Бани и сауны" />
+      <SimpleTitle title="Русская баня" />
     </div>
     <div class="bathhouses__content flex flex-col items-start justify-between">
       <div>
         <div class="hide-on-mobile">
-          <SimpleTitle title="Бани и сауны" />
+          <SimpleTitle title="Русская баня" />
         </div>
         <p class="mt-[3rem] max-w-[33.3125rem] hide-on-mobile">
           {{ bathInfo?.description }}
