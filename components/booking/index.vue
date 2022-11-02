@@ -869,12 +869,16 @@ export default {
       )
     },
   },
-  beforeMount() {
+  async beforeMount() {
+    await this.getData()
+    this.setInitialProgress()
+    this.setDropdowns()
+    this.loadDataFromLS()
     if (window.localStorage) {
       window.localStorage.removeItem('order')
-      window.localStorage.removeItem('BHOptions')
-      window.localStorage.removeItem('GHOptions')
-      window.localStorage.removeItem('BHDay')
+      // window.localStorage.removeItem('BHOptions')
+      // window.localStorage.removeItem('GHOptions')
+      // window.localStorage.removeItem('BHDay')
     }
 
     document.addEventListener('click', this.handleDocumentClick)
@@ -883,34 +887,83 @@ export default {
     document.removeEventListener('click', this.handleDocumentClick)
   },
   async created() {
-    await this.getData()
+  },
+  mounted(){
+    // this.getHouseOptionsFromLS()
     this.getTakenDates()
     this.calculatePrice()
     this.assembleDisabledHours()
-
-    this.bathhousePriceOption = this.bathhousePriceTable.friday
-
-    this.setDropdowns()
-
-    this.clearStorage()
+    this.setBathhouseDefaultDay()
+   
+  
+    // this.clearStorage()
   },
   methods: {
-    clearStorage() {
-      localStorage.removeItem('BHOptions')
-      localStorage.removeItem('GHOptions')
+    setInitialProgress(){
+      const progress = +localStorage.getItem('currentProgress')
+      this.currentProgress = progress ?? this.currentProgress
     },
+    setBathhouseDefaultDay(){
+      this.bathhousePriceOption = this.bathhousePriceTable.friday
+    },
+    clearStorage() {
+      // localStorage.removeItem('BHOptions')
+      // localStorage.removeItem('GHOptions')
+    },
+    saveDataToLS(){
+      const conditionalMethods = {
+        0(){},
+        1: this.saveInitialData,
+        2(){},
+        3: this.saveBathhouseData,
+        4: this.savePersonalData
+      }
+
+      conditionalMethods[this.currentProgress]()
+    },
+    saveInitialData(){
+      console.log('here')
+      this.saveHouseOptions()
+    },
+    loadDataFromLS(){
+      const conditionalMethods = {
+        0(){},
+        1: this.loadInitialData,
+        2(){},
+        3: this.loadBathhouseData,
+        4: this.loadPersonalData
+      }
+
+      conditionalMethods[this.currentProgress]()
+    },
+    loadInitialData(){
+      const includedDays = JSON.parse(localStorage.getItem('includedDays'))
+      this.pickedDates = includedDays ?? this.pickedDates
+      const people = +localStorage.getItem('people')
+      this.userData.people = people ?? null
+      this.getHouseOptionsFromLS()
+
+    },
+    loadBathhouseData(){
+      this.getBathhouseOptionsFromLS()
+      this.getBathhouseDateFromLS()
+    },
+    loadPersonalData(){},
     isBookingDisabled() {
       return !this.houseDataLoaded
     },
     createHoursString,
     setProgress(count) {
+      this.saveDataToLS()
       this.currentProgress = count
       this.calculatePrice()
-      this.saveHouseOptions()
+      // this.saveHouseOptions()
       this.saveBathhouseOptions()
-      this.getHouseOptionsFromLS()
-      this.getBathhouseOptionsFromLS()
-      this.getBathhouseDateFromLS()
+      // this.getHouseOptionsFromLS()
+      // this.getBathhouseOptionsFromLS()
+      // this.getBathhouseDateFromLS()
+      localStorage.setItem('currentProgress', this.currentProgress)
+      this.loadDataFromLS()
     },
     saveBathhouseOptions() {
       if (this.currentProgress !== 4) {
@@ -923,11 +976,9 @@ export default {
       )
     },
     saveHouseOptions() {
-      if (this.currentProgress !== 2) {
-        return
-      }
-
       localStorage.setItem('GHOptions', JSON.stringify(this.selectedOptions))
+      localStorage.setItem('people', this.userData.people)
+      console.log('saved')
     },
     showTimeDD(e) {
       if (this.bathhouseErrorWrong) {
@@ -943,6 +994,11 @@ export default {
       e.preventDefault()
       e.stopPropagation()
     },
+    setDropdownsValues(){},
+    getDDValueFromLS(id){
+      const option = JSON.parse(localStorage.getItem('GHOptions')).find(x => +x.id === +id)
+      return option ? option.value : null
+    },
     setDropdowns(){
       for (const option of this.options){
         if (option.type === 'select'){
@@ -951,7 +1007,7 @@ export default {
             active: false,
             selected: {
               id: null,
-              value: '',
+              value: this.getDDValueFromLS(option.id) ?? '',
             },
           })
         }
@@ -1016,6 +1072,7 @@ export default {
       this.closeDropdowns()
     },
     getSelectedItem(id) {
+      console.log(this.dropdowns)
       return this.dropdowns.find((x) => x.id === id).selected.value
     },
     showDD(id) {
@@ -1120,6 +1177,7 @@ export default {
     onDatePick(data) {
       this.pickedDates.length = 0
       this.pickedDates = [...data]
+      localStorage.setItem('includedDays', JSON.stringify(this.pickedDates))
     },
     createDatesString() {
       if (this.pickedDates[0] == null) {
@@ -1300,7 +1358,7 @@ export default {
         return sum + option.price
       }, 0)
 
-      if (process.client) {
+      if (process.client && this.selectedOptions.length !== 0) {
         localStorage.setItem('GHOptions', JSON.stringify(this.selectedOptions))
       }
 
@@ -1424,13 +1482,12 @@ export default {
       ).data
       this.options = (
         await this.$http.$get(`guest-house-options?populate=deep%2C%2010`)
-      ).data
-      // this.options = [(await this.$http.$get(`guest-house-options?populate=deep%2C%2010`)).data]
+        ).data
+        // this.options = [(await this.$http.$get(`guest-house-options?populate=deep%2C%2010`)).data]
+        console.log('options loaded')
       this.bathhouseOptions = [
         (await this.$http.$get(`bathhouse-options?populate=deep%2C%2010`)).data,
       ]
-
-      console.log(this.ordersList)
 
       this.houseDataLoaded = true
     },
@@ -1522,6 +1579,7 @@ export default {
       return '-'
     },
     fuckGoBack() {
+      this.saveDataToLS()
       if (this.currentProgress === 4 && !this.bathhousePrice) {
         this.currentProgress = 2
         return
@@ -1529,16 +1587,14 @@ export default {
 
       this.currentProgress--
 
-      this.getHouseOptionsFromLS()
-      this.getBathhouseOptionsFromLS()
-      this.getBathhouseDateFromLS()
+      localStorage.setItem('currentProgress', this.currentProgress)
+      // this.getHouseOptionsFromLS()
+      // this.getBathhouseOptionsFromLS()
+      // this.getBathhouseDateFromLS()
+      this.loadDataFromLS()
     },
-    async getBathhouseDateFromLS(){
-      if (this.currentProgress !== 3){
-        return
-      }
-
-      const BHDate = JSON.parse(await localStorage.getItem('BHDay'))
+    getBathhouseDateFromLS(){
+      const BHDate = JSON.parse(localStorage.getItem('BHDay'))
 
       if (!BHDate){
         return
@@ -1546,12 +1602,8 @@ export default {
 
       this.$refs.BHDate.value = BHDate
     },
-    async getBathhouseOptionsFromLS() {
-      if (this.currentProgress !== 3) {
-        return
-      }
-
-      const LSBHOptions = JSON.parse(await localStorage.getItem('BHOptions'))
+    getBathhouseOptionsFromLS() {
+      const LSBHOptions = JSON.parse(localStorage.getItem('BHOptions'))
 
       if (!LSBHOptions) {
         return
@@ -1570,29 +1622,34 @@ export default {
         this.$refs[`BHOption${option.id}`][0].value = option.value
       }
     },
-    async getHouseOptionsFromLS() {
-      if (this.currentProgress !== 1) {
-        return
-      }
+    getHouseOptionsFromLS() {
+      // if (this.currentProgress !== 1) {
+      //   return
+      // }
+      setTimeout(() => {
+        if (!Object.keys(this.$refs).length){
+          return
+        }
+        const LSHouseOptions = JSON.parse(localStorage.getItem('GHOptions'))
+        this.selectedOptions = LSHouseOptions
 
-      const LSHouseOptions = JSON.parse(await localStorage.getItem('GHOptions'))
-
-      if (!LSHouseOptions) {
-        return
-      }
-
-      for (const option of LSHouseOptions) {
-        if (this.$refs[`option${option.id}`][0].tagName !== 'INPUT') {
-          continue
+        if (!LSHouseOptions) {
+          return
         }
 
-        if (this.$refs[`option${option.id}`][0].type === 'checkbox') {
-          this.$refs[`option${option.id}`][0].checked = option.value === 'true'
-          continue
-        }
+        for (const option of LSHouseOptions) {
+          if (this.$refs[`option${option.id}`][0].tagName !== 'INPUT') {
+            continue
+          }
 
-        this.$refs[`option${option.id}`][0].value = option.value
-      }
+          if (this.$refs[`option${option.id}`][0].type === 'checkbox') {
+            this.$refs[`option${option.id}`][0].checked = option.value === 'true'
+            continue
+          }
+
+          this.$refs[`option${option.id}`][0].value = option.value
+        }
+      }, 400);
     },
     isBathhouseBtnDisabled() {
       return !this.bathhouseData.people || !this.includedHours.length
