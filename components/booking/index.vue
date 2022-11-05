@@ -876,7 +876,7 @@ export default {
     this.setDropdowns()
     this.setBathhouseDefaultDay()
     this.loadIndependentInitialData()
-    this.getHouseOptionsData()
+    this.loadBHInitialData()
     this.loadDataFromLS()
     this.calculatePrice()
     if (window.localStorage) {
@@ -1651,7 +1651,7 @@ export default {
         this.$refs.BHDate.value = BHDate
         this.pickBathDay(new Date(BHDate))
         this.dayFromSLSet = true
-      }, 200)
+      }, 150)
     },
     getBathhouseOptionsFromLS() {
       setTimeout(() => {
@@ -1687,11 +1687,16 @@ export default {
           
           this.$refs[`BHOption${option.id}`][0].value = option.value
         }
+        console.log(this.bathhouseData)
+
+        this.calculateBathhousePrice()
       }, 200);
     },
-    getHouseOptionsData(){
-      const LSHouseOptions = JSON.parse(localStorage.getItem('GHOptions'))
-      this.selectedOptions = [...LSHouseOptions]
+    loadBHInitialData(){
+      const LSBHOptions = JSON.parse(localStorage.getItem('BHOptions'))
+      if (LSBHOptions){
+        this.bathhouseSelectedOptions = [...LSBHOptions]
+      }
     },
     getHouseOptionsFromLS() {
       // if (this.currentProgress !== 1) {
