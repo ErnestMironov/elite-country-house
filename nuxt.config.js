@@ -7,7 +7,7 @@ export default {
   head: {
     title: 'elite-country-house',
     htmlAttrs: {
-      lang: 'en',
+      lang: 'ru',
     },
     meta: [
       { charset: 'utf-8' },
@@ -33,7 +33,7 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: '~/plugins/vue-awesome-swiper', mode: 'client' },
-    { src: '~/plugins/ymapPlugin.js', mode: 'client' }
+    { src: '~/plugins/ymapPlugin.js', mode: 'client' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -47,10 +47,7 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: [
-    '@nuxt/http',
-    '@nuxtjs/markdownit'
-  ],
+  modules: ['@nuxt/http', '@nuxtjs/markdownit'],
 
   http: {
     baseURL: 'https://admin.hedonistclub.ru/api/',
@@ -61,13 +58,8 @@ export default {
     preset: 'default',
     linkify: true,
     breaks: true,
-    use: [
-      'markdown-it-div',
-      'markdown-it-attrs'
-    ]
+    use: ['markdown-it-div', 'markdown-it-attrs'],
   },
-
-
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
