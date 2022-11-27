@@ -875,6 +875,8 @@ export default {
     this.setInitialProgress()
     this.setDropdowns()
     this.setBathhouseDefaultDay()
+    this.getTakenDates()
+    this.assembleDisabledHours()
     this.loadIndependentInitialData()
     this.loadBHInitialData()
     this.loadDataFromLS()
@@ -895,8 +897,6 @@ export default {
   },
   mounted(){
     // this.getHouseOptionsFromLS()
-    this.getTakenDates()
-    this.assembleDisabledHours()
    
     // this.clearStorage()
   },

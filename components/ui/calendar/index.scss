@@ -179,6 +179,7 @@ div.past{
 
   position: relative;
   background-color: transparent;
+  overflow: hidden;
 
   &::after{
     width: 100%;
@@ -224,6 +225,7 @@ div.last-past{
   // border-bottom-left-radius: 0.3125rem;
   position: relative;
   background-color: transparent;
+  overflow: hidden;
 
   &::before{
     width: 100%;
@@ -271,6 +273,7 @@ div.first-past{
   // border-bottom-right-radius: 0.3125rem;
   position: relative;
   background-color: transparent;
+  overflow: hidden;
 
   &::after{
     width: 100%;
@@ -302,6 +305,7 @@ div.first-past{
 
   position: relative;
   background-color: transparent;
+  overflow: hidden;
 
   &::before{
     width: 100%;
