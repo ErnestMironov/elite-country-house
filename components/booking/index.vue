@@ -32,14 +32,34 @@
       <span>Назад</span>
     </div>
 
-    <button
-      v-if="currentProgress === 0"
-      class="btn booking__next-btn--first"
-      :disabled="isBookingDisabled()"
-      @click="setProgress(1)"
-    >
-      Забронировать
-    </button>
+    <div v-if="currentProgress === 0" class="booking-buttons">
+
+      <div v-if="userData.people && currentProgress === 0" class="book__buttons-wrapper">
+        
+        <button
+          class="btn booking__next-btn--first booking__continue-btn"
+          :disabled="isBookingDisabled()"
+          @click="setProgress(1)"
+        >
+         Продолжить оформление
+        </button>
+        <button
+          class="btn btn_white booking__skip-btn booking__new-button"
+          :disabled="isBookingDisabled()"
+          @click="createNewOrder()"
+        >
+          Создать новый заказ
+        </button>
+      </div>
+        <button
+          v-else
+          class="btn booking__next-btn--first"
+          :disabled="isBookingDisabled()"
+          @click="setProgress(1)"
+        >
+          Забронировать
+        </button>
+    </div>
 
     <div v-if="currentProgress === 1" class="booking-wrapper booking-1">
       <!-- <client-only>
@@ -856,6 +876,7 @@ export default {
       price: 0,
       options: [],
       houseDataLoaded: false,
+      objectId: null
     }
   },
   computed: {
@@ -871,6 +892,7 @@ export default {
     },
   },
   async beforeMount() {
+    this.objectId = this.$route.params.house
     await this.getData()
     this.setInitialProgress()
     this.setDropdowns()
@@ -882,10 +904,7 @@ export default {
     this.loadDataFromLS()
     this.calculatePrice()
     if (window.localStorage) {
-      window.localStorage.removeItem('order')
-      // window.localStorage.removeItem('BHOptions')
-      // window.localStorage.removeItem('GHOptions')
-      // window.localStorage.removeItem('BHDay')
+      window.localStorage.removeItem(`order${this.objectType}${this.objectId}`)
     }
     
     document.addEventListener('click', this.handleDocumentClick)
@@ -902,15 +921,22 @@ export default {
   },
   methods: {
     setInitialProgress(){
-      const progress = +localStorage.getItem('currentProgress')
+      const progress = +localStorage.getItem(`currentProgress${this.objectType}${this.objectId}`)
       this.currentProgress = progress ?? this.currentProgress
     },
     setBathhouseDefaultDay(){
       this.bathhousePriceOption = this.bathhousePriceTable.friday
     },
     clearStorage() {
-      // localStorage.removeItem('BHOptions')
-      // localStorage.removeItem('GHOptions')
+      localStorage.removeItem(`BHOptions${this.objectType}${this.objectId}`)
+      localStorage.removeItem(`BHDay${this.objectType}${this.objectId}`)
+      localStorage.removeItem(`BHData${this.objectType}${this.objectId}`)
+      localStorage.removeItem(`GHOptions${this.objectType}${this.objectId}`)
+      localStorage.removeItem(`currentProgress${this.objectType}${this.objectId}`)
+      localStorage.removeItem(`personalData${this.objectType}${this.objectId}`)
+      localStorage.removeItem(`people${this.objectType}${this.objectId}`)
+      localStorage.removeItem(`includedDays${this.objectType}${this.objectId}`)
+      localStorage.removeItem(`order${this.objectType}${this.objectId}`)
     },
     saveDataToLS(){
       const conditionalMethods = {
@@ -931,7 +957,7 @@ export default {
         personalData: this.personalData
       }
 
-      localStorage.setItem('personalData', JSON.stringify(personalData))
+      localStorage.setItem(`personalData${this.objectType}${this.objectId}`, JSON.stringify(personalData))
     },
     saveBathhouseData(){
       this.saveBathhouseOptions()
@@ -942,7 +968,7 @@ export default {
 
       this.dayFromSLSet = false
 
-      localStorage.setItem('BHData', JSON.stringify(bathhouseData))
+      localStorage.setItem(`BHData${this.objectType}${this.objectId}`, JSON.stringify(bathhouseData))
     },
     saveInitialData(){
       this.saveHouseOptions()
@@ -960,10 +986,33 @@ export default {
       // this.calculatePrice()
       // this.calculateBathhousePrice()
     },
+    createNewOrder(){
+      this.clearStorage()
+      this.setDropdowns()
+      this.setBathhouseDefaultDay()
+      this.getTakenDates()
+      this.assembleDisabledHours()
+      this.loadIndependentInitialData()
+      this.loadBHInitialData()
+      this.loadDataFromLS()
+      this.calculatePrice()
+      this.pickedDates = []
+      this.includedHours = []
+      this.bathhouseData.people = 0
+      this.personalAgreement = false
+      this.personalData = false
+      this.userData.refundable = true
+      this.userData.contactInformation.firstName = ''
+      this.userData.contactInformation.lastName = ''
+      this.userData.contactInformation.email = ''
+      this.userData.contactInformation.phone = ''
+
+      this.setProgress(1)
+    },
     loadIndependentInitialData(){
-      const includedDays = JSON.parse(localStorage.getItem('includedDays'))
+      const includedDays = JSON.parse(localStorage.getItem(`includedDays${this.objectType}${this.objectId}`))
       this.pickedDates = includedDays ?? this.pickedDates
-      const people = +localStorage.getItem('people')
+      const people = +localStorage.getItem(`people${this.objectType}${this.objectId}`)
       this.userData.people = people ?? null
     },
     loadInitialData(){
@@ -973,7 +1022,7 @@ export default {
       this.getBathhouseOptionsFromLS()
       this.getBathhouseDateFromLS()
 
-      const bathhouseData = JSON.parse(localStorage.getItem('BHData'))
+      const bathhouseData = JSON.parse(localStorage.getItem(`BHData${this.objectType}${this.objectId}`))
       if (bathhouseData){
         this.includedHours = bathhouseData.includedHours
         this.bathhouseData.people = bathhouseData.people
@@ -981,7 +1030,7 @@ export default {
       // this.calculateBathhousePrice()
     },
     loadPersonalData(){
-      const personalData = JSON.parse(localStorage.getItem('personalData'))
+      const personalData = JSON.parse(localStorage.getItem(`personalData${this.objectType}${this.objectId}`))
       if (!personalData){
         return 
       }
@@ -1003,7 +1052,7 @@ export default {
       // this.getHouseOptionsFromLS()
       // this.getBathhouseOptionsFromLS()
       // this.getBathhouseDateFromLS()
-      localStorage.setItem('currentProgress', this.currentProgress)
+      localStorage.setItem(`currentProgress${this.objectType}${this.objectId}`, this.currentProgress)
       this.loadDataFromLS()
     },
     saveBathhouseOptions() {
@@ -1012,13 +1061,13 @@ export default {
       }
 
       localStorage.setItem(
-        'BHOptions',
+        `BHOptions${this.objectType}${this.objectId}`,
         JSON.stringify(this.bathhouseSelectedOptions)
       )
     },
     saveHouseOptions() {
-      localStorage.setItem('GHOptions', JSON.stringify(this.selectedOptions))
-      localStorage.setItem('people', this.userData.people)
+      localStorage.setItem(`GHOptions${this.objectType}${this.objectId}`, JSON.stringify(this.selectedOptions))
+      localStorage.setItem(`people${this.objectType}${this.objectId}`, this.userData.people)
       console.log('saved')
     },
     showTimeDD(e) {
@@ -1036,7 +1085,7 @@ export default {
       e.stopPropagation()
     },
     getDDValueFromLS(id){
-      const options = JSON.parse(localStorage.getItem('GHOptions'))
+      const options = JSON.parse(localStorage.getItem(`GHOptions${this.objectType}${this.objectId}`))
       const option = options ? options.find(x => +x.id === +id) : null
       return option ? option.value : null
     },
@@ -1179,7 +1228,7 @@ export default {
       this.firstPickedTime = {}
       this.secondPickedTime = {}
 
-      localStorage.setItem('BHDay', JSON.stringify(this.$refs.BHDate.value))
+      localStorage.setItem(`BHDay${this.objectType}${this.objectId}`, JSON.stringify(this.$refs.BHDate.value))
     },
     addDaysInfo() {
       this.hours.firstDay.forEach((x) => {
@@ -1222,7 +1271,7 @@ export default {
     onDatePick(data) {
       this.pickedDates.length = 0
       this.pickedDates = [...data]
-      localStorage.setItem('includedDays', JSON.stringify(this.pickedDates))
+      localStorage.setItem(`includedDays${this.objectType}${this.objectId}`, JSON.stringify(this.pickedDates))
     },
     createDatesString() {
       if (this.pickedDates[0] == null) {
@@ -1382,7 +1431,7 @@ export default {
 
       if (process.client) {
         localStorage.setItem(
-          'BHOptions',
+          `BHOptions${this.objectType}${this.objectId}`,
           JSON.stringify(this.bathhouseSelectedOptions)
         )
       }
@@ -1407,7 +1456,7 @@ export default {
       }, 0)
 
       if (process.client && this.selectedOptions.length !== 0) {
-        localStorage.setItem('GHOptions', JSON.stringify(this.selectedOptions))
+        localStorage.setItem(`GHOptions${this.objectType}${this.objectId}`, JSON.stringify(this.selectedOptions))
       }
 
       this.price =
@@ -1530,7 +1579,7 @@ export default {
       ).data
       this.options = (
         await this.$http.$get(`guest-house-options?populate=deep%2C%2010`)
-        ).data
+      ).data
         // this.options = [(await this.$http.$get(`guest-house-options?populate=deep%2C%2010`)).data]
       this.bathhouseOptions = [
         (await this.$http.$get(`bathhouse-options?populate=deep%2C%2010`)).data,
@@ -1552,7 +1601,7 @@ export default {
       const end = splittedEnd.join('-')
 
       const dataToSend = {
-        guest_house: this.$route.params.house,
+        guest_house: this.objectId,
         people: parseInt(this.userData.people),
         arrivalTime: this.userData.arrivalTime,
         leaveTime: this.userData.leaveTime,
@@ -1580,7 +1629,7 @@ export default {
         dataToSend.bathhouse_order = this.assembleBathhouseData()
       }
 
-      localStorage.setItem('order', JSON.stringify(dataToSend))
+      localStorage.setItem(`order${this.objectType}${this.objectId}`, JSON.stringify(dataToSend))
 
       // await this.$http.$post('guest-house-orders', dataToSend)
       this.$router.push({ path: '/precheck' })
@@ -1636,14 +1685,14 @@ export default {
 
       this.currentProgress--
 
-      localStorage.setItem('currentProgress', this.currentProgress)
+      localStorage.setItem(`currentProgress${this.objectType}${this.objectId}`, this.currentProgress)
       // this.getHouseOptionsFromLS()
       // this.getBathhouseOptionsFromLS()
       // this.getBathhouseDateFromLS()
       this.loadDataFromLS()
     },
     getBathhouseDateFromLS(){
-      const BHDate = JSON.parse(localStorage.getItem('BHDay'))
+      const BHDate = JSON.parse(localStorage.getItem(`BHDay${this.objectType}${this.objectId}`))
       
       if (!BHDate){
         return
@@ -1663,7 +1712,7 @@ export default {
           return
         }
         
-        const LSBHOptions = JSON.parse(localStorage.getItem('BHOptions'))
+        const LSBHOptions = JSON.parse(localStorage.getItem(`BHOptions${this.objectType}${this.objectId}`))
         
         if (!LSBHOptions) {
           return
@@ -1697,7 +1746,7 @@ export default {
       }, 200);
     },
     loadBHInitialData(){
-      const LSBHOptions = JSON.parse(localStorage.getItem('BHOptions'))
+      const LSBHOptions = JSON.parse(localStorage.getItem(`BHOptions${this.objectType}${this.objectId}`))
       if (LSBHOptions){
         this.bathhouseSelectedOptions = [...LSBHOptions]
       }
@@ -1710,7 +1759,7 @@ export default {
         if (!Object.keys(this.$refs).length){
           return
         }
-        const LSHouseOptions = JSON.parse(localStorage.getItem('GHOptions'))
+        const LSHouseOptions = JSON.parse(localStorage.getItem(`GHOptions${this.objectType}${this.objectId}`))
         // this.getHouseOptionsData()
 
         if (!LSHouseOptions) {

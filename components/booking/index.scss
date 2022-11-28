@@ -146,6 +146,22 @@
     }
   }
 
+  &__new-button{
+    width: auto;
+    padding: 1.125rem 3rem;
+
+    @include mobile{
+      width: 100%;
+    }
+  }
+
+  &__continue-btn.booking__next-btn--first{
+    @include mobile{
+      margin-bottom: 0;
+      width: 100%;
+    }
+  }
+
   &__agreement-label{
     display: flex;
     flex-direction: column;
@@ -411,6 +427,9 @@
 
     &--second{
       margin-top: 1.5rem;
+      @include mobile{
+        margin-top: 24px;
+      }
     }
 
     &--third{
