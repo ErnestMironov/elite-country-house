@@ -1,13 +1,20 @@
 <template>
   <div
-    class="min-h-screen container flex justify-center items-start overflow-hidden"
+    class="h-screen container flex justify-center items-start overflow-auto fixed pb-24 w-screen top-0 left-0 z-10 bg-[#2D292980]"
+    @click.self="closePrecheck"
   >
     <div class="check">
+      <button
+        class="block text-[16px] absolute right-[16px] top-[16px]"
+        @click="closePrecheck"
+      >
+        ✕
+      </button>
       <div class="decoration">HEDONIST</div>
       <div class="flex justify-between items-center mb-[21px]">
         <SimpleTitle title="Пречек"></SimpleTitle>
         <img
-          class="h-[3.5rem]"
+          class="h-[25px] lg:h-[56px]"
           src="~/assets/icons/logo_without-text.svg"
           alt=""
         />
@@ -23,7 +30,7 @@
             <h3 class="text-[18px] font-medium">
               {{ mainObject }} "{{ order?.objectParams?.name }}"
             </h3>
-            <ul class="flex">
+            <ul class="flex flex-wrap">
               <li class="text-[#2D292980] text-[16px] mr-[12px]">
                 {{ mainObjectDuration }}
               </li>
@@ -76,7 +83,7 @@
           />
           <div class="flex-1">
             <h3 class="text-[18px] font-medium">"{{ bathParams?.name }}"</h3>
-            <ul class="flex">
+            <ul class="flex flex-wrap">
               <li class="text-[#2D292980] text-[16px] mr-[12px]">
                 {{ bathDuration }}
               </li>
@@ -129,9 +136,13 @@
         </div>
       </div>
       <div class="total-summary">
+        <div v-if="!order?.refundable" class="option">
+          <b>Скидка</b>
+          <b>{{ discount | formatPrice }}₽</b>
+        </div>
         <div class="option">
           <b>Итог</b>
-          <b>{{ totalPrice | formatPrice }}₽</b>
+          <b>{{ finalPrice | formatPrice }}₽</b>
         </div>
       </div>
       <button
@@ -164,11 +175,22 @@ export default {
       return t[0] + ':' + t[1]
     },
   },
+  props: {
+    order: {
+      type: Object,
+      required: true,
+    },
+    objectOptions: {
+      type: Object,
+      required: true,
+    },
+    bathOptions: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
     return {
-      order: null,
-      objectOptions: null,
-      bathOptions: null,
       bathParams: null,
     }
   },
@@ -229,26 +251,34 @@ export default {
     },
 
     totalPrice() {
-      const price =
+      return (
         this.objectTotalPrice + (this.order?.bathhouse_order?.totalPrice ?? 0)
+      )
+    },
 
-      return this.order?.refundable === false ? price * 0.8 : price
+    discount() {
+      return this.totalPrice * 0.1
+    },
+
+    finalPrice() {
+      return this.order?.refundable === false
+        ? this.totalPrice - this.discount
+        : this.totalPrice
     },
   },
   async mounted() {
-    if (window.localStorage) {
-      this.order = JSON.parse(localStorage.getItem('order'))
-      this.objectOptions = JSON.parse(localStorage.getItem('GHOptions'))
-      this.bathOptions = JSON.parse(localStorage.getItem('BHOptions'))
-
-      if (this.order?.bathhouse_order?.bathhouse) {
-        this.bathParams = (
-          await this.$http.$get(
-            `bathhouses/${this.order?.bathhouse_order?.bathhouse}?populate=deep,10`
-          )
-        ).data
-      }
+    if (this.order?.bathhouse_order?.bathhouse) {
+      this.bathParams = (
+        await this.$http.$get(
+          `bathhouses/${this.order?.bathhouse_order?.bathhouse}?populate=deep,10`
+        )
+      ).data
     }
+  },
+  methods: {
+    closePrecheck() {
+      this.$emit('onClose')
+    },
   },
 }
 </script>
@@ -266,11 +296,20 @@ export default {
 }
 
 .check {
-  padding: 24px 36px 36px;
+  padding: 40px 36px 36px;
   display: inline-block;
-  min-width: 540px;
+  max-width: 90vw;
   margin-top: 50px;
   position: relative;
+  background: #fff;
+  overflow: hidden;
+  position: relative;
+  opacity: 0;
+  animation: slideDown 300ms ease-out forwards;
+
+  @media screen and (min-width: 1000px) {
+    min-width: 540px;
+  }
 }
 
 .option {
@@ -298,7 +337,11 @@ export default {
     position: relative;
     bottom: 6px;
     margin: 0 5px;
-    min-width: 20px;
+    min-width: 5px;
+
+    @media screen and (min-width: 1000px) {
+      min-width: 20px;
+    }
   }
 
   &_without_dots {
@@ -328,9 +371,27 @@ export default {
     }
 
     b {
-      font-size: 24px;
+      font-size: 20px;
       line-height: 32px;
     }
+
+    &:last-child {
+      b {
+        font-size: 24px;
+        line-height: 32px;
+      }
+    }
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 </style>
