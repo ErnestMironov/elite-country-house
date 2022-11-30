@@ -706,6 +706,7 @@
     margin-bottom: 1.125rem;
     cursor: pointer;
     margin-left: 0.25rem;
+    width: fit-content;
 
     @include mobile{
       margin-top: 58px;

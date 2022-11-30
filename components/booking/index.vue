@@ -39,7 +39,7 @@
         <button
           class="btn booking__next-btn--first booking__continue-btn"
           :disabled="isBookingDisabled()"
-          @click="setProgress(1)"
+          @click="continueBooking()"
         >
          Продолжить оформление
         </button>
@@ -894,7 +894,7 @@ export default {
   async beforeMount() {
     this.objectId = this.$route.params.house
     await this.getData()
-    this.setInitialProgress()
+    // this.setInitialProgress()
     this.setDropdowns()
     this.setBathhouseDefaultDay()
     this.getTakenDates()
@@ -994,7 +994,7 @@ export default {
       this.assembleDisabledHours()
       this.loadIndependentInitialData()
       this.loadBHInitialData()
-      this.loadDataFromLS()
+      // this.loadDataFromLS()
       this.calculatePrice()
       this.pickedDates = []
       this.includedHours = []
@@ -1041,6 +1041,13 @@ export default {
     },
     isBookingDisabled() {
       return !this.houseDataLoaded
+    },
+    continueBooking(){
+      const progress = +localStorage.getItem(`currentProgress${this.objectType}${this.objectId}`)
+      console.log(progress)
+      // progress = progress === 0 ? 1 : progress 
+      // this.currentProgress = progress === 0 ? 1 : progress 
+      this.setProgress(progress === 0 ? 1 : progress)
     },
     createHoursString,
     setProgress(count) {
@@ -1630,6 +1637,8 @@ export default {
       }
 
       localStorage.setItem(`order${this.objectType}${this.objectId}`, JSON.stringify(dataToSend))
+
+      this.saveDataToLS()
 
       // await this.$http.$post('guest-house-orders', dataToSend)
       this.$router.push({ path: '/precheck' })
