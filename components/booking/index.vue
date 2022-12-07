@@ -897,6 +897,7 @@ export default {
       objectId: null,
       showPrecheck: false,
       dataToSend: null,
+      BHOrder: {}
     }
   },
   computed: {
@@ -932,7 +933,8 @@ export default {
   beforeDestroy() {
     document.removeEventListener('click', this.handleDocumentClick)
   },
-  async created() {},
+  async created() {
+  },
   mounted() {
     // this.getHouseOptionsFromLS()
     // this.clearStorage()
@@ -955,10 +957,12 @@ export default {
       localStorage.removeItem(
         `currentProgress${this.objectType}${this.objectId}`
       )
+      localStorage.removeItem(`BHPrice${this.objectType}${this.objectId}`)
       localStorage.removeItem(`personalData${this.objectType}${this.objectId}`)
       localStorage.removeItem(`people${this.objectType}${this.objectId}`)
       localStorage.removeItem(`includedDays${this.objectType}${this.objectId}`)
       localStorage.removeItem(`order${this.objectType}${this.objectId}`)
+      localStorage.removeItem(`BHOrder${this.objectType}${this.objectId}`)
     },
     closePrecheck() {
       this.showPrecheck = false
@@ -1003,6 +1007,11 @@ export default {
         `BHData${this.objectType}${this.objectId}`,
         JSON.stringify(bathhouseData)
       )
+
+      const data = this.assembleBathhouseData()
+      this.BHOrder = data
+      localStorage.setItem(`BHOrder${this.objectType}${this.objectId}`, JSON.stringify(data))
+      localStorage.setItem(`BHPrice${this.objectType}${this.objectId}`, this.bathhousePrice)
     },
     saveInitialData() {
       this.saveHouseOptions()
@@ -1022,7 +1031,8 @@ export default {
     },
     createNewOrder() {
       this.clearStorage()
-      this.setDropdowns()
+      // this.setDropdowns()
+      this.clearDropdownsSelect()
       this.setBathhouseDefaultDay()
       this.getTakenDates()
       this.assembleDisabledHours()
@@ -1032,6 +1042,18 @@ export default {
       this.calculatePrice()
       this.pickedDates = []
       this.includedHours = []
+      this.bathhouseSelectedOptions = []
+      this.selectedOptions = []
+      this.BHOrder = {}
+      this.bathhouseData = {
+        people: null,
+        sets: null,
+        brooms: null,
+        helper: false,
+        furako: false,
+        jacuzzi: false,
+      }
+      this.takenDates = []
       this.bathhouseData.people = 0
       this.personalAgreement = false
       this.personalData = false
@@ -1040,6 +1062,7 @@ export default {
       this.userData.contactInformation.lastName = ''
       this.userData.contactInformation.email = ''
       this.userData.contactInformation.phone = ''
+      this.bathhousePrice = 0
 
       this.setProgress(1)
     },
@@ -1051,7 +1074,8 @@ export default {
       const people = +localStorage.getItem(
         `people${this.objectType}${this.objectId}`
       )
-      this.userData.people = people ?? null
+
+      this.userData.people = people ? people : null
     },
     loadInitialData() {
       this.getHouseOptionsFromLS()
@@ -1088,10 +1112,17 @@ export default {
       const progress = +localStorage.getItem(
         `currentProgress${this.objectType}${this.objectId}`
       )
-      console.log(progress)
-      // progress = progress === 0 ? 1 : progress
-      // this.currentProgress = progress === 0 ? 1 : progress
+
+      this.loadNeccessary()
       this.setProgress(progress === 0 ? 1 : progress)
+    },
+    loadNeccessary(){
+      const LSHouseOptions = JSON.parse(
+          localStorage.getItem(`GHOptions${this.objectType}${this.objectId}`)
+        )
+      this.selectedOptions = [...LSHouseOptions]
+      const BHPrice = localStorage.getItem(`BHPrice${this.objectType}${this.objectId}`)
+      this.bathhousePrice = BHPrice ? parseInt(BHPrice) : 0
     },
     createHoursString,
     setProgress(count) {
@@ -1165,6 +1196,14 @@ export default {
         }
       }
     },
+    clearDropdownsSelect(){
+      this.dropdowns.forEach(x => {
+        x.selected = {
+          id: null,
+          value: ''
+        }
+      })
+    },
     isDDActive(id) {
       const dd = this.dropdowns.find((x) => x.id === id)
       if (dd) {
@@ -1225,7 +1264,9 @@ export default {
     },
     getSelectedItem(id) {
       console.log(this.dropdowns)
-      return this.dropdowns.find((x) => x.id === id).selected.value
+      const dd = this.dropdowns.find((x) => x.id === id)
+
+      return dd ? dd.selected.value : ''
     },
     showDD(id) {
       this.dropdowns.find((x) => x.id === id).active = true
@@ -1490,7 +1531,9 @@ export default {
       // const brooms = this.bathhouseData.brooms ?? 0
       const servicesPrice = this.bathhouseSelectedOptions.reduce(
         (sum, option) => {
-          return sum + Number(option.value) * option.price
+          // console.log(option.price)
+          // console.log(option.value)
+          return sum + (isNaN(Number(option.value)) ? 1 : Number(option.value)) * option.price
         },
         0
       )
@@ -1690,14 +1733,15 @@ export default {
         dataToSend.contactInformation.phone.replaceAll(/[ ()-]/g, '')
 
       dataToSend.options = this.selectedOptions.map((x) => {
+        // here
         return {
           id: x.id,
           value: x.value,
         }
       })
 
-      if (this.bathhousePrice) {
-        dataToSend.bathhouse_order = this.assembleBathhouseData()
+      if (Object.keys(this.BHOrder).length > 0) {
+        dataToSend.bathhouse_order = this.BHOrder
       }
 
       this.dataToSend = dataToSend
@@ -1831,11 +1875,14 @@ export default {
       }, 200)
     },
     loadBHInitialData() {
-      const LSBHOptions = JSON.parse(
-        localStorage.getItem(`BHOptions${this.objectType}${this.objectId}`)
-      )
+      const LSBHOptions = localStorage.getItem(`BHOptions${this.objectType}${this.objectId}`)
       if (LSBHOptions) {
-        this.bathhouseSelectedOptions = [...LSBHOptions]
+        this.bathhouseSelectedOptions = [...JSON.parse(LSBHOptions)]
+      }
+
+      const BHOrder = localStorage.getItem(`BHOrder${this.objectType}${this.objectId}`)
+      if (BHOrder){
+        this.BHOrder = JSON.parse(BHOrder)
       }
     },
     getHouseOptionsFromLS() {
