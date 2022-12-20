@@ -11,7 +11,7 @@
         ✕
       </button>
       <div class="decoration">HEDONIST</div>
-      <div v-if="!showPayment" class="pb-[326px] flex flex-col items-center">
+      <div v-if="showPayment" class="pb-[326px] flex flex-col items-center">
         <img
           class="h-[25px] lg:h-[56px] block ml-auto"
           src="~/assets/icons/logo_without-text.svg"
@@ -49,7 +49,7 @@
             alt=""
           />
         </div>
-        <div class="pt-[24px] border-t border-solid border-black">
+        <div v-if="order.objectType !== 2" class="pt-[24px] border-t border-solid border-black mb-10">
           <div class="flex">
             <img
               :src="`https://admin.hedonistclub.ru${order?.objectParams?.images[0]?.url}`"
@@ -104,7 +104,7 @@
             </div>
           </div>
         </div>
-        <div v-if="order?.bathhouse_order?.bathhouse" class="pt-[24px] mt-10">
+        <div v-if="order?.bathhouse_order?.bathhouse" class="pt-[24px]">
           <div class="flex">
             <img
               :src="`https://admin.hedonistclub.ru${bathParams?.images[0]?.url}`"
@@ -122,16 +122,12 @@
                 </li>
                 <li class="text-[#2D292980] text-[16px] mr-[12px]">
                   {{
-                    new Date(
-                      order?.bathhouse_order?.dateTime ?? 0
-                    ).toLocaleDateString({ timezone: '' })
+                    bathDay
                   }}
                 </li>
                 <li class="text-[#2D292980] text-[16px] mr-[12px]">
                   {{
-                    new Date(
-                      order?.bathhouse_order?.dateTime ?? 0
-                    ).toLocaleTimeString() | formatOrderTime
+                   order?.bathhouse_order?.time
                   }}
                 </li>
               </ul>
@@ -262,6 +258,9 @@ export default {
       return `${this.order?.bathhouse_order?.hours} ${hoursPluralize(
         this.order?.bathhouse_order?.hours
       )}`
+    },
+    bathDay() { 
+      return `${this.order?.bathhouse_order?.day}.${this.order?.bathhouse_order?.month}.${this.order?.bathhouse_order?.year}` 
     },
     mainObjectPersons() {
       return `${this.order?.people} ${personsPluralize(this.order?.people)}`

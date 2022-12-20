@@ -56,13 +56,13 @@
         v-else
         class="btn booking__next-btn--first"
         :disabled="isBookingDisabled()"
-        @click="setProgress(1)"
+        @click="objectType === 2 ? setProgress(3) : setProgress(1)"
       >
         Забронировать
       </button>
     </div>
 
-    <div v-if="currentProgress === 1" class="booking-wrapper booking-1">
+    <div v-if="currentProgress === 1 && (objectType === 0 || objectType === 1)" class="booking-wrapper booking-1">
       <!-- <client-only>
         <DatePicker
           range 
@@ -256,6 +256,7 @@
                   class="booking__decoration-btn"
                   src="@/assets/icons/question.svg"
                   alt=""
+                  :title="option.description"
                 />
               </h4>
               <div class="option-dropdown">
@@ -296,7 +297,7 @@
           <button
             class="btn booking__next-btn booking__next-btn--second"
             :disabled="!isFirstEnabled()"
-            @click="setProgress(2)"
+            @click="objectType === 0 ? setProgress(2) : setProgress(4)"
           >
             Далее
           </button>
@@ -304,7 +305,7 @@
       </div>
     </div>
 
-    <div v-if="currentProgress === 2" class="booking-wrapper booking-2">
+    <div v-if="currentProgress === 2 && objectType === 0" class="booking-wrapper booking-2">
       <div class="booking__images-wrapper">
         <img src="@/assets/images/bathhouse_1.jpg" alt="bathhouse" />
         <img src="@/assets/images/bathhouse_2.jpg" alt="bathhouse" />
@@ -352,7 +353,7 @@
       </div>
     </div>
 
-    <div v-if="currentProgress === 3" class="booking-wrapper booking-3">
+    <div v-if="currentProgress === 3 && (objectType === 0 || objectType === 2)" class="booking-wrapper booking-3">
       <div class="booking__conditions-wrapper">
         <h3 class="booking__header booking__header--conditions">
           Условия бронирования
@@ -804,7 +805,8 @@ export default {
     },
     objectParams: {
       type: Object,
-      required: true,
+      required: false,
+      default: () => { }
     },
   },
   data() {
@@ -1064,7 +1066,7 @@ export default {
       this.userData.contactInformation.phone = ''
       this.bathhousePrice = 0
 
-      this.setProgress(1)
+      this.objectType === 2 ? this.setProgress(3) : this.setProgress(1)
     },
     loadIndependentInitialData() {
       const includedDays = JSON.parse(
@@ -1075,7 +1077,7 @@ export default {
         `people${this.objectType}${this.objectId}`
       )
 
-      this.userData.people = people ? people : null
+      this.userData.people = people || null
     },
     loadInitialData() {
       this.getHouseOptionsFromLS()
@@ -1553,6 +1555,7 @@ export default {
       const slicedDays = this.pickedDates.slice(0, this.pickedDates.length - 1)
 
       return slicedDays.reduce((sum, day) => {
+        
         return sum + this.getMult(day) * this.basePrice
       }, 0)
     },
@@ -1574,7 +1577,7 @@ export default {
       }
 
       this.price =
-        (beforeDiscount + this.bathhousePrice + optionsPrice) *
+        (beforeDiscount + (this.bathhousePrice ?? 0) + optionsPrice) *
         (this.userData.refundable ? 1 : 0.9)
     },
     getMult(day) {
@@ -1679,26 +1682,41 @@ export default {
     },
 
     async getData() {
-      this.priceTable = (
-        await this.$http.$get('guest-house-price-table?populate=deep%2C10')
-      ).data
-      this.bathhousePriceTable = (
-        await this.$http.$get('bathhouse-price-table?populate=deep%2C10')
-      ).data
-      this.ordersList = (
-        await this.$http.$get(`guest-house-orders?populate=deep%2C10%20`)
-      ).data.filter((x) => x.status !== 'cancelled')
-      this.bathhouseOrdersList = (
-        await this.$http.$get(`bathhouse-orders?populate=deep%2C%2010`)
-      ).data
-      this.options = (
-        await this.$http.$get(`guest-house-options?populate=deep%2C%2010`)
-      ).data
-      // this.options = [(await this.$http.$get(`guest-house-options?populate=deep%2C%2010`)).data]
-      this.bathhouseOptions = [
-        (await this.$http.$get(`bathhouse-options?populate=deep%2C%2010`)).data,
-      ]
-
+      switch (this.objectType) { 
+        case 0:
+        case 2:
+          this.priceTable = (
+            await this.$http.$get('guest-house-price-table?populate=deep%2C10')
+          ).data
+          this.ordersList = (
+            await this.$http.$get(`guest-house-orders?populate=deep%2C10%20`)
+          ).data.filter((x) => x.status !== 'cancelled')
+          this.options = (
+            await this.$http.$get(`guest-house-options?populate=deep%2C%2010`)
+          ).data
+          this.bathhousePriceTable = (
+            await this.$http.$get('bathhouse-price-table?populate=deep%2C10')
+          ).data
+        
+          this.bathhouseOrdersList = (
+            await this.$http.$get(`bathhouse-orders?populate=deep%2C%2010`)
+          ).data
+          // this.options = [(await this.$http.$get(`guest-house-options?populate=deep%2C%2010`)).data]
+          this.bathhouseOptions = [
+            (await this.$http.$get(`bathhouse-options?populate=deep%2C%2010`)).data,
+          ]
+          break
+        case 1:
+          this.priceTable = (
+            await this.$http.$get('apartment-price-table?populate=deep%2C10')
+          ).data
+          this.ordersList = (
+            await this.$http.$get(`apartment-orders?populate=deep%2C10%20`)
+          ).data.filter((x) => x.status !== 'cancelled')
+          this.options = (
+            await this.$http.$get(`apartment-options?populate=deep%2C%2010`)
+          ).data
+      }
       this.houseDataLoaded = true
     },
 
@@ -1741,7 +1759,8 @@ export default {
       })
 
       if (Object.keys(this.BHOrder).length > 0) {
-        dataToSend.bathhouse_order = this.BHOrder
+        console.log("🚀 ~ file: index.vue:1762 ~ bookHouse ~ this.BHOrder", this.BHOrder)
+        dataToSend.bathhouse_order = {...this.BHOrder, ...this.bathDay, time: this.getHoursString()}
       }
 
       this.dataToSend = dataToSend
@@ -1799,7 +1818,11 @@ export default {
     },
     fuckGoBack() {
       this.saveDataToLS()
-      // if (this.currentProgress === 4 && !this.bathhousePrice) {
+
+      if (this.currentProgress === 4 && this.objectType === 1) {
+        this.currentProgress = 1
+        return
+      }
       if (this.currentProgress === 4 && !this.bathhouseData.people) {
         this.currentProgress = 2
         return
