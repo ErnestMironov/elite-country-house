@@ -1105,7 +1105,6 @@ export default {
 
         if (intervalExpired){
           includedDays = null
-          console.log('here')
         }
       }
       this.pickedDates = includedDays ?? this.pickedDates
