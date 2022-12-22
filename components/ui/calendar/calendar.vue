@@ -125,22 +125,72 @@ import {months} from '@/assets/calendar';
     calcPriceFunction(day){
       return (this.$props.getMult(day) * this.$props.basePrice)
     },
-    getClass(day){
-      const past = (day.id < this.now.id) ? 'past' : ''
-      const lastPast = (past && (day.id === this.now.id - 1)) ? 'last-past' : ''
-      const firstPast = (past && day.id === this.month[0].id) ? 'first-past' : ''
-      const disabled = ~this.disabledDays.findIndex(x=> x.id === day.id) ? 'disabled' : ''
-      const lastDisabled = (disabled && (!~this.disabledDays.findIndex(x=> x.id === day.id+1) || day.day === 0)) ? 'last-disabled' : ''
-      const firstDisabled = (disabled && (!~this.disabledDays.findIndex(x=> x.id === day.id-1)  || day.day === 1)) ? 'first-disabled' : ''
-      const included = ~this.includedDays.findIndex(x=> x.id === day.id) ? 'included' : ''
-      const lastIncluded = (included && (!~this.includedDays.findIndex(x=> x.id === day.id+1) || day.day === 0)) ? 'last-included' : ''
-      const firstIncluded = (included && (!~this.includedDays.findIndex(x=> x.id === day.id-1) || day.day === 1)) ? 'first-included' : ''
 
-      return [disabled, lastDisabled, firstDisabled, included, lastIncluded, firstIncluded, past, lastPast, firstPast].join(' ')
+    isPast(day){
+      return (day.id < this.now.id)
+    },
+    isLastPast(day){
+      return (this.isPast(day) && (day.id === this.now.id - 1))
+    },
+    isFirstPast(day){
+      return (this.isPast(day) && (day.id === this.month[0].id))
+    },
+    isDisabled(day){
+      return (~this.disabledDays.findIndex(x=> x.id === day.id) && !this.isPast(day))
+    },
+    isLastDisabled(day){
+      return (this.isDisabled(day) && (!this.isDisabled({...day, id: day.id + 1})))
+    },
+    isFirstDisabled(day){
+      return (this.isDisabled(day) && (!this.isDisabled({...day, id: day.id - 1})))
+    },
+    isIncluded(day){
+      return (~this.includedDays.findIndex(x=> x.id === day.id))
+    },
+    isLastIncluded(day){
+      return ((this.isIncluded(day) 
+          && this.includedDays.length !== 1 
+          && !this.isLastDisabled(day) 
+          && !this.isIncluded({...day, id: day.id + 1}))
+        || 
+          (this.isIncluded(day))
+          && this.includedDays.length === 1
+          && this.isFirstDisabled(day))
+    },
+    isFirstIncluded(day){
+      return (this.isIncluded(day) && !this.isIncluded({...day, id: day.id - 1}) && !this.isLastIncluded(day))
+    },
+    isRightCorner(day){
+      return (day.day === 0)
+    },
+    isLeftCorner(day){
+      return ((day.day === 1) || (day.id - 1 < this.now.id && (day.id - 1 === this.now.id - 1)))
+    },
+
+    getClass(day){
+      const past = this.isPast(day) ? 'past' : ''
+      const lastPast = this.isLastPast(day) ? 'last-past' : ''
+      const firstPast = this.isFirstPast(day) ? 'first-past' : ''
+      const disabled = this.isDisabled(day) ? 'disabled' : ''
+      const lastDisabled = this.isLastDisabled(day) ? 'last-disabled' : ''
+      const firstDisabled = this.isFirstDisabled(day) ? 'first-disabled' : ''
+      const included = this.isIncluded(day) ? 'included' : ''
+      const lastIncluded = this.isLastIncluded(day) ? 'last-included' : ''
+      const firstIncluded = this.isFirstIncluded(day) ? 'first-included' : ''
+      const rightCorner = this.isRightCorner(day) ? 'right-corner' : ''
+      const leftCorner = this.isLeftCorner(day) ? 'left-corner' : ''
+
+      return [disabled, lastDisabled, firstDisabled, included, lastIncluded, firstIncluded, past, lastPast, firstPast, rightCorner, leftCorner].join(' ')
     },
 
     pickDate(day){
-      if (~this.disabledDays.findIndex(x=> x.id === day.id) || day.id < this.now.id){
+      if ((!this.isLastDisabled(day)
+        && !this.isFirstDisabled(day)
+        && this.isDisabled(day)
+        || this.isPast(day)
+        || (this.isPast({...day, id: day.id - 1}) && this.isFirstDisabled(day)))
+        || this.backwardsForbidden(day.id)
+        || this.forwardForbidden(day.id)){
         return
       }
 
@@ -149,8 +199,8 @@ import {months} from '@/assets/calendar';
         this.includedDays = [day]
         this.$emit('picked', this.includedDays)
       } else {
-        if(day.id === this.firstPickedDay.id){
-          if(!this.secondPickedDay.id){
+        if (day.id === this.firstPickedDay.id){
+          if (!this.secondPickedDay.id){
             this.firstPickedDay = {}
             this.includedDays = []
             this.$emit('picked', this.includedDays)
@@ -163,33 +213,39 @@ import {months} from '@/assets/calendar';
             return
           }
         }
-        if(day.id === this.secondPickedDay.id){
+        if (day.id === this.secondPickedDay.id){
           this.secondPickedDay = {}
           this.includedDays = [this.firstPickedDay]
           this.$emit('picked', this.includedDays)
           return
         }
         this.secondPickedDay = day
-        this.clearExcessDays()
         if(day.id > this.firstPickedDay.id){
           this.includeForward()
         } else {
           this.includeBackward()
         }
+        console.dir(this.includedDays, {depth: null})
       }
-
-      this.includedDays.forEach(x => {
-        const day = this.getDayById(x.id)
-        x.day = day.day
-        x.date = day.date
-        x.month = day.month
-        x.year = day.year
-      })
-
+      this.clearExcessDays()
+      
+      this.setDaysInfo()
+      
       this.clearCopies()
       
       this.$emit('picked', this.includedDays)
     },
+
+    setDaysInfo(){
+      this.includedDays.forEach(x => {
+        const { day, date, month, year } = this.getDayById(x.id)
+        x.day = day
+        x.date = date
+        x.month = month
+        x.year = year
+      })
+    },
+
 
     clearExcessDays(){
       for (const day of this.includedDays){
@@ -210,22 +266,37 @@ import {months} from '@/assets/calendar';
 
     includeForward(){
        for (let i = this.firstPickedDay.id; i <= this.secondPickedDay.id; i++){
-          if (~this.disabledDays.findIndex(x => x.id === i)){
-            this.secondPickedDay = this.month.find(y => y.id === i-1)  
-            return
-          }
-          this.includedDays.push({id: i })
+         if (~this.disabledDays.findIndex(x => x.id === i) && i !== this.firstPickedDay.id){
+          this.secondPickedDay = this.month.find(y => y.id === i)  
+        }
+        this.includedDays.push({id: i })
+      }
+    },
+    
+    includeBackward(){
+      for (let i = this.firstPickedDay.id; i >= this.secondPickedDay.id; i--){
+        console.log(i)
+        if (~this.disabledDays.findIndex(x => x.id === i) && i !== this.firstPickedDay.id){
+          this.secondPickedDay = this.month.find(y => y.id === i)
+        }
+        this.includedDays.push({id: i })
         }
     },
 
-    includeBackward(){
-       for (let i = this.firstPickedDay.id; i >= this.secondPickedDay.id; i--){
-           if (~this.disabledDays.findIndex(x => x.id === i)){
-            this.secondPickedDay = this.month.find(y => y.id === i+1)
-            return
-          }
-          this.includedDays.push({id: i })
-        }
+    backwardsForbidden(id){
+      return (
+        this.firstPickedDay.id 
+        && (id < this.firstPickedDay.id) 
+        && this.isLastDisabled(this.firstPickedDay)
+      )
+    },
+
+    forwardForbidden(id){
+      return (
+        this.firstPickedDay.id 
+        && (id > this.firstPickedDay.id) 
+        && this.isFirstDisabled(this.firstPickedDay)
+      )
     },
     
     getCurrentMonth(){

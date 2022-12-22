@@ -26,7 +26,7 @@ export default {
   components: { SimpleTitle },
   props: {
     data: {
-      type: Object,
+      type: Array,
       required: true,
     },
   },

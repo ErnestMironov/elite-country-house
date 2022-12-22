@@ -18,7 +18,7 @@
     </swiper>
 
     <section class="container">
-      <Booking />
+      <Booking :object-type="2"/>
     </section>
 
     <section class="container">
@@ -36,10 +36,10 @@
 </template>
 
 <script>
-import Booking from './components/booking'
 import HouseAbout from './components/house-about'
 import HouseFunctions from './components/house-functions/index.vue'
 import HouseParameters from './components/house-parameters'
+import Booking from '@/components/booking'
 import HouseName from '@/components/blocks/house-name'
 
 // import Swiper from 'swiper/swiper-bundle.min'

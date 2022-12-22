@@ -146,6 +146,26 @@
   background-color: #EBD5C5;
 }
 
+.right-corner{
+  @include mobile{
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+
+  border-top-right-radius: 0.3125rem;
+  border-bottom-right-radius: 0.3125rem;
+}
+
+.left-corner{
+  @include mobile{
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+  }
+
+  border-top-left-radius: 0.3125rem;
+  border-bottom-left-radius: 0.3125rem;
+}
+
 div.past{ 
   background-color: rgba(0, 0, 0, 0.14);
   cursor: default;
@@ -157,8 +177,34 @@ div.past{
     border-bottom-right-radius: 5px;
   }
 
-  border-top-right-radius: 0.3125rem;
-  border-bottom-right-radius: 0.3125rem;
+  position: relative;
+  background-color: transparent;
+  overflow: hidden;
+
+  &::after{
+    width: 100%;
+    // height: 100%;
+    max-height: 2.875rem;
+    /* background-color: red; */
+    z-index: -10;
+    content: '';
+    background: url(../../../assets/icons/calendar_right-shape--red.svg);
+    background-size: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: left;
+    opacity: 1;
+    position: absolute;
+    display: inline-block;
+    top: 0;
+    bottom: 0;
+    left:-1px;
+    right: 0;
+    @include mobile{
+      max-height: 100%;
+    }
+  }
+
 }
 
 div.last-past{
@@ -177,8 +223,35 @@ div.last-past{
     border-bottom-left-radius: 5px;
   }
 
-  border-top-left-radius: 0.3125rem;
-  border-bottom-left-radius: 0.3125rem;
+  // border-top-left-radius: 0.3125rem;
+  // border-bottom-left-radius: 0.3125rem;
+  position: relative;
+  background-color: transparent;
+  overflow: hidden;
+
+  &::before{
+    width: 100%;
+    // height: 100%;
+    max-height: 2.875rem;
+    /* background-color: red; */
+    z-index: -10;
+    content: '';
+    background: url(../../../assets/icons/calendar_left-shape--red.svg);
+    background-size: 101%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: right;
+    opacity: 1;
+    position: absolute;
+    display: inline-block;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: -1px;
+    @include mobile{
+      max-height: 100%;
+    }
+  }
 }
 
 div.first-past{
@@ -201,8 +274,35 @@ div.first-past{
     border-bottom-right-radius: 5px;
   }
 
-  border-top-right-radius: 0.3125rem;
-  border-bottom-right-radius: 0.3125rem;
+  // border-top-right-radius: 0.3125rem;
+  // border-bottom-right-radius: 0.3125rem;
+  position: relative;
+  background-color: transparent;
+  overflow: hidden;
+
+  &::after{
+    width: 100%;
+    // height: 100%;
+    max-height: 2.875rem;
+    /* background-color: red; */
+    z-index: -10;
+    content: '';
+    background: url(../../../assets/icons/calendar_right-shape.svg);
+    background-size: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: left;
+    opacity: 1;
+    position: absolute;
+    display: inline-block;
+    top: 0;
+    bottom: 0;
+    left: -1px;
+    right: 0;
+    @include mobile{
+      max-height: 100%;
+    }
+  }
 }
 
 .first-included{
@@ -211,8 +311,33 @@ div.first-past{
     border-bottom-left-radius: 5px;
   }
 
-  border-top-left-radius: 0.3125rem;
-  border-bottom-left-radius: 0.3125rem;
+  position: relative;
+  background-color: transparent;
+  overflow: hidden;
+
+  &::before{
+    width: 100%;
+    // height: 100%;
+    max-height: 2.875rem;
+    /* background-color: red; */
+    z-index: -10;
+    content: '';
+    background: url(../../../assets/icons/calendar_left-shape.svg);
+    background-size: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: right;
+    opacity: 1;
+    position: absolute;
+    display: inline-block;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: -1px;
+    @include mobile{
+      max-height: 100%;
+    }
+  }
 }
 
 .arrow-disabled{ 

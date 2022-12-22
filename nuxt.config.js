@@ -47,7 +47,7 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ['@nuxt/http', '@nuxtjs/markdownit'],
+  modules: ['@nuxt/http', '@nuxtjs/markdownit', '@nuxtjs/device',],
 
   http: {
     baseURL: 'https://admin.hedonistclub.ru/api/',

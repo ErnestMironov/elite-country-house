@@ -18,7 +18,11 @@
     </swiper>
 
     <section class="container">
-      <Booking />
+      <Booking
+        :base-price="data.basePrice"
+        :object-type="1"
+        :object-params="data"
+      />
     </section>
 
     <section class="container">
@@ -29,15 +33,15 @@
 
     <TheAdvantages :data="data?.features" />
 
-    <TheFunctions :data="options" />
+    <!-- <TheFunctions :data="options" /> -->
   </div>
 </template>
 
 <script>
-import Booking from './components/booking'
 import HouseParameters from './components/house-parameters'
 import TheAdvantages from './components/the-advantages.vue'
 import TheFunctions from './components/the-functions.vue'
+import Booking from '@/components/booking'
 import HouseName from '@/components/blocks/house-name'
 
 // import Swiper from 'swiper/swiper-bundle.min'
