@@ -1088,9 +1088,26 @@ export default {
       this.objectType === 2 ? this.setProgress(3) : this.setProgress(1)
     },
     loadIndependentInitialData() {
-      const includedDays = JSON.parse(
+      let includedDays = JSON.parse(
         localStorage.getItem(`includedDays${this.objectType}${this.objectId}`)
       )
+      console.log(includedDays)
+
+      if (includedDays){
+        const firstPickedDayTS = new Date(
+          includedDays[0].year,
+          includedDays[0].month-1,
+          includedDays[0].date,
+          23
+          ).getTime()
+
+        const intervalExpired = (new Date().getTime() > firstPickedDayTS)
+
+        if (intervalExpired){
+          includedDays = null
+          console.log('here')
+        }
+      }
       this.pickedDates = includedDays ?? this.pickedDates
       const people = +localStorage.getItem(
         `people${this.objectType}${this.objectId}`
