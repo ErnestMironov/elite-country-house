@@ -11,7 +11,7 @@
         ✕
       </button>
       <div class="decoration">HEDONIST</div>
-      <div v-if="showPayment" class="pb-[326px] flex flex-col items-center">
+      <div v-show="showPayment" class="pb-[326px] flex flex-col items-center">
         <img
           class="h-[25px] lg:h-[56px] block ml-auto"
           src="~/assets/icons/logo_without-text.svg"
@@ -40,7 +40,7 @@
           Оплатил
         </button>
       </div>
-      <div v-else>
+      <div v-if="!showPayment">
         <div class="flex justify-between items-center mb-[21px]">
           <SimpleTitle title="Пречек"></SimpleTitle>
           <img
@@ -49,7 +49,10 @@
             alt=""
           />
         </div>
-        <div v-if="order.objectType !== 2" class="pt-[24px] border-t border-solid border-black mb-10">
+        <div
+          v-if="order.objectType !== 2"
+          class="pt-[24px] border-t border-solid border-black mb-10"
+        >
           <div class="flex">
             <img
               :src="`https://admin.hedonistclub.ru${order?.objectParams?.images[0]?.url}`"
@@ -121,14 +124,10 @@
                   {{ bathPersons }}
                 </li>
                 <li class="text-[#2D292980] text-[16px] mr-[12px]">
-                  {{
-                    bathDay
-                  }}
+                  {{ bathDay }}
                 </li>
                 <li class="text-[#2D292980] text-[16px] mr-[12px]">
-                  {{
-                   order?.bathhouse_order?.time
-                  }}
+                  {{ order?.bathhouse_order?.time }}
                 </li>
               </ul>
               <div class="option option_without_dots mt-[13px]">
@@ -259,8 +258,8 @@ export default {
         this.order?.bathhouse_order?.hours
       )}`
     },
-    bathDay() { 
-      return `${this.order?.bathhouse_order?.day}.${this.order?.bathhouse_order?.month}.${this.order?.bathhouse_order?.year}` 
+    bathDay() {
+      return `${this.order?.bathhouse_order?.day}.${this.order?.bathhouse_order?.month}.${this.order?.bathhouse_order?.year}`
     },
     mainObjectPersons() {
       return `${this.order?.people} ${personsPluralize(this.order?.people)}`
@@ -312,37 +311,80 @@ export default {
         )
       ).data
     }
-
-    const qrCode = new QRCodeStyling({
-      width: 300,
-      height: 300,
-      type: 'svg',
-      data: this.paymentLink,
-      image: sbpLogo,
-      dotsOptions: {
-        color: '#2D2929',
-        type: 'rounded',
-      },
-      backgroundOptions: {
-        color: 'transparent',
-      },
-      imageOptions: {
-        crossOrigin: 'anonymous',
-        margin: 20,
-      },
-    })
-
-    qrCode.append(this.$refs.qrContainer)
   },
   methods: {
     closePrecheck() {
       this.$emit('onClose')
     },
     async createOrder() {
+      const mainObjectData = JSON.parse(JSON.stringify(this.order))
+      mainObjectData.chosenOptions = this.objectOptions.map((option) => ({
+        title: option.title,
+        value: option.value,
+      }))
+      const bathHouseOrder = {
+        datetime: this.order?.bathhouse_order?.dateTime,
+        hours: +this.order?.bathhouse_order?.hours,
+        people: +this.order?.bathhouse_order?.people,
+        bathhouse: this.order?.bathhouse_order?.bathhouse,
+        status: 'waiting for payment',
+        totalPrice: this.order?.bathhouse_order?.totalPrice,
+        contactInformation: {
+          ...this.order?.contactInformation,
+        },
+        refundable: this.order?.refundable,
+        chosenOptions: this.bathOptions.map((option) => ({
+          title: option.title,
+          value: option.value,
+        })),
+      }
+
+      let bathOrderRequest
+
       try {
-        await this.$http.$post('guest-house-orders', dataToSend)
+        if (this.order?.bathhouse_order?.bathhouse)
+          bathOrderRequest = (
+            await this.$http.$post('bathhouse-orders', bathHouseOrder)
+          ).data
+
+        switch (this.order.objectType) {
+          case 0:
+            await this.$http.$post('guest-house-orders', {
+              ...mainObjectData,
+              bathhouse_order: bathOrderRequest?.id ?? null,
+            })
+            break
+          case 1:
+            await this.$http.$post('apartment-orders', {
+              ...mainObjectData,
+              apartment: this.order?.objectParams?.id,
+            })
+            break
+        }
         this.showPayment = true
+
+        const qrCode = new QRCodeStyling({
+          width: 300,
+          height: 300,
+          type: 'svg',
+          data: this.paymentLink,
+          image: sbpLogo,
+          dotsOptions: {
+            color: '#2D2929',
+            type: 'rounded',
+          },
+          backgroundOptions: {
+            color: 'transparent',
+          },
+          imageOptions: {
+            crossOrigin: 'anonymous',
+            margin: 20,
+          },
+        })
+
+        qrCode.append(this.$refs.qrContainer)
       } catch (error) {
+        console.log(error)
         alert(error.message)
       }
     },

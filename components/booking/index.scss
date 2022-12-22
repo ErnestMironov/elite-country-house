@@ -1,23 +1,27 @@
 @import '../../assets/styles/scss/colors';
 @import '@/assets/styles/scss/mixins';
 
-.booking{
-
-  &-3{
+.booking {
+  &-3 {
     min-width: 100%;
   }
 
-  &-wrapper{
+  &-wrapper {
     display: flex;
     justify-content: space-between;
     padding-bottom: 1.5rem;
 
-    @include mobile{
+    @include mobile {
       flex-direction: column;
+    }
+
+    &_jc {
+      justify-content: center;
+      gap: 3.125rem;
     }
   }
 
-  &__input-day{
+  &__input-day {
     font-family: Avenir Next Cyr;
     font-size: 1rem;
     font-weight: 400;
@@ -25,21 +29,21 @@
     letter-spacing: 0em;
     text-align: left;
     margin-right: 0.75rem;
-    
-    @include mobile{
+
+    @include mobile {
       font-size: 16px;
       line-height: 20px;
     }
   }
 
-  &__info-container{
+  &__info-container {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     // justify-content: space-between;
   }
 
-  &__price{
+  &__price {
     font-family: Avenir Next Cyr;
     font-size: 1.5rem;
     font-weight: 450;
@@ -47,45 +51,45 @@
     letter-spacing: 0em;
     text-align: left;
     margin-bottom: 1.5rem;
-    @include mobile{
+    @include mobile {
       margin-bottom: 24px;
     }
 
-    img{
+    img {
       margin-left: 0.125rem;
     }
   }
 
-  &__option-wrapper{
+  &__option-wrapper {
     width: 100%;
   }
 
-  &-label{
+  &-label {
     width: 100%;
     position: relative;
-    &:not(:last-child){
+    &:not(:last-child) {
       margin-bottom: 1.5rem;
     }
 
-    &--checkbox{
-      &:not(:last-child){
+    &--checkbox {
+      &:not(:last-child) {
         margin-bottom: 1.25rem;
       }
     }
 
-    &__bath-time{
-      &:not(:last-child){
+    &__bath-time {
+      &:not(:last-child) {
         margin-bottom: 0.75rem;
       }
     }
 
-    @include mobile{
-      &:not(:last-child){
+    @include mobile {
+      &:not(:last-child) {
         margin-bottom: 24px;
       }
     }
 
-    span{
+    span {
       font-family: Avenir Next Cyr;
       font-size: 1rem;
       font-weight: 400;
@@ -93,14 +97,14 @@
       letter-spacing: 0em;
       text-align: left;
 
-      @include mobile{
+      @include mobile {
         font-size: 16px;
         line-height: 20px;
       }
     }
   }
 
-  &__header{
+  &__header {
     font-family: Avenir Next Cyr;
     font-size: 1.125rem;
     font-weight: 600;
@@ -109,73 +113,73 @@
     text-align: left;
     margin-bottom: 1.75rem;
 
-    @include mobile{
+    @include mobile {
       font-size: 18px;
       line-height: 22px;
       margin-bottom: 28px;
       margin-top: 36px;
     }
 
-    &--conditions{
-      @include mobile{
-        margin-top: 0
+    &--conditions {
+      @include mobile {
+        margin-top: 0;
       }
     }
 
-    &--bathhouse{
-      @include mobile{
+    &--bathhouse {
+      @include mobile {
         margin-top: 28px;
-        margin-bottom: 24px
+        margin-bottom: 24px;
       }
     }
   }
 
-  &__last-header{
-    margin-top: 0.75rem; 
+  &__last-header {
+    margin-top: 0.75rem;
   }
 
-  &__checkbox-label{
+  &__checkbox-label {
     display: flex;
     justify-content: space-between;
-    &:not(:last-child){
+    &:not(:last-child) {
       margin-bottom: 1.125rem;
     }
 
-    @include mobile{
+    @include mobile {
       width: 100%;
     }
   }
 
-  &__new-button{
+  &__new-button {
     width: auto;
     padding: 1.125rem 3rem;
 
-    @include mobile{
+    @include mobile {
       width: 100%;
     }
   }
 
-  &__continue-btn.booking__next-btn--first{
-    @include mobile{
+  &__continue-btn.booking__next-btn--first {
+    @include mobile {
       margin-bottom: 0;
       width: 100%;
     }
   }
 
-  &__agreement-label{
+  &__agreement-label {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     margin-bottom: 1.5rem;
 
-    @include mobile{
-      &:first-child{
+    @include mobile {
+      &:first-child {
         margin-top: 48px;
         margin-bottom: 23px;
       }
     }
 
-    p{
+    p {
       margin-top: 0.75rem;
       font-size: 0.875rem;
       font-weight: 400;
@@ -183,12 +187,12 @@
       letter-spacing: 0em;
       text-align: left;
 
-      @include mobile{
+      @include mobile {
         font-size: 14px;
         line-height: 18px;
       }
 
-      span{
+      span {
         font-size: 0.875rem;
         font-weight: 700;
         line-height: 1.125rem;
@@ -197,7 +201,7 @@
         text-decoration: underline;
         cursor: pointer;
 
-        @include mobile{
+        @include mobile {
           font-size: 14px;
           font-weight: 700;
           line-height: 18px;
@@ -206,31 +210,31 @@
     }
   }
 
-  &__checkbox-wrapper{
+  &__checkbox-wrapper {
     display: flex;
     align-items: flex-start;
     width: 14.375rem;
 
-    @include mobile{
+    @include mobile {
       width: 100%;
     }
 
-    &--l{
+    &--l {
       width: 100%;
     }
 
-    input{
+    input {
       margin-right: 0.6875rem;
       margin-top: 0.125rem;
 
-      @include mobile{
+      @include mobile {
         margin-right: 10px;
         margin-top: 4px;
       }
     }
   }
 
-  &__sub-header{
+  &__sub-header {
     font-family: Avenir Next Cyr;
     font-size: 1rem;
     font-weight: 450;
@@ -248,23 +252,23 @@
 
     // }
 
-    @include mobile{
+    @include mobile {
       font-size: 16px;
       font-weight: 600;
       line-height: 20px;
       margin-bottom: 8px;
     }
 
-    &--thematic{
+    &--thematic {
       display: flex;
       align-items: center;
 
-      img{
+      img {
         margin-left: 0.1875rem;
         width: 1.125rem;
         height: auto;
-        
-        @include mobile{
+
+        @include mobile {
           margin-left: 3px;
           width: 18px;
         }
@@ -272,7 +276,7 @@
     }
   }
 
-  &__checkbox-header{
+  &__checkbox-header {
     font-size: 1.1875rem;
     font-weight: 400;
     line-height: 1.5rem;
@@ -280,27 +284,27 @@
     text-align: left;
     margin-bottom: 0;
 
-    @include mobile{
+    @include mobile {
       font-size: 18px;
       line-height: 24px;
     }
   }
 
-  &__checkbox-price{
-    @include mobile{
+  &__checkbox-price {
+    @include mobile {
       font-size: 18px;
       font-weight: 400;
       line-height: 24px;
       letter-spacing: 0em;
-      text-align: left
+      text-align: left;
     }
   }
 
-  &__arrival{
+  &__arrival {
     min-width: 19.375rem;
   }
 
-  &__input-field{
+  &__input-field {
     min-width: 100%;
     max-width: 19.375rem;
     height: 2.625rem;
@@ -310,25 +314,25 @@
     align-items: center;
     background-color: $cActionGrey;
     padding: 0.75rem 1rem;
-    &:not(:last-child){
+    &:not(:last-child) {
       margin-bottom: 0.75rem;
     }
 
-    &--bath{
+    &--bath {
       position: relative;
     }
 
-    @include mobile{
+    @include mobile {
       padding: 11px 17px;
       font-size: 16px;
       line-height: 20px;
       height: 42px;
-      &:not(:last-child){
+      &:not(:last-child) {
         margin-bottom: 12px;
       }
     }
 
-    input{
+    input {
       font-size: 1rem;
       font-weight: 400;
       line-height: 1.25rem;
@@ -337,53 +341,53 @@
       background-color: transparent;
       outline: none;
       width: 100%;
-      &::placeholder{
-        color: inherit
+      &::placeholder {
+        color: inherit;
       }
 
-      @include mobile{
+      @include mobile {
         font-size: 16px;
         line-height: 20px;
       }
     }
 
-    &--transparent{
+    &--transparent {
       background-color: transparent;
       padding: 0;
     }
 
-    span{
+    span {
       font-size: 1rem;
       font-weight: 400;
       line-height: 1.25rem;
       letter-spacing: 0em;
       text-align: left;
 
-      @include mobile{
+      @include mobile {
         font-size: 16px;
         line-height: 20px;
       }
     }
 
-    img{
+    img {
       width: 1.125rem;
       height: auto;
       margin-right: 0.75rem;
 
-      @include mobile{
+      @include mobile {
         width: 16px;
         margin-right: 13px;
       }
     }
   }
 
-  &-fireplace{
+  &-fireplace {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    
-    span{
-      @include mobile{
+
+    span {
+      @include mobile {
         font-size: 16px;
         font-weight: 600;
         line-height: 20px;
@@ -392,23 +396,22 @@
     }
   }
 
-  &__fireplace-lit{
+  &__fireplace-lit {
     display: flex;
     align-items: center;
-    input{
+    input {
       margin-right: 0.625rem;
-      @include mobile{
+      @include mobile {
         margin-right: 10px;
       }
     }
   }
 
-  
-  &__next-btn{
-    &:last-child{
+  &__next-btn {
+    &:last-child {
       padding: 1.125rem 3rem;
 
-      @include mobile{
+      @include mobile {
         padding: 18px 64px;
         font-size: 16px;
         line-height: 24px;
@@ -416,7 +419,7 @@
       }
     }
 
-    @include mobile{
+    @include mobile {
       margin-top: 24px;
       margin-bottom: 128px;
       padding: 18px 64px;
@@ -425,26 +428,26 @@
       width: auto;
     }
 
-    &--second{
+    &--second {
       margin-top: 1.5rem;
-      @include mobile{
+      @include mobile {
         margin-top: 24px;
       }
     }
 
-    &--third{
-      @include mobile{
+    &--third {
+      @include mobile {
         padding: 18px 48px;
         margin-right: 8px;
       }
     }
 
-    &--first{ 
+    &--first {
       margin-top: 0;
       padding: 1.125rem 4rem;
       // width: 15.625rem;
 
-      @include mobile{  
+      @include mobile {
         margin-bottom: 96px;
         padding: 18px 64px;
         font-size: 16px;
@@ -454,21 +457,21 @@
     }
   }
 
-  &__skip-btn{
+  &__skip-btn {
     padding-right: 0;
-    @include mobile{
+    @include mobile {
       margin-top: 24px;
-      &:last-child{
+      &:last-child {
         padding: 18px 36px;
       }
     }
   }
-  
-  &__btn{
+
+  &__btn {
     width: 10.75rem;
     padding: 1.125rem 3rem;
 
-    @include mobile{
+    @include mobile {
       padding: 18px 64px;
       font-size: 16px;
       line-height: 24px;
@@ -476,7 +479,7 @@
     }
   }
 
-  &-info{
+  &-info {
     display: flex;
     align-items: center;
     width: 100%;
@@ -490,7 +493,7 @@
     }
   }
 
-  &__info-title{
+  &__info-title {
     margin-bottom: 0.5rem;
     font-family: Avenir Next Cyr;
     font-size: 1.125rem;
@@ -500,7 +503,7 @@
     text-align: left;
   }
 
-  &__info-value{
+  &__info-value {
     font-family: Avenir Next Cyr;
     font-size: 1.125rem;
     font-weight: 400;
@@ -510,19 +513,19 @@
     color: $cTextGrey;
   }
 
-  &__info-section{
+  &__info-section {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     width: 25%;
     padding: 1.375rem 3rem;
-    border-right: 0.0625rem solid #C0C0C0;
-    &:first-child{
-      border-left: 0.0625rem solid #C0C0C0;;
+    border-right: 0.0625rem solid #c0c0c0;
+    &:first-child {
+      border-left: 0.0625rem solid #c0c0c0;
     }
   }
 
-  &__paragraph{
+  &__paragraph {
     font-size: 1.125rem;
     font-weight: 400;
     line-height: 1.75rem;
@@ -530,63 +533,63 @@
     text-align: left;
     margin-bottom: 4.375rem;
 
-    @include mobile{
+    @include mobile {
       font-size: 18px;
       line-height: 28px;
       margin-bottom: 20px;
     }
   }
 
-  &__images-wrapper{
+  &__images-wrapper {
     display: flex;
     align-items: flex-start;
 
-    img{
+    img {
       width: 19.375rem;
       height: auto;
-      &:not(:last-child){
+      &:not(:last-child) {
         margin-right: 1.5rem;
       }
 
-      @include mobile{
+      @include mobile {
         width: 166px;
-        &:not(:last-child){
+        &:not(:last-child) {
           margin-right: 12px;
         }
       }
     }
   }
 
-  &__info-wrapper{
+  &__info-wrapper {
     display: flex;
     align-items: flex-start;
     flex-direction: column;
     justify-content: flex-start;
     width: 19.375rem;
 
-    @include mobile{
+    @include mobile {
       width: 100%;
     }
 
-    &--horizontal{
+    &--horizontal {
       display: flex;
       flex-direction: row;
       align-items: flex-start;
     }
 
-    &--s{
+    &--s {
       display: flex;
       align-items: flex-start;
       flex-direction: column;
       justify-content: flex-start;
       width: 12.5rem;
 
-      @include mobile{
+      @include mobile {
         width: 110px;
       }
     }
-    
-    &--xs{
+
+    &--xs {
       display: flex;
       align-items: center;
       flex-direction: column;
@@ -594,36 +597,36 @@
       width: 9.625rem;
       margin-right: 4.1875rem;
 
-      @include mobile{
+      @include mobile {
         width: 153px;
         margin-right: 91px;
       }
     }
 
-    &--l{
+    &--l {
       width: 26.25rem;
 
-      @include mobile{
+      @include mobile {
         width: 100%;
       }
     }
   }
 
-  &__conditions-header{
+  &__conditions-header {
     margin-bottom: 1.125rem;
 
-    @include mobile{
+    @include mobile {
       margin-bottom: 18px;
     }
   }
 
-  &__conditions-wrapper{
+  &__conditions-wrapper {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
   }
-  
-  &__radio-btn{
+
+  &__radio-btn {
     width: 100%;
     margin-bottom: 1.125rem;
     border: 0.0625rem solid $cBorderDark;
@@ -637,7 +640,7 @@
     text-align: center;
     transition: all ease-out 0.15s;
 
-    @include mobile{
+    @include mobile {
       padding: 16px 32px;
       font-size: 16px;
       line-height: 20px;
@@ -645,17 +648,17 @@
       margin-bottom: 18px;
     }
 
-    &--active{
+    &--active {
       background-color: $cBorderDark;
       color: white;
     }
   }
 
-  &__price-header{
+  &__price-header {
     margin-bottom: 0.625rem;
   }
 
-  &__price{
+  &__price {
     display: flex;
     align-items: center;
     font-family: Avenir Next Cyr;
@@ -665,41 +668,41 @@
     letter-spacing: 0em;
     text-align: left;
 
-    &--bathhouse{
+    &--bathhouse {
       margin-bottom: 0;
-      @include mobile{
+      @include mobile {
         margin-bottom: 20px;
       }
     }
 
-    
-    @include mobile{
+    @include mobile {
       font-size: 24px;
       line-height: 36px;
       margin-top: 8px;
 
-      &, booking-price--bathhouse{
+      &,
+      booking-price--bathhouse {
         margin-top: 32px;
       }
     }
 
-    img{
+    img {
       height: 1.25rem;
 
-      @include mobile{
+      @include mobile {
         height: 20px;
       }
     }
   }
 
-  &__buttons-wrapper{
+  &__buttons-wrapper {
     display: flex;
     width: 100%;
     align-items: flex-start;
     margin-top: auto;
   }
 
-  &__back{
+  &__back {
     display: flex;
     align-items: center;
     margin-top: 1.875rem;
@@ -708,13 +711,12 @@
     margin-left: 0.25rem;
     width: fit-content;
 
-    @include mobile{
+    @include mobile {
       margin-top: 58px;
       margin-bottom: 28px;
     }
 
-
-    span{
+    span {
       font-family: Avenir Next Cyr;
       font-size: 0.75rem;
       font-weight: 450;
@@ -722,46 +724,46 @@
       letter-spacing: 0em;
       text-align: left;
 
-      @include mobile{
+      @include mobile {
         font-size: 12px;
         line-height: 16px;
       }
     }
 
-    img{
+    img {
       width: 1rem;
       margin-right: 0.375rem;
 
-      @include mobile{
+      @include mobile {
         width: 16px;
         margin-right: 6px;
       }
     }
   }
 
-  &__buttons--3{
+  &__buttons--3 {
     margin-top: 1.5rem;
   }
 
-  &-time-label{
-    &:not(:last-child){
+  &-time-label {
+    &:not(:last-child) {
       padding-bottom: 0.75rem;
       border-bottom: 0.0625rem solid $cBorderDarkGrey;
       margin-bottom: 0.75rem;
     }
 
-    @include mobile{
-      &:not(:last-child){
-      padding-bottom: 12px;
-      border-bottom: 1px solid $cBorderDarkGrey;
-      margin-bottom: 12px;
+    @include mobile {
+      &:not(:last-child) {
+        padding-bottom: 12px;
+        border-bottom: 1px solid $cBorderDarkGrey;
+        margin-bottom: 12px;
       }
-      &:first-child{
+      &:first-child {
         margin-top: 18px;
       }
     }
 
-    &__time{
+    &__time {
       margin-bottom: 0.75rem;
       font-size: 1rem;
       font-weight: 600;
@@ -769,14 +771,14 @@
       letter-spacing: 0em;
       text-align: left;
 
-      @include mobile{
+      @include mobile {
         font-size: 16px;
         line-height: 20px;
         margin-bottom: 12px;
       }
     }
 
-    &__price{
+    &__price {
       margin-bottom: 0.375rem;
       font-size: 1rem;
       font-weight: 400;
@@ -784,15 +786,15 @@
       letter-spacing: 0em;
       text-align: left;
 
-      &--desktop{
-        @include mobile{
+      &--desktop {
+        @include mobile {
           display: none;
         }
       }
 
-      &--mobile{
+      &--mobile {
         display: none;
-        @include mobile{
+        @include mobile {
           display: block;
           font-size: 16px;
           line-height: 20px;
@@ -801,14 +803,14 @@
       }
     }
 
-    &__value{
+    &__value {
       font-size: 1rem;
       font-weight: 700;
       line-height: 1.25rem;
       letter-spacing: 0em;
       text-align: left;
 
-      @include mobile{
+      @include mobile {
         font-size: 16px;
         line-height: 20px;
         font-weight: 600;
@@ -816,23 +818,23 @@
     }
   }
 
-  &-button{
+  &-button {
     // &--3{
     // margin-top: 1.5rem;
     // }
   }
 
-  button.booking-button--4{
+  button.booking-button--4 {
     padding: 1.125rem 2.125rem;
 
-    @include mobile{
+    @include mobile {
       padding: 18px 34px;
     }
   }
 
-  &__discount-label{
+  &__discount-label {
     background: rgba(92, 161, 93, 0.49);
-    border: 0.0625rem solid #5CA15D;
+    border: 0.0625rem solid #5ca15d;
     border-radius: 0.3125rem;
     font-family: Avenir Next Cyr;
     font-size: 1rem;
@@ -845,72 +847,72 @@
     margin-top: 1.25rem;
     margin-bottom: 3rem;
 
-    @include mobile{
+    @include mobile {
       width: 100%;
       padding: 12px 17px;
       font-weight: 400;
       font-size: 16px;
       line-height: 20px;
-      border: 1px solid #5CA15D;
+      border: 1px solid #5ca15d;
       border-radius: 5px;
       margin-top: 10px;
       margin-bottom: 0;
     }
   }
 
-  &__accompanying-header{
+  &__accompanying-header {
     margin-bottom: 1.125rem;
 
-    @include mobile{
+    @include mobile {
       margin-bottom: 18px;
     }
   }
 
-  &__accompanying-text{
+  &__accompanying-text {
     font-size: 1.125rem;
     font-weight: 400;
     line-height: 1.75rem;
     letter-spacing: 0em;
     text-align: left;
 
-    @include mobile{
+    @include mobile {
       font-size: 18px;
       line-height: 28px;
 
-      &:not(:last-child){
+      &:not(:last-child) {
         margin-bottom: 0.75rem;
       }
 
-      &:not(:last-child){
+      &:not(:last-child) {
         margin-bottom: 12px;
       }
 
-      &:last-child{
+      &:last-child {
         margin-bottom: 36px;
       }
     }
   }
 
-  &__precheck-header{
+  &__precheck-header {
     margin-bottom: 0.5rem;
-    @include mobile{
+    @include mobile {
       margin-top: 48px;
       margin-bottom: 8px;
     }
   }
 
-  &__option-wrapper{
-    &--checkbox{
+  &__option-wrapper {
+    &--checkbox {
       display: flex;
       justify-content: space-between;
-      .booking__checkbox-header{
+      .booking__checkbox-header {
         font-size: 1.1875rem;
         font-weight: 400;
         line-height: 1.5rem;
         letter-spacing: 0em;
         text-align: left;
 
-        @include mobile{
+        @include mobile {
           font-size: 18px;
           font-weight: 400;
           line-height: 24px;
@@ -918,15 +920,16 @@
       }
     }
 
-    &--number{}
+    &--number {
+    }
   }
 }
 
-.bathhouse-dropdown{
+.bathhouse-dropdown {
   width: 100%;
   height: 25.625rem;
   box-shadow: 0px 0px 0.75rem 0.5rem rgba(220, 220, 220, 0.25);
-  border: 1px solid #F2F2F2;
+  border: 1px solid #f2f2f2;
   border-radius: 0.3125rem;
   position: absolute;
   top: 0;
@@ -935,13 +938,13 @@
   padding: 1.125rem;
   z-index: 10;
 
-  @include mobile{
+  @include mobile {
     padding: 18px;
     border-radius: 5px;
     height: 390px;
   }
 
-  &__booked{
+  &__booked {
     visibility: hidden;
     font-family: Avenir Next Cyr;
     font-size: 1rem;
@@ -953,13 +956,13 @@
     color: rgba(173, 14, 14, 1);
   }
 
-  &__header{
+  &__header {
     padding-bottom: 0.5rem;
     width: 100%;
     border-bottom: 1px solid $cActionGrey;
     margin-bottom: 1rem;
 
-    @include mobile{
+    @include mobile {
       font-size: 16px;
       font-weight: 450;
       line-height: 20px;
@@ -968,22 +971,22 @@
     }
   }
 
-  &__wrapper{
+  &__wrapper {
     height: 88%;
     width: 100%;
     overflow: scroll;
 
-    @include mobile{
+    @include mobile {
       height: 92%;
     }
   }
 
-  &__hour{
+  &__hour {
     cursor: pointer;
     display: flex;
     align-items: center;
 
-    span{
+    span {
       padding: 0.5rem;
       font-family: Avenir Next Cyr;
       font-size: 1rem;
@@ -993,7 +996,7 @@
       text-align: left;
       display: block;
 
-      @include mobile{
+      @include mobile {
         padding: 8px;
         font-size: 16px;
         font-weight: 400;
@@ -1002,7 +1005,7 @@
     }
   }
 
-  &__date{
+  &__date {
     font-family: Avenir Next Cyr;
     font-size: 1rem;
     font-weight: 500;
@@ -1019,7 +1022,7 @@
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 
-    @include mobile{
+    @include mobile {
       font-size: 16px;
       font-weight: 450;
       line-height: 20px;
@@ -1027,11 +1030,11 @@
       border-radius: 4px;
     }
 
-    &--second{
+    &--second {
       z-index: 2;
     }
 
-    &.sticky{
+    &.sticky {
       position: static;
       z-index: 4;
       margin-bottom: 0.25rem;
@@ -1043,133 +1046,124 @@
   }
 }
 
-.scroll-wrapper{
+.scroll-wrapper {
   position: relative;
   height: 100%;
 }
 
-.disabled{
-  background-color: #EBD5C5;
+.disabled {
+  background-color: #ebd5c5;
 }
 
-.last-disabled{
+.last-disabled {
   border-top-right-radius: 0.3125rem;
   border-bottom-right-radius: 0.3125rem;
-  @include mobile{
+  @include mobile {
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
-
   }
 }
 
-.first-disabled{
+.first-disabled {
   border-top-left-radius: 0.3125rem;
   border-bottom-left-radius: 0.3125rem;
-  @include mobile{
+  @include mobile {
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
-
   }
 }
 
-.included{
-  background-color: #C5EBDF;
+.included {
+  background-color: #c5ebdf;
 }
 
-.last-included{
+.last-included {
   border-top-right-radius: 0.3125rem;
   border-bottom-right-radius: 0.3125rem;
-  @include mobile{
+  @include mobile {
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
-
   }
 }
 
-.first-included{
+.first-included {
   border-top-left-radius: 0.3125rem;
   border-bottom-left-radius: 0.3125rem;
-  @include mobile{
+  @include mobile {
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
-
   }
 }
 
-.input-error{
+.input-error {
   border: 0.0625rem solid rgba(173, 14, 14, 1);
 }
 
-.disabled-hour{
-  background-color: #EBD5C5;
+.disabled-hour {
+  background-color: #ebd5c5;
 
-  .bathhouse-dropdown__booked{
-    visibility: 
-    visible;
+  .bathhouse-dropdown__booked {
+    visibility: visible;
     padding: 0;
   }
 }
 
-.last-disabled-hour{
+.last-disabled-hour {
   border-bottom-left-radius: 0.3125rem;
   border-bottom-right-radius: 0.3125rem;
-  @include mobile{
+  @include mobile {
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
-
   }
 }
 
-.first-disabled-hour{
+.first-disabled-hour {
   border-top-left-radius: 0.3125rem;
   border-top-right-radius: 0.3125rem;
-  @include mobile{
+  @include mobile {
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-
   }
 }
 
-.included-hour{
-  background-color: #C5EBDF;
+.included-hour {
+  background-color: #c5ebdf;
 }
 
-.last-included-hour{
+.last-included-hour {
   border-bottom-left-radius: 0.3125rem;
   border-bottom-right-radius: 0.3125rem;
-  @include mobile{
+  @include mobile {
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
-
   }
 }
 
-.first-included-hour{
+.first-included-hour {
   border-top-left-radius: 0.3125rem;
   border-top-right-radius: 0.3125rem;
-  @include mobile{
+  @include mobile {
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-
   }
 }
 
-.active-radio{
+.active-radio {
   background-color: #282423;
-  color: white
+  color: white;
 }
 
-.hidden{
+.hidden {
   visibility: hidden;
 }
 
-.option-dropdown{
+.option-dropdown {
   position: relative;
 
-  &__wrapper{
+  &__wrapper {
     width: 100%;
     box-shadow: 0px 0px 0.75rem 0.5rem rgba(220, 220, 220, 0.25);
-    border: 1px solid #F2F2F2;
+    border: 1px solid #f2f2f2;
     border-radius: 0.3125rem;
     position: absolute;
     top: 120%;
@@ -1180,7 +1174,7 @@
     flex-direction: column;
   }
 
-  &__option{
+  &__option {
     cursor: pointer;
     display: block;
     padding: 0.75rem 1.5rem;
@@ -1192,7 +1186,7 @@
     letter-spacing: 0em;
     text-align: left;
 
-    &:hover{
+    &:hover {
       background-color: #f2f2f2;
       border-radius: 0.3125rem;
     }

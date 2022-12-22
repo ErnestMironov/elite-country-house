@@ -62,7 +62,11 @@
       </button>
     </div>
 
-    <div v-if="currentProgress === 1 && (objectType === 0 || objectType === 1)" class="booking-wrapper booking-1">
+    <div
+      v-if="currentProgress === 1 && (objectType === 0 || objectType === 1)"
+      class="booking-wrapper booking-1"
+      :class="{ 'booking-wrapper_jc': objectType === 1 }"
+    >
       <!-- <client-only>
         <DatePicker
           range 
@@ -158,9 +162,18 @@
             />
           </div>
         </label>
+        <div v-if="objectType === 1" class="booking__buttons-wrapper">
+          <button
+            class="btn booking__next-btn booking__next-btn--second"
+            :disabled="!isFirstEnabled()"
+            @click="setProgress(4)"
+          >
+            Далее
+          </button>
+        </div>
       </div>
 
-      <div class="booking__info-container">
+      <div v-if="objectType === 0" class="booking__info-container">
         <div class="booking__info-wrapper">
           <h3 class="booking__header">Дополнительный функционал</h3>
 
@@ -297,7 +310,7 @@
           <button
             class="btn booking__next-btn booking__next-btn--second"
             :disabled="!isFirstEnabled()"
-            @click="objectType === 0 ? setProgress(2) : setProgress(4)"
+            @click="setProgress(2)"
           >
             Далее
           </button>
@@ -305,7 +318,10 @@
       </div>
     </div>
 
-    <div v-if="currentProgress === 2 && objectType === 0" class="booking-wrapper booking-2">
+    <div
+      v-if="currentProgress === 2 && objectType === 0"
+      class="booking-wrapper booking-2"
+    >
       <div class="booking__images-wrapper">
         <img src="@/assets/images/bathhouse_1.jpg" alt="bathhouse" />
         <img src="@/assets/images/bathhouse_2.jpg" alt="bathhouse" />
@@ -353,7 +369,10 @@
       </div>
     </div>
 
-    <div v-if="currentProgress === 3 && (objectType === 0 || objectType === 2)" class="booking-wrapper booking-3">
+    <div
+      v-if="currentProgress === 3 && (objectType === 0 || objectType === 2)"
+      class="booking-wrapper booking-3"
+    >
       <div class="booking__conditions-wrapper">
         <h3 class="booking__header booking__header--conditions">
           Условия бронирования
@@ -806,7 +825,7 @@ export default {
     objectParams: {
       type: Object,
       required: false,
-      default: () => { }
+      default: () => {},
     },
   },
   data() {
@@ -899,7 +918,7 @@ export default {
       objectId: null,
       showPrecheck: false,
       dataToSend: null,
-      BHOrder: {}
+      BHOrder: {},
     }
   },
   computed: {
@@ -935,8 +954,7 @@ export default {
   beforeDestroy() {
     document.removeEventListener('click', this.handleDocumentClick)
   },
-  async created() {
-  },
+  async created() {},
   mounted() {
     // this.getHouseOptionsFromLS()
     // this.clearStorage()
@@ -1012,8 +1030,14 @@ export default {
 
       const data = this.assembleBathhouseData()
       this.BHOrder = data
-      localStorage.setItem(`BHOrder${this.objectType}${this.objectId}`, JSON.stringify(data))
-      localStorage.setItem(`BHPrice${this.objectType}${this.objectId}`, this.bathhousePrice)
+      localStorage.setItem(
+        `BHOrder${this.objectType}${this.objectId}`,
+        JSON.stringify(data)
+      )
+      localStorage.setItem(
+        `BHPrice${this.objectType}${this.objectId}`,
+        this.bathhousePrice
+      )
     },
     saveInitialData() {
       this.saveHouseOptions()
@@ -1118,12 +1142,14 @@ export default {
       this.loadNeccessary()
       this.setProgress(progress === 0 ? 1 : progress)
     },
-    loadNeccessary(){
+    loadNeccessary() {
       const LSHouseOptions = JSON.parse(
-          localStorage.getItem(`GHOptions${this.objectType}${this.objectId}`)
-        )
+        localStorage.getItem(`GHOptions${this.objectType}${this.objectId}`)
+      )
       this.selectedOptions = [...LSHouseOptions]
-      const BHPrice = localStorage.getItem(`BHPrice${this.objectType}${this.objectId}`)
+      const BHPrice = localStorage.getItem(
+        `BHPrice${this.objectType}${this.objectId}`
+      )
       this.bathhousePrice = BHPrice ? parseInt(BHPrice) : 0
     },
     createHoursString,
@@ -1198,11 +1224,11 @@ export default {
         }
       }
     },
-    clearDropdownsSelect(){
-      this.dropdowns.forEach(x => {
+    clearDropdownsSelect() {
+      this.dropdowns.forEach((x) => {
         x.selected = {
           id: null,
-          value: ''
+          value: '',
         }
       })
     },
@@ -1535,7 +1561,11 @@ export default {
         (sum, option) => {
           // console.log(option.price)
           // console.log(option.value)
-          return sum + (isNaN(Number(option.value)) ? 1 : Number(option.value)) * option.price
+          return (
+            sum +
+            (isNaN(Number(option.value)) ? 1 : Number(option.value)) *
+              option.price
+          )
         },
         0
       )
@@ -1555,7 +1585,6 @@ export default {
       const slicedDays = this.pickedDates.slice(0, this.pickedDates.length - 1)
 
       return slicedDays.reduce((sum, day) => {
-        
         return sum + this.getMult(day) * this.basePrice
       }, 0)
     },
@@ -1682,7 +1711,7 @@ export default {
     },
 
     async getData() {
-      switch (this.objectType) { 
+      switch (this.objectType) {
         case 0:
         case 2:
           this.priceTable = (
@@ -1697,13 +1726,14 @@ export default {
           this.bathhousePriceTable = (
             await this.$http.$get('bathhouse-price-table?populate=deep%2C10')
           ).data
-        
+
           this.bathhouseOrdersList = (
             await this.$http.$get(`bathhouse-orders?populate=deep%2C%2010`)
           ).data
           // this.options = [(await this.$http.$get(`guest-house-options?populate=deep%2C%2010`)).data]
           this.bathhouseOptions = [
-            (await this.$http.$get(`bathhouse-options?populate=deep%2C%2010`)).data,
+            (await this.$http.$get(`bathhouse-options?populate=deep%2C%2010`))
+              .data,
           ]
           break
         case 1:
@@ -1759,8 +1789,15 @@ export default {
       })
 
       if (Object.keys(this.BHOrder).length > 0) {
-        console.log("🚀 ~ file: index.vue:1762 ~ bookHouse ~ this.BHOrder", this.BHOrder)
-        dataToSend.bathhouse_order = {...this.BHOrder, ...this.bathDay, time: this.getHoursString()}
+        console.log(
+          '🚀 ~ file: index.vue:1762 ~ bookHouse ~ this.BHOrder',
+          this.BHOrder
+        )
+        dataToSend.bathhouse_order = {
+          ...this.BHOrder,
+          ...this.bathDay,
+          time: this.getHoursString(),
+        }
       }
 
       this.dataToSend = dataToSend
@@ -1898,13 +1935,17 @@ export default {
       }, 200)
     },
     loadBHInitialData() {
-      const LSBHOptions = localStorage.getItem(`BHOptions${this.objectType}${this.objectId}`)
+      const LSBHOptions = localStorage.getItem(
+        `BHOptions${this.objectType}${this.objectId}`
+      )
       if (LSBHOptions) {
         this.bathhouseSelectedOptions = [...JSON.parse(LSBHOptions)]
       }
 
-      const BHOrder = localStorage.getItem(`BHOrder${this.objectType}${this.objectId}`)
-      if (BHOrder){
+      const BHOrder = localStorage.getItem(
+        `BHOrder${this.objectType}${this.objectId}`
+      )
+      if (BHOrder) {
         this.BHOrder = JSON.parse(BHOrder)
       }
     },

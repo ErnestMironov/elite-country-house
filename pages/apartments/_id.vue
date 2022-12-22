@@ -18,7 +18,7 @@
     </swiper>
 
     <section class="container">
-      <Booking 
+      <Booking
         :base-price="data.basePrice"
         :object-type="1"
         :object-params="data"
@@ -33,7 +33,7 @@
 
     <TheAdvantages :data="data?.features" />
 
-    <TheFunctions :data="options" />
+    <!-- <TheFunctions :data="options" /> -->
   </div>
 </template>
 
