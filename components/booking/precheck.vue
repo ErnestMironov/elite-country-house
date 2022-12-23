@@ -333,25 +333,18 @@ export default {
           ...this.order?.contactInformation,
         },
         refundable: this.order?.refundable,
-        chosenOptions: this.bathOptions.map((option) => ({
-          title: option.title,
+        options: this.bathOptions.map((option) => ({
+          id: option.id,
           value: option.value,
         })),
       }
 
-      let bathOrderRequest
-
       try {
-        if (this.order?.bathhouse_order?.bathhouse)
-          bathOrderRequest = (
-            await this.$http.$post('bathhouse-orders', bathHouseOrder)
-          ).data
-
         switch (this.order.objectType) {
           case 0:
             await this.$http.$post('guest-house-orders', {
               ...mainObjectData,
-              bathhouse_order: bathOrderRequest?.id ?? null,
+              bathhouse_order: bathHouseOrder,
             })
             break
           case 1:
@@ -359,6 +352,9 @@ export default {
               ...mainObjectData,
               apartment: this.order?.objectParams?.id,
             })
+            break
+          case 2:
+            await this.$http.$post('bathhouse-orders', bathHouseOrder)
             break
         }
         this.showPayment = true
