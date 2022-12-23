@@ -52,7 +52,7 @@ export default {
         { property: 'og:title', content: 'Гедонист' },
         {
           property: 'og:image',
-          content: `https://admin.hedonistclub.ru${this.data.hero.images[0].url}`,
+          content: `https://admin.hedonistclub.ru${this.data?.hero.images[0].url}`,
         },
       ],
     }
