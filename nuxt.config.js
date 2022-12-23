@@ -1,5 +1,5 @@
 export default {
-  ssr: true,
+  ssr: false,
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
 
