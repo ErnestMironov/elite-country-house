@@ -56,7 +56,7 @@ export default {
       menu: [
         { label: 'Бани и сауны', link: '#bathhouses' },
         { label: 'Апартаменты', link: '#apartments' },
-        { label: 'Гостевые дома', link: '#guesthouses' },
+        { label: 'Шале', link: '#guesthouses' },
         { label: 'О нас', link: '#advantages' },
         { label: 'Связаться с нами', link: '#contacts' },
       ],

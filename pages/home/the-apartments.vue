@@ -1,6 +1,5 @@
 <template>
   <section
-    v-if="currentObject"
     id="apartments"
     :style="{
       backgroundImage: `url(https://admin.hedonistclub.ru${currentObject?.images[0].url})`,

@@ -3,9 +3,9 @@
     <img src="~/assets/images/home-bg.svg" class="decoration" alt="" />
     <TheHero :data="data.hero" />
     <TheServices :data="data.services" />
-    <TheApartments />
     <GuestHouses />
     <TheBathhouses />
+    <TheApartments />
     <TheAdvantages :data="data.preferences" />
     <TheIgora :data="data.igora" />
     <CompanyValues :data="data.philosophy" />
@@ -51,9 +51,25 @@ export default {
       title: 'Гедонист',
       meta: [
         {
+          name: 'description',
+          // @ts-ignore
+          content: this.data?.hero?.description,
+        },
+        {
           property: 'og:title',
           hid: 'og:title',
           content: 'Гедонист',
+        },
+        {
+          property: 'og:type',
+          hid: 'og:type',
+          content: 'website',
+        },
+        {
+          property: 'og:description',
+          hid: 'og:description',
+          // @ts-ignore
+          content: this.data?.hero?.description,
         },
         {
           property: 'og:image',
@@ -72,6 +88,8 @@ export default {
 
     // @ts-ignore
     if (this.$route.fullPath.includes('#')) {
+      console.log(this.$route.fullPath.replace('/', ''))
+      console.log(document.querySelector(this.$route.fullPath.replace('/', '')))
       scrollIntoView(
         // @ts-ignore
         document.querySelector(this.$route.fullPath.replace('/', ''))

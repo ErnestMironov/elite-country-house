@@ -18,7 +18,7 @@
     </swiper>
 
     <section class="container">
-      <Booking :object-type="2"/>
+      <Booking :object-type="2" />
     </section>
 
     <section class="container">
@@ -101,6 +101,40 @@ export default {
           },
         },
       },
+    }
+  },
+  head() {
+    return {
+      title: `Баня "${this.data?.name}"`,
+      meta: [
+        {
+          name: 'description',
+          // @ts-ignore
+          content: this.data?.description,
+        },
+        {
+          property: 'og:title',
+          hid: 'og:title',
+          content: `Баня "${this.data?.name}"`,
+        },
+        {
+          property: 'og:type',
+          hid: 'og:type',
+          content: 'website',
+        },
+        {
+          property: 'og:description',
+          hid: 'og:description',
+          // @ts-ignore
+          content: this.data?.description,
+        },
+        {
+          property: 'og:image',
+          hid: 'og:image',
+          // @ts-ignore
+          content: `https://admin.hedonistclub.ru${this.data?.heroImages[0]?.url}`,
+        },
+      ],
     }
   },
 }

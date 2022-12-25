@@ -63,6 +63,18 @@ export default {
     HouseFunctional,
     Booking,
   },
+  // @ts-ignore
+  async asyncData({ $http, params }) {
+    const houseParams = (
+      await $http.$get(`guest-houses/${params.house}?populate=*`)
+    ).data
+
+    const options = [
+      (await $http.$get(`guest-house-options/${params.house}?populate=*`)).data,
+    ]
+
+    return { houseParams, options }
+  },
   data() {
     return {
       id: 0,
@@ -101,23 +113,57 @@ export default {
       },
     }
   },
-  async created() {
+  head() {
+    return {
+      title: `Шале "${this.houseParams?.name}"`,
+      meta: [
+        {
+          name: 'description',
+          // @ts-ignore
+          content: this.houseParams?.description,
+        },
+        {
+          property: 'og:title',
+          hid: 'og:title',
+          content: `Шале "${this.houseParams?.name}"`,
+        },
+        {
+          property: 'og:type',
+          hid: 'og:type',
+          content: 'website',
+        },
+        {
+          property: 'og:description',
+          hid: 'og:description',
+          // @ts-ignore
+          content: this.houseParams?.description,
+        },
+        {
+          property: 'og:image',
+          hid: 'og:image',
+          // @ts-ignore
+          content: `https://admin.hedonistclub.ru${this.houseParams?.heroImages[0]?.url}`,
+        },
+      ],
+    }
+  },
+  created() {
     this.houseParams.feature = []
     this.houseParams.images = []
-    this.houseParams = [
-      (
-        await this.$http.$get(
-          `guest-houses/${this.$route.params.house}?populate=*`
-        )
-      ).data,
-    ][0]
-    this.options = [
-      (
-        await this.$http.$get(
-          `guest-house-options/${this.$route.params.house}?populate=*`
-        )
-      ).data,
-    ]
+    // this.houseParams = [
+    //   (
+    //     await this.$http.$get(
+    //       `guest-houses/${this.$route.params.house}?populate=*`
+    //     )
+    //   ).data,
+    // ][0]
+    // this.options = [
+    //   (
+    //     await this.$http.$get(
+    //       `guest-house-options/${this.$route.params.house}?populate=*`
+    //     )
+    //   ).data,
+    // ]
   },
 }
 </script>

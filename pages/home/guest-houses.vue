@@ -1,6 +1,6 @@
 <template>
   <section id="guesthouses" class="guest-houses">
-    <SimpleTitle is-light title="Гостевые дома" />
+    <SimpleTitle is-light title="Шале" />
     <div class="guest-houses__body mt-[6.6875rem]">
       <div
         class="guest-houses__info w-6/12 flex flex-col justify-between items-start"

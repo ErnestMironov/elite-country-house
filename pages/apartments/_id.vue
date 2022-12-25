@@ -40,7 +40,7 @@
 <script>
 import HouseParameters from './components/house-parameters'
 import TheAdvantages from './components/the-advantages.vue'
-import TheFunctions from './components/the-functions.vue'
+// import TheFunctions from './components/the-functions.vue'
 import Booking from '@/components/booking'
 import HouseName from '@/components/blocks/house-name'
 
@@ -60,7 +60,7 @@ export default {
     HouseParameters,
     Booking,
     TheAdvantages,
-    TheFunctions,
+    // TheFunctions,
   },
   async asyncData({ $http, params }) {
     const data = (await $http.$get(`apartments/${params.id}?populate=deep,10`))
@@ -93,6 +93,40 @@ export default {
           },
         },
       },
+    }
+  },
+  head() {
+    return {
+      title: `Апартаменты "${this.data?.name}"`,
+      meta: [
+        {
+          name: 'description',
+          // @ts-ignore
+          content: this.data?.description,
+        },
+        {
+          property: 'og:title',
+          hid: 'og:title',
+          content: `Апартаменты "${this.data?.name}"`,
+        },
+        {
+          property: 'og:type',
+          hid: 'og:type',
+          content: 'website',
+        },
+        {
+          property: 'og:description',
+          hid: 'og:description',
+          // @ts-ignore
+          content: this.data?.description,
+        },
+        {
+          property: 'og:image',
+          hid: 'og:image',
+          // @ts-ignore
+          content: `https://admin.hedonistclub.ru${this.data?.heroImages[0]?.url}`,
+        },
+      ],
     }
   },
 }

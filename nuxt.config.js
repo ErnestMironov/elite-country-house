@@ -5,7 +5,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'elite-country-house',
+    title: 'Гедонист',
     htmlAttrs: {
       lang: 'ru',
     },

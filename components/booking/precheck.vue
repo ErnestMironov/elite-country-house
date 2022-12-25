@@ -55,7 +55,10 @@
         >
           <div class="flex">
             <img
-              :src="`https://admin.hedonistclub.ru${order?.objectParams?.images[0]?.url}`"
+              :src="`https://admin.hedonistclub.ru${
+                order?.objectParams?.images[0]?.url ??
+                order?.objectParams?.heroImages[0]?.url
+              }`"
               alt=""
               class="w-[83px] h-[83px] object-cover mr-[18px]"
             />

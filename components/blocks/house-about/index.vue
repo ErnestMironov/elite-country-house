@@ -4,25 +4,31 @@
     <div class="about-wrapper">
       <div class="about__images-wrapper">
         <img
+          v-if="features.length > 0"
           class="about__img about__img--1"
           src="../../../assets/imgs/house-about_1.jpg"
           alt="about"
         />
         <img
+          v-if="features.length > 1"
           class="about__img about__img--2"
           src="../../../assets/imgs/house-about_2.jpg"
           alt="about"
         />
-        <img 
-          v-if="(features.length > 2)"
+        <img
+          v-if="features.length > 2"
           class="about__img about__img--3"
           src="../../../assets/imgs/house-about_3.jpg"
           alt="about"
         />
       </div>
       <div class="about-info">
-        <div v-for="feature, idx in features" :key="feature.id" class="about-info__card">
-          <span>{{ idx+1 }}</span>
+        <div
+          v-for="(feature, idx) in features"
+          :key="feature.id"
+          class="about-info__card"
+        >
+          <span>{{ idx + 1 }}</span>
           <h4 class="info-title">
             {{ feature.title }}
           </h4>
@@ -44,14 +50,14 @@
 import Title from '@/components/ui/simple-title/simple-title'
 
 export default {
-  components:{
-    Title
-  },  
-  props:{
+  components: {
+    Title,
+  },
+  props: {
     features: {
       type: Array,
     },
-  }
+  },
 }
 </script>
 

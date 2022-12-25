@@ -35,15 +35,16 @@
       >
         Политика конфиденциальности
       </a>
+      <nuxt-link to="/faq" class="footer__link">
+        Часто задаваемые вопросы
+      </nuxt-link>
     </div>
     <div class="mt-[30px] text-[14px] font-light">
       <div>
         <b>ИНН: </b>
         780512714953
       </div>
-      <div>
-        ИП Овсюхно Николай Николаевич
-      </div>
+      <div>ИП Овсюхно Николай Николаевич</div>
     </div>
   </footer>
 </template>
@@ -57,7 +58,8 @@ export default {
       menu: [
         { label: 'Бани и сауны', link: '#bathhouses' },
         { label: 'Апартаменты', link: '#apartments' },
-        { label: 'Гостевые дома', link: '#guesthouses' },
+        { label: 'Шале', link: '#guesthouses' },
+        { label: 'О нас', link: '#advantages' },
         { label: 'О нас', link: '#advantages' },
       ],
       socials: [],
