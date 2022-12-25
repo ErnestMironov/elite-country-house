@@ -50,9 +50,14 @@ export default {
     return {
       title: 'Гедонист',
       meta: [
-        { property: 'og:title', content: 'Гедонист' },
+        {
+          property: 'og:title',
+          hid: 'og:title',
+          content: 'Гедонист',
+        },
         {
           property: 'og:image',
+          hid: 'og:image',
           // @ts-ignore
           content: `https://admin.hedonistclub.ru${this.data?.hero?.images[0].url}`,
         },
