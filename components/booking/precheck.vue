@@ -182,7 +182,7 @@
 </template>
 
 <script>
-import QRCodeStyling from 'qr-code-styling'
+// import QRCodeStyling from 'qr-code-styling'
 import SimpleTitle from '~/components/ui/simple-title/simple-title.vue'
 import sbpLogo from '~/assets/icons/sbp_logo.svg?url'
 import {
@@ -359,26 +359,26 @@ export default {
         }
         this.showPayment = true
 
-        const qrCode = new QRCodeStyling({
-          width: 300,
-          height: 300,
-          type: 'svg',
-          data: this.paymentLink,
-          image: sbpLogo,
-          dotsOptions: {
-            color: '#2D2929',
-            type: 'rounded',
-          },
-          backgroundOptions: {
-            color: 'transparent',
-          },
-          imageOptions: {
-            crossOrigin: 'anonymous',
-            margin: 20,
-          },
-        })
+        // const qrCode = new QRCodeStyling({
+        //   width: 300,
+        //   height: 300,
+        //   type: 'svg',
+        //   data: this.paymentLink,
+        //   image: sbpLogo,
+        //   dotsOptions: {
+        //     color: '#2D2929',
+        //     type: 'rounded',
+        //   },
+        //   backgroundOptions: {
+        //     color: 'transparent',
+        //   },
+        //   imageOptions: {
+        //     crossOrigin: 'anonymous',
+        //     margin: 20,
+        //   },
+        // })
 
-        qrCode.append(this.$refs.qrContainer)
+        // qrCode.append(this.$refs.qrContainer)
       } catch (error) {
         console.log(error)
         alert(error.message)

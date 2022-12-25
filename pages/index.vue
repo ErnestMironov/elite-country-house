@@ -46,14 +46,15 @@ export default {
     return { data }
   },
   head() {
+    console.log(this)
     return {
       title: 'Гедонист',
       meta: [
         { property: 'og:title', content: 'Гедонист' },
-        // {
-        //   property: 'og:image',
-        //   content: `https://admin.hedonistclub.ru${this.data?.hero.images[0].url}`,
-        // },
+        {
+          property: 'og:image',
+          content: `https://admin.hedonistclub.ru${this.data?.hero?.images[0].url}`,
+        },
       ],
     }
   },
