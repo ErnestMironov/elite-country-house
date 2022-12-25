@@ -88,8 +88,6 @@ export default {
 
     // @ts-ignore
     if (this.$route.fullPath.includes('#')) {
-      console.log(this.$route.fullPath.replace('/', ''))
-      console.log(document.querySelector(this.$route.fullPath.replace('/', '')))
       scrollIntoView(
         // @ts-ignore
         document.querySelector(this.$route.fullPath.replace('/', ''))
