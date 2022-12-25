@@ -45,6 +45,7 @@ export default {
 
     return { data }
   },
+  // @ts-ignore
   head() {
     return {
       title: 'Гедонист',
