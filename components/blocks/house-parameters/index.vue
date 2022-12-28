@@ -1,22 +1,24 @@
 <template>
   <section class="parameters">
     <div class="swiper-container">
-      <swiper
-        ref="guestHousesSwiper"
-        class="parameters__slider"
-        :options="swiperOptions"
-      >
-        <swiper-slide
-          class="swiper-slide parameters__slide"
-          v-for="image in props.images"
-          :key="image.id"
+      <client-only>
+        <swiper
+          ref="guestHousesSwiper"
+          class="parameters__slider"
+          :options="swiperOptions"
         >
-          <img
-            class="parameters__slide-img"
-            :src="`https://admin.hedonistclub.ru${image.url}`"
-          />
-        </swiper-slide>
-      </swiper>
+          <swiper-slide
+            class="swiper-slide parameters__slide"
+            v-for="image in props.images"
+            :key="image.id"
+          >
+            <img
+              class="parameters__slide-img"
+              :src="`https://admin.hedonistclub.ru${image.url}`"
+            />
+          </swiper-slide>
+        </swiper>
+      </client-only>
       <!-- <swiper-slide
             v-for="image in images"
             :key="image.id"

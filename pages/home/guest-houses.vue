@@ -44,29 +44,33 @@
         </ul>
       </div>
       <div class="guest-houses__slider-wrap relative">
-        <swiper
+        <!-- <client-only> -->
+        <div
+          v-swiper:mySwiper="swiperOptions"
           v-if="objects.length"
           ref="guestHousesSwiper"
           class="guest-houses__slider"
-          :options="swiperOptions"
           @slideChange="changeActiveHouse"
         >
-          <swiper-slide
-            v-for="(image, index) of guestHousesImages"
-            :key="image.id + index"
-            class="swiper-slide guest-houses__slide"
-          >
-            <img
-              class="guest-houses__slide-img"
-              :src="`https://admin.hedonistclub.ru${image.url}`"
-            />
-            <nuxt-link
-              :to="`/guest-house/${currentHouse?.id}`"
-              class="btn btn_light absolute bottom-0 right-0 px-[2.9375rem] hide-on-tablet"
-              >Узнать больше</nuxt-link
+          <div class="swiper-wrapper">
+            <div
+              v-for="(image, index) of guestHousesImages"
+              :key="image.id + index"
+              class="swiper-slide guest-houses__slide"
             >
-          </swiper-slide>
-        </swiper>
+              <img
+                class="guest-houses__slide-img"
+                :src="`https://admin.hedonistclub.ru${image.url}`"
+              />
+              <nuxt-link
+                :to="`/guest-house/${currentHouse?.id}`"
+                class="btn btn_light absolute bottom-0 right-0 px-[2.9375rem] hide-on-tablet"
+                >Узнать больше</nuxt-link
+              >
+            </div>
+          </div>
+        </div>
+        <!-- </client-only> -->
         <div class="nav guest-houses__nav hide-on-mobile">
           <button id="guestHousesSLiderPrev" class="nav__btn">
             <img src="~/assets/icons/arrow_left_dark.svg" alt="назад" />

@@ -1,7 +1,7 @@
 export default {
   ssr: true,
   // Target: https://go.nuxtjs.dev/config-target
-  target: 'static',
+  target: 'server',
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -47,7 +47,7 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ['@nuxt/http', '@nuxtjs/markdownit', '@nuxtjs/device',],
+  modules: ['@nuxt/http', '@nuxtjs/markdownit', '@nuxtjs/device'],
 
   http: {
     baseURL: 'https://admin.hedonistclub.ru/api/',

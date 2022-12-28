@@ -42,22 +42,24 @@
       >
     </div>
     <div class="objects__slider">
-      <swiper
-        v-if="objectImages.length"
-        ref="objectsSwiper"
-        :options="swiperOptions"
-        @slideChange="changeActiveObject"
-      >
-        <swiper-slide
-          v-for="image in objectImages"
-          :key="image.id"
-          class="swiper-slide objects__slide"
+      <client-only>
+        <swiper
+          v-if="objectImages.length"
+          ref="objectsSwiper"
+          :options="swiperOptions"
+          @slideChange="changeActiveObject"
         >
-          <img
-            class="objects__slide-img"
-            :src="`https://admin.hedonistclub.ru${image.url}`"
-        /></swiper-slide>
-      </swiper>
+          <swiper-slide
+            v-for="image in objectImages"
+            :key="image.id"
+            class="swiper-slide objects__slide"
+          >
+            <img
+              class="objects__slide-img"
+              :src="`https://admin.hedonistclub.ru${image.url}`"
+          /></swiper-slide>
+        </swiper>
+      </client-only>
       <div class="nav hide-on-mobile">
         <button id="objectsSliderPrev" class="nav__btn">
           <img src="~/assets/icons/arrow_left.svg" alt="назад" />

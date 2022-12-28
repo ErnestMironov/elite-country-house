@@ -41,22 +41,24 @@
         >Узнать больше</nuxt-link
       >
     </div>
-    <swiper
-      ref="bathhousesSwiper"
-      class="bathhouses__slider"
-      :options="swiperOptions"
-    >
-      <swiper-slide
-        v-for="image in bathInfo?.images"
-        :key="image.id"
-        class="swiper-slide bathhouses__slide"
+    <client-only>
+      <swiper
+        ref="bathhousesSwiper"
+        class="bathhouses__slider"
+        :options="swiperOptions"
       >
-        <img
-          class="bathhouses__slide-img"
-          :src="`https://admin.hedonistclub.ru${image.url}`"
-        />
-      </swiper-slide>
-    </swiper>
+        <swiper-slide
+          v-for="image in bathInfo?.images"
+          :key="image.id"
+          class="swiper-slide bathhouses__slide"
+        >
+          <img
+            class="bathhouses__slide-img"
+            :src="`https://admin.hedonistclub.ru${image.url}`"
+          />
+        </swiper-slide>
+      </swiper>
+    </client-only>
   </section>
 </template>
 

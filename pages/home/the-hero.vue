@@ -1,16 +1,18 @@
 <template>
   <div class="hero">
-    <div v-swiper:mySwiper="swiperOptions" class="hero__slider">
-      <div class="swiper-wrapper">
-        <div
-          v-for="banner in data.images"
-          :key="banner.id"
-          class="swiper-slide hero__slide"
-        >
-          <img :src="`https://admin.hedonistclub.ru${banner.url}`" />
+    <client-only>
+      <div v-swiper:mySwiper="swiperOptions" class="hero__slider">
+        <div class="swiper-wrapper">
+          <div
+            v-for="banner in data.images"
+            :key="banner.id"
+            class="swiper-slide hero__slide"
+          >
+            <img :src="`https://admin.hedonistclub.ru${banner.url}`" />
+          </div>
         </div>
       </div>
-    </div>
+    </client-only>
 
     <div class="hero__text-block">
       <h2 class="hero__title">

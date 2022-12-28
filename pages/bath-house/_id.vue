@@ -1,21 +1,23 @@
 <template>
   <div class="house-wrapper">
-    <swiper
-      ref="guestHousesSwiper"
-      class="house__slider"
-      :options="swiperOptions"
-    >
-      <swiper-slide
-        v-for="image in data?.heroImages"
-        :key="image?.id"
-        class="swiper-slide house__slide"
+    <client-only>
+      <swiper
+        ref="guestHousesSwiper"
+        class="house__slider"
+        :options="swiperOptions"
       >
-        <img
-          class="house__slide-img"
-          :src="`https://admin.hedonistclub.ru${image.url}`"
-        />
-      </swiper-slide>
-    </swiper>
+        <swiper-slide
+          v-for="image in data?.heroImages"
+          :key="image?.id"
+          class="swiper-slide house__slide"
+        >
+          <img
+            class="house__slide-img"
+            :src="`https://admin.hedonistclub.ru${image.url}`"
+          />
+        </swiper-slide>
+      </swiper>
+    </client-only>
 
     <section class="container">
       <Booking :object-type="2" />
