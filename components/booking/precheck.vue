@@ -34,6 +34,7 @@
           Оплатить
         </a>
         <div v-else ref="qrContainer" class="inline-block mt-8"></div>
+        <img src="~/assets/images/hedonist-qr.jpg" alt="" />
         <button
           class="btn text-[16px] py-[18px] px-[64px] mt-[24px] mx-auto block"
         >
@@ -185,7 +186,6 @@
 </template>
 
 <script>
-// import QRCodeStyling from 'qr-code-styling'
 import SimpleTitle from '~/components/ui/simple-title/simple-title.vue'
 import sbpLogo from '~/assets/icons/sbp_logo.svg?url'
 import {
@@ -361,27 +361,6 @@ export default {
             break
         }
         this.showPayment = true
-
-        // const qrCode = new QRCodeStyling({
-        //   width: 300,
-        //   height: 300,
-        //   type: 'svg',
-        //   data: this.paymentLink,
-        //   image: sbpLogo,
-        //   dotsOptions: {
-        //     color: '#2D2929',
-        //     type: 'rounded',
-        //   },
-        //   backgroundOptions: {
-        //     color: 'transparent',
-        //   },
-        //   imageOptions: {
-        //     crossOrigin: 'anonymous',
-        //     margin: 20,
-        //   },
-        // })
-
-        // qrCode.append(this.$refs.qrContainer)
       } catch (error) {
         console.log(error)
         alert(error.message)
