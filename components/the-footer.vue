@@ -56,9 +56,9 @@ export default {
   data() {
     return {
       menu: [
+        { label: 'Шале', link: '#guesthouses' },
         { label: 'Бани и сауны', link: '#bathhouses' },
         { label: 'Апартаменты', link: '#apartments' },
-        { label: 'Шале', link: '#guesthouses' },
         { label: 'О нас', link: '#advantages' },
       ],
       socials: [],
