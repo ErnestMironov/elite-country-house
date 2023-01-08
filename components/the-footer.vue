@@ -60,7 +60,6 @@ export default {
         { label: 'Апартаменты', link: '#apartments' },
         { label: 'Шале', link: '#guesthouses' },
         { label: 'О нас', link: '#advantages' },
-        { label: 'О нас', link: '#advantages' },
       ],
       socials: [],
       userAgreement: null,
