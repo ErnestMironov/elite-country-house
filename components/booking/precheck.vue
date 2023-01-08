@@ -28,13 +28,17 @@
           v-if="$device.isMobile"
           :href="paymentLink"
           target="blank"
-          class="btn text-[20px] my-[40px] mx-auto flex items-center justify-between bg-[#1b1537] py-0 px-[18px]"
+          class="btn text-[20px] my-[40px] mx-auto flex items-center justify-around bg-[#1b1537] py-0 px-[18px]"
         >
           <img src="~/assets/icons/sbplogo.png" alt="" class="w-[50%]" />
           Оплатить
         </a>
-        <div v-else ref="qrContainer" class="inline-block mt-8"></div>
-        <img src="~/assets/images/hedonist-qr.jpg" alt="" />
+        <img
+          v-else
+          class="w-[300px]"
+          src="~/assets/images/hedonist-qr.jpg"
+          alt=""
+        />
         <button
           class="btn text-[16px] py-[18px] px-[64px] mt-[24px] mx-auto block"
         >
@@ -174,6 +178,12 @@
             <b>{{ finalPrice | formatPrice }}₽</b>
           </div>
         </div>
+        <div
+          v-if="orderError"
+          class="text-[18px] text-red-500 text-center my-[10px] font-semibold"
+        >
+          {{ orderError }}
+        </div>
         <button
           class="btn text-[16px] py-[18px] px-[64px] mt-[24px] ml-auto block"
           @click="createOrder"
@@ -225,6 +235,7 @@ export default {
     return {
       bathParams: null,
       showPayment: false,
+      orderError: null,
     }
   },
   computed: {
@@ -362,8 +373,9 @@ export default {
         }
         this.showPayment = true
       } catch (error) {
-        console.log(error)
-        alert(error.message)
+        this.orderError = error.response.data.error.message
+          ? error.response.data.error.message
+          : error.message
       }
     },
   },
@@ -379,6 +391,7 @@ export default {
   transform: rotate(-90deg) translate(-50%, -130%);
   position: absolute;
   left: 0;
+  z-index: -1;
   top: 0;
 }
 
