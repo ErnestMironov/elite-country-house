@@ -197,7 +197,6 @@
 
 <script>
 import SimpleTitle from '~/components/ui/simple-title/simple-title.vue'
-import sbpLogo from '~/assets/icons/sbp_logo.svg?url'
 import {
   daysPluralize,
   hoursPluralize,
