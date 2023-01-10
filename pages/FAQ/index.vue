@@ -5,7 +5,7 @@
       <NuxtLink
         v-for="question in data"
         :key="question.id"
-        :to="`${question.id}`"
+        :to="`faq/${question.id}`"
         class="questions__item"
       >
         <h3 class="questions__title">{{ question.title }}</h3>
