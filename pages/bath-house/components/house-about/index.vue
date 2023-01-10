@@ -17,7 +17,7 @@
           :key="card.id"
           class="about-info__card"
         >
-          <span>{{ idx }}</span>
+          <span>{{ idx + 1 }}</span>
           <h4 class="info-title">
             {{ card.title }}
           </h4>

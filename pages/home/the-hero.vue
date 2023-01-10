@@ -13,7 +13,14 @@
         </div>
       </div>
     </client-only>
-
+    <div class="nav hero__nav hide-on-mobile">
+      <button id="heroSLiderPrev" class="nav__btn">
+        <img src="~/assets/icons/arrow_left_dark.svg" alt="назад" />
+      </button>
+      <button id="heroSliderNext" class="nav__btn">
+        <img src="~/assets/icons/arrow_right_dark.svg" alt="вперед" />
+      </button>
+    </div>
     <div class="hero__text-block">
       <h2 class="hero__title">
         {{ data.title }}
@@ -47,6 +54,10 @@ export default {
         slidesPerView: 'auto',
         spaceBetween: 30,
         autoplay: true,
+        navigation: {
+          prevEl: '#heroSLiderPrev',
+          nextEl: '#heroSliderNext',
+        },
       },
     }
   },
@@ -142,6 +153,17 @@ export default {
 
     @include tablet {
       width: 310px;
+    }
+  }
+
+  &__nav {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: 10;
+
+    button {
+      background: rgba(255, 253, 252, 0.9);
     }
   }
 }

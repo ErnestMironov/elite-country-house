@@ -8,9 +8,9 @@
           :options="swiperOptions"
         >
           <swiper-slide
-            class="swiper-slide parameters__slide"
             v-for="image in props.images"
             :key="image.id"
+            class="swiper-slide parameters__slide"
           >
             <img
               class="parameters__slide-img"
@@ -19,6 +19,14 @@
           </swiper-slide>
         </swiper>
       </client-only>
+      <div class="nav parameters__nav hide-on-mobile">
+        <button id="parametersSLiderPrev" class="nav__btn">
+          <img src="~/assets/icons/arrow_left_dark.svg" alt="назад" />
+        </button>
+        <button id="parametersSliderNext" class="nav__btn">
+          <img src="~/assets/icons/arrow_right_dark.svg" alt="вперед" />
+        </button>
+      </div>
       <!-- <swiper-slide
             v-for="image in images"
             :key="image.id"
@@ -110,6 +118,10 @@ export default {
             spaceBetween: 16,
             loop: true,
           },
+        },
+        navigation: {
+          prevEl: '#parametersSLiderPrev',
+          nextEl: '#parametersSliderNext',
         },
       },
       mock: {

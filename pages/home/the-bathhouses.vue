@@ -41,24 +41,34 @@
         >Узнать больше</nuxt-link
       >
     </div>
-    <client-only>
-      <swiper
-        ref="bathhousesSwiper"
-        class="bathhouses__slider"
-        :options="swiperOptions"
-      >
-        <swiper-slide
-          v-for="image in bathInfo?.images"
-          :key="image.id"
-          class="swiper-slide bathhouses__slide"
+    <div class="bathhouses__slider">
+      <client-only>
+        <swiper
+          ref="bathhousesSwiper"
+          class="bathhouses__slider"
+          :options="swiperOptions"
         >
-          <img
-            class="bathhouses__slide-img"
-            :src="`https://admin.hedonistclub.ru${image.url}`"
-          />
-        </swiper-slide>
-      </swiper>
-    </client-only>
+          <swiper-slide
+            v-for="image in bathInfo?.images"
+            :key="image.id"
+            class="swiper-slide bathhouses__slide"
+          >
+            <img
+              class="bathhouses__slide-img"
+              :src="`https://admin.hedonistclub.ru${image.url}`"
+            />
+          </swiper-slide>
+        </swiper>
+      </client-only>
+      <div class="nav bathhouses__nav hide-on-mobile">
+        <button id="bathhousesSLiderPrev" class="nav__btn">
+          <img src="~/assets/icons/arrow_left_dark.svg" alt="назад" />
+        </button>
+        <button id="bathhousesSliderNext" class="nav__btn">
+          <img src="~/assets/icons/arrow_right_dark.svg" alt="вперед" />
+        </button>
+      </div>
+    </div>
   </section>
 </template>
 
@@ -86,6 +96,10 @@ export default {
         slideToClickedSlide: true,
         spaceBetween: 24,
         grabCursor: true,
+        navigation: {
+          prevEl: '#bathhousesSLiderPrev',
+          nextEl: '#bathhousesSliderNext',
+        },
       },
     }
   },
@@ -104,6 +118,7 @@ export default {
   margin-top: 11.25rem;
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
   padding-left: 4rem;
 
   @include tablet {
@@ -117,9 +132,9 @@ export default {
   }
 
   &__slider {
-    min-height: 40.5rem;
     width: 37.3125rem;
     margin: 0;
+    position: relative;
 
     @include tablet {
       order: 1;
@@ -167,6 +182,17 @@ export default {
     margin-top: 36px;
     display: flex;
     flex-wrap: wrap;
+  }
+
+  &__nav {
+    position: absolute;
+    bottom: 0;
+    z-index: 10;
+    left: 0;
+
+    button {
+      background: rgba(255, 255, 255, 0.7);
+    }
   }
 }
 </style>

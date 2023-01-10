@@ -1,24 +1,30 @@
 <template>
   <div class="house-wrapper">
-    <client-only>
-      <swiper
-        ref="guestHousesSwiper"
-        class="house__slider"
-        :options="swiperOptions"
-      >
-        <swiper-slide
-          v-for="image in houseParams.heroImages"
-          :key="image.id"
-          class="swiper-slide house__slide"
-        >
-          <img
-            class="house__slide-img"
-            :src="`https://admin.hedonistclub.ru${image.url}`"
-          />
-          <!-- <img class="house__slide-img" :src="image.src" /> -->
-        </swiper-slide>
-      </swiper>
-    </client-only>
+    <div class="house__slider">
+      <client-only>
+        <swiper ref="guestHousesSwiper" :options="swiperOptions">
+          <swiper-slide
+            v-for="image in houseParams.heroImages"
+            :key="image.id"
+            class="swiper-slide house__slide"
+          >
+            <img
+              class="house__slide-img"
+              :src="`https://admin.hedonistclub.ru${image.url}`"
+            />
+            <!-- <img class="house__slide-img" :src="image.src" /> -->
+          </swiper-slide>
+        </swiper>
+      </client-only>
+      <div class="nav house__nav hide-on-mobile">
+        <button id="heroSLiderPrev" class="nav__btn">
+          <img src="~/assets/icons/arrow_left_dark.svg" alt="назад" />
+        </button>
+        <button id="heroSliderNext" class="nav__btn">
+          <img src="~/assets/icons/arrow_right_dark.svg" alt="вперед" />
+        </button>
+      </div>
+    </div>
 
     <section class="container">
       <Booking
@@ -109,6 +115,10 @@ export default {
             loop: true,
           },
         },
+        navigation: {
+          prevEl: '#heroSLiderPrev',
+          nextEl: '#heroSliderNext',
+        },
       },
       houseParams: {
         data: {},
@@ -148,24 +158,6 @@ export default {
         },
       ],
     }
-  },
-  created() {
-    this.houseParams.feature = []
-    this.houseParams.images = []
-    // this.houseParams = [
-    //   (
-    //     await this.$http.$get(
-    //       `guest-houses/${this.$route.params.house}?populate=*`
-    //     )
-    //   ).data,
-    // ][0]
-    // this.options = [
-    //   (
-    //     await this.$http.$get(
-    //       `guest-house-options/${this.$route.params.house}?populate=*`
-    //     )
-    //   ).data,
-    // ]
   },
 }
 </script>

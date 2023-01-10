@@ -45,10 +45,10 @@
       </div>
       <div class="guest-houses__slider-wrap relative">
         <!-- <client-only> -->
-        <div
-          v-swiper:mySwiper="swiperOptions"
+        <!-- <div
           v-if="objects.length"
           ref="guestHousesSwiper"
+          v-swiper:mySwiper="swiperOptions"
           class="guest-houses__slider"
           @slideChange="changeActiveHouse"
         >
@@ -69,7 +69,32 @@
               >
             </div>
           </div>
-        </div>
+        </div> -->
+        <client-only>
+          <swiper
+            v-if="objects.length"
+            ref="guestHousesSwiper"
+            class="guest-houses__slider"
+            :options="swiperOptions"
+            @slideChange="changeActiveHouse"
+          >
+            <swiper-slide
+              v-for="image in guestHousesImages"
+              :key="image.id"
+              class="swiper-slide guest-houses__slide"
+            >
+              <img
+                class="guest-houses__slide-img"
+                :src="`https://admin.hedonistclub.ru${image.url}`"
+              />
+              <nuxt-link
+                :to="`/guest-house/${currentHouse?.id}`"
+                class="btn btn_light absolute bottom-0 right-0 px-[2.9375rem] hide-on-tablet"
+                >Узнать больше</nuxt-link
+              >
+            </swiper-slide>
+          </swiper>
+        </client-only>
         <!-- </client-only> -->
         <div class="nav guest-houses__nav hide-on-mobile">
           <button id="guestHousesSLiderPrev" class="nav__btn">
