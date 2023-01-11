@@ -1,5 +1,11 @@
+@import '@/assets/styles/scss/mixins';
+
 .card {
   flex: 1;
+
+  @include mobile {
+    margin-top: 40px;
+  }
 
   img {
     height: 22.5rem;
@@ -13,19 +19,41 @@
     font-size: 1.75rem;
     line-height: 2.25rem;
     margin-top: 1.875rem;
+
+    @include mobile {
+      font-size: 32px;
+      line-height: 40px;
+    }
   }
 
   p {
     margin-top: 1.125rem;
     max-width: 80%;
+
+    @include mobile {
+      font-size: 14px;
+      line-height: 24px;
+      max-width: 100%;
+    }
   }
 
   &_square {
     min-width: 30.8125rem;
     flex: 0;
 
+    @include mobile {
+      min-width: 100%;
+    }
+
     img {
       height: 30.8125rem;
     }
+  }
+}
+
+.mobile-ot-0 {
+  @include mobile {
+    margin-top: 0;
+    top: 0;
   }
 }

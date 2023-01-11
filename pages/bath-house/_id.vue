@@ -39,7 +39,7 @@
       <HouseAbout :data="data?.features" />
     </section>
 
-    <HouseFunctions />
+    <HouseFunctions :options="options[0]" />
   </div>
 </template>
 
@@ -72,7 +72,11 @@ export default {
     const data = (await $http.$get(`bathhouses/${params.id}?populate=deep,10`))
       .data
 
-    return { data }
+    const options = [
+      (await $http.$get(`bathhouse-options?populate=deep,10`)).data,
+    ]
+
+    return { data, options }
   },
   data() {
     return {

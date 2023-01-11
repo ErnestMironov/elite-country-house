@@ -104,6 +104,7 @@ export default {
 
   @include mobile {
     padding-top: 8px;
+    padding-bottom: 8px;
   }
 }
 .logo {
