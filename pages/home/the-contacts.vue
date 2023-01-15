@@ -113,9 +113,6 @@ export default {
   },
   methods: {
     copyText(text) {
-      console.log('====================================')
-      console.log(navigator)
-      console.log('====================================')
       navigator?.clipboard?.writeText(text)
     },
   },

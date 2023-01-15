@@ -655,7 +655,10 @@
       </div>
     </div>
 
-    <div v-if="currentProgress === 4" class="booking-wrapper booking-4">
+    <form
+v-if="currentProgress === 4" 
+    class="booking-wrapper booking-4"
+     @submit.prevent="bookHouse()">
       <div class="booking__info-wrapper booking__info-wrapper--l">
         <div class="booking__checkbox-wrapper booking__checkbox-wrapper--l">
           <input
@@ -775,13 +778,12 @@
           <button
             class="btn booking__next-btn booking-button--4"
             :disabled="isPrecheckDisabled"
-            @click="bookHouse()"
           >
             Посмотреть пречек и оплатить
           </button>
         </div>
       </div>
-    </div>
+    </form>
     <Precheck
       v-if="showPrecheck"
       :order="dataToSend"

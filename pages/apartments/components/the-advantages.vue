@@ -1,5 +1,5 @@
 <template>
-  <section class="container mt-[7.5rem]">
+  <section class="container mt-[7.5rem] pb-[10rem]">
     <SimpleTitle title="Перечисление преимуществ" />
     <ul class="list">
       <li v-for="feature in data" :key="feature.id" class="list-item">
@@ -34,6 +34,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/scss/mixins.scss';
+
 .list-item {
   display: flex;
   align-items: flex-start;
@@ -42,10 +44,22 @@ export default {
   border-top: 0.0625rem solid #000;
   margin-top: 3.6875rem;
 
+  @include mobile {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 15px;
+  }
+
   &__img {
     width: 43rem;
     object-fit: cover;
     margin-right: 6.9375rem;
+
+    @include mobile {
+      margin-right: 0;
+      margin-bottom: 10px;
+      width: 100%;
+    }
   }
 
   &__title {
@@ -53,6 +67,11 @@ export default {
     font-weight: 500;
     font-size: 1.75rem;
     line-height: 2.25rem;
+
+    @include mobile {
+      font-size: 20px;
+      line-height: 1.5;
+    }
   }
 
   &__text {
@@ -60,6 +79,11 @@ export default {
     font-size: 1.125rem;
     flex: 1;
     line-height: 1.75rem;
+
+    @include mobile {
+      font-size: 16px;
+      line-height: 1.5;
+    }
 
     p {
       margin-top: 1.125rem;
@@ -72,6 +96,11 @@ export default {
         margin-right: 0;
         margin-left: 6.9375rem;
         order: 1;
+
+        @include mobile {
+          margin-left: 0;
+          order: 0;
+        }
       }
 
       &__text {

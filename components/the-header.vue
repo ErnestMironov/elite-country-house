@@ -54,9 +54,9 @@ export default {
     return {
       isMobileMenuOpen: false,
       menu: [
+        { label: 'Шале', link: '#guesthouses' },
         { label: 'Бани и сауны', link: '#bathhouses' },
         { label: 'Апартаменты', link: '#apartments' },
-        { label: 'Шале', link: '#guesthouses' },
         { label: 'О нас', link: '#advantages' },
         { label: 'Связаться с нами', link: '#contacts' },
       ],
@@ -104,6 +104,7 @@ export default {
 
   @include mobile {
     padding-top: 8px;
+    padding-bottom: 8px;
   }
 }
 .logo {
