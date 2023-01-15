@@ -46,7 +46,7 @@
             <span>Комнаты</span>
           </div>
           <div class="parameters__property">
-            <h3>{{ data?.area + ' m²' }}</h3>
+            <h3>{{ data?.area + ' м²' }}</h3>
             <span>Площадь</span>
           </div>
         </div>
