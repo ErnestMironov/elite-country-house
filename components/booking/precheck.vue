@@ -272,7 +272,9 @@ export default {
       )}`
     },
     bathDay() {
-      return `${this.order?.bathhouse_order?.day}.${this.order?.bathhouse_order?.month}.${this.order?.bathhouse_order?.year}`
+      return new Date(
+        this.order?.bathhouse_order?.dateTime
+      ).toLocaleDateString()
     },
     mainObjectPersons() {
       return `${this.order?.people} ${personsPluralize(this.order?.people)}`
