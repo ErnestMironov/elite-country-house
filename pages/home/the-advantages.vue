@@ -8,9 +8,11 @@
     </div>
     <ul class="list">
       <li
-        v-for="advantage of data?.advantages"
+        v-for="(advantage, idx) of data?.advantages"
         :key="advantage.id"
-        class="list__item"
+        :data-wow-delay="`${idx * 0.2}s`"
+        data-wow-duration="1s"
+        class="list__item wow animate__animated animate__fadeInLeft"
       >
         <h3>{{ advantage.value }}</h3>
         <p>{{ advantage.text }}</p>

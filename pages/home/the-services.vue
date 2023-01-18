@@ -10,7 +10,8 @@
       <a
         v-for="(service, idx) in data.servicesList"
         :key="service.title"
-        class="service"
+        :data-wow-delay="idx * 0.2 + 's'"
+        class="service wow animate__animated animate__fadeInLeft animate__faster"
         @click="goToTheLink(servicesLinks[idx])"
       >
         <h3 class="service__title">{{ service.title }}</h3>

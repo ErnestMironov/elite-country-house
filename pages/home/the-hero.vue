@@ -22,13 +22,25 @@
       </button>
     </div>
     <div class="hero__text-block">
-      <h2 class="hero__title">
+      <h2
+        class="hero__title wow animate__animated animate__fadeInLeft"
+        data-wow-duration=".5s"
+      >
         {{ data.title }}
       </h2>
-      <p class="hero__description">
+      <p
+        class="hero__description wow animate__animated animate__fadeInLeft"
+        data-wow-delay=".2s"
+        data-wow-duration=".5s"
+      >
         {{ data?.description }}
       </p>
-      <button class="btn hero__btn" @click="goToTheLink('#services')">
+      <button
+        class="btn hero__btn wow animate__animated animate__fadeInUp"
+        data-wow-delay=".2s"
+        data-wow-duration=".1s"
+        @click="goToTheLink('#services')"
+      >
         Ознакомиться с услугами
       </button>
     </div>
@@ -80,21 +92,26 @@ export default {
 .hero {
   position: relative;
 
+  @include desktop-small {
+    min-height: 44rem;
+  }
+
   &__slide {
     width: auto;
-    height: 44rem;
+    height: 100%;
 
     img {
       height: 100%;
     }
+  }
+
+  &__slider {
+    height: 44rem;
+    width: 100%;
 
     @include tablet {
       height: 378px;
     }
-  }
-
-  &__slider {
-    width: 100%;
   }
 
   &__text-block {

@@ -5,7 +5,11 @@
     </nuxt-link>
     <nav>
       <ul class="menu">
-        <li v-for="item in menu" :key="item.label" class="menu__item">
+        <li
+          v-for="item in menu"
+          :key="item.label"
+          class="menu__item wow animate__animated animate__pulse animate__faster"
+        >
           <a @click="goToTheLink(item.link)">{{ item.label }}</a>
         </li>
       </ul>
@@ -72,6 +76,9 @@ export default {
     this.userAgreement = (
       await this.$http.$get(`user-agreement?populate=deep,10`)
     ).data
+  },
+  mounted() {
+    new WOW().init()
   },
   methods: {
     closeMenu() {

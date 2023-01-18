@@ -6,6 +6,10 @@
         v-for="(card, idx) of data.entertainment"
         :key="card.title + card?.description"
         class="list__item"
+        :class="{
+          'wow animate__animated animate__fadeInRight': idx === 0,
+          'wow animate__animated animate__fadeInLeft': idx === 3,
+        }"
       >
         <h3>{{ card.title }}</h3>
         <p>
