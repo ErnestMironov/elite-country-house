@@ -656,9 +656,10 @@
     </div>
 
     <form
-v-if="currentProgress === 4" 
-    class="booking-wrapper booking-4"
-     @submit.prevent="bookHouse()">
+      v-if="currentProgress === 4"
+      class="booking-wrapper booking-4"
+      @submit.prevent="bookHouse()"
+    >
       <div class="booking__info-wrapper booking__info-wrapper--l">
         <div class="booking__checkbox-wrapper booking__checkbox-wrapper--l">
           <input
@@ -682,7 +683,9 @@ v-if="currentProgress === 4"
         </h3>
 
         <p class="booking__accompanying-text">
-          Если вы уверены, что приедете, то можете оформить невозвратное бронирование с 10% скидкой. В случае если вы не сможете приехать деньги не возвращаются.
+          Если вы уверены, что приедете, то можете оформить невозвратное
+          бронирование с 10% скидкой. В случае если вы не сможете приехать
+          деньги не возвращаются.
         </p>
       </div>
 
@@ -1095,17 +1098,17 @@ export default {
       )
       console.log(includedDays)
 
-      if (includedDays){
+      if (includedDays) {
         const firstPickedDayTS = new Date(
           includedDays[0].year,
-          includedDays[0].month-1,
+          includedDays[0].month - 1,
           includedDays[0].date,
           23
-          ).getTime()
+        ).getTime()
 
-        const intervalExpired = (new Date().getTime() > firstPickedDayTS)
+        const intervalExpired = new Date().getTime() > firstPickedDayTS
 
-        if (intervalExpired){
+        if (intervalExpired) {
           includedDays = null
         }
       }
@@ -1731,7 +1734,9 @@ export default {
             await this.$http.$get('guest-house-price-table?populate=deep%2C10')
           ).data
           this.ordersList = (
-            await this.$http.$get(`guest-house-orders?populate=deep%2C10%20`)
+            await this.$http.$get(
+              `guest-house-orders?guesthouse=${this.objectId}`
+            )
           ).data.filter((x) => x.status !== 'cancelled')
           this.options = (
             await this.$http.$get(`guest-house-options?populate=deep%2C%2010`)
@@ -1741,7 +1746,7 @@ export default {
           ).data
 
           this.bathhouseOrdersList = (
-            await this.$http.$get(`bathhouse-orders?populate=deep%2C%2010`)
+            await this.$http.$get(`bathhouse-orders`)
           ).data
           // this.options = [(await this.$http.$get(`guest-house-options?populate=deep%2C%2010`)).data]
           this.bathhouseOptions = [
@@ -1754,7 +1759,7 @@ export default {
             await this.$http.$get('apartment-price-table?populate=deep%2C10')
           ).data
           this.ordersList = (
-            await this.$http.$get(`apartment-orders?populate=deep%2C10%20`)
+            await this.$http.$get(`apartment-orders?apartment=${this.objectId}`)
           ).data.filter((x) => x.status !== 'cancelled')
           this.options = (
             await this.$http.$get(`apartment-options?populate=deep%2C%2010`)
