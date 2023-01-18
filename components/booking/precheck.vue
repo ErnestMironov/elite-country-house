@@ -11,13 +11,13 @@
         ✕
       </button>
       <div class="decoration">HEDONIST</div>
-      <div v-show="showPayment" class="pb-[326px] flex flex-col items-center">
+      <div v-show="showPayment" class="pb-[50px] flex flex-col items-center">
         <img
           class="h-[25px] lg:h-[56px] block ml-auto"
           src="~/assets/icons/logo_without-text.svg"
           alt=""
         />
-        <h3 class="text-[18px] text-center font-medium mt-[211px]">
+        <h3 class="text-[18px] text-center font-medium mt-[50px]">
           Оплатите заказ по {{ $device.isMobile ? 'СБП' : 'QR-коду' }}
         </h3>
         <div class="option mt-4 w-[300px] max-w-full mx-auto">
