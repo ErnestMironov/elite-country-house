@@ -12,7 +12,7 @@
   text-align: center;
   transition: all ease-out 0.15s;
 
-  @include tablet {
+  @include mobile {
     font-size: 16px;
     line-height: 24px;
     padding: 18px;
@@ -36,6 +36,6 @@
   }
 }
 
-button:disabled{
+button:disabled {
   opacity: 0.8;
 }
