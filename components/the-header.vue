@@ -5,7 +5,11 @@
     </nuxt-link>
     <nav>
       <ul class="menu">
-        <li v-for="item in menu" :key="item.label" class="menu__item">
+        <li
+          v-for="item in menu"
+          :key="item.label"
+          class="menu__item wow animate__animated animate__pulse animate__faster"
+        >
           <a @click="goToTheLink(item.link)">{{ item.label }}</a>
         </li>
       </ul>
@@ -73,6 +77,9 @@ export default {
       await this.$http.$get(`user-agreement?populate=deep,10`)
     ).data
   },
+  mounted() {
+    new WOW().init()
+  },
   methods: {
     closeMenu() {
       this.isMobileMenuOpen = false
@@ -124,12 +131,18 @@ export default {
     display: none;
   }
 
+  &:hover::after {
+    transform: scaleX(0.1);
+  }
+
   &::after {
     content: '';
     width: 3.625rem;
     margin-left: 0.75rem;
     height: 1px;
     background: currentColor;
+    transform-origin: left;
+    transition: all ease 0.3s;
   }
 
   &__item {
@@ -142,6 +155,25 @@ export default {
     a {
       color: inherit;
       text-decoration: none;
+      position: relative;
+
+      &:hover::after {
+        transform: scaleX(1);
+      }
+
+      &::after {
+        content: '';
+        width: 100%;
+        height: 1px;
+        background: currentColor;
+        display: block;
+        transition: transform ease 0.3s;
+        transform-origin: right;
+        position: absolute;
+        bottom: -0.25rem;
+        left: 0;
+        transform: scaleX(0);
+      }
     }
   }
 }

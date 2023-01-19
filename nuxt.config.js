@@ -16,6 +16,11 @@ export default {
       { name: 'format-detection', content: 'telephone=no' },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    script: [
+      {
+        src: 'https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js'
+      }
+    ]
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -28,6 +33,7 @@ export default {
     '~/assets/styles/scss/_ui.scss',
     '~/assets/styles/scss/_colors.scss',
     '~/assets/styles/main.css',
+    'animate.css/animate.css'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins

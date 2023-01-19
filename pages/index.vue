@@ -1,6 +1,11 @@
 <template>
   <main class="relative pb-[11.25rem] overflow-hidden">
-    <img src="~/assets/images/home-bg.svg" class="decoration" alt="" />
+    <img
+      ref="decoration"
+      src="~/assets/images/home-bg.svg"
+      class="decoration"
+      alt=""
+    />
     <TheHero :data="data.hero" />
     <TheServices :data="data.services" />
     <GuestHouses />
@@ -14,6 +19,7 @@
 </template>
 
 <script lang="ts">
+import { data } from 'browserslist'
 import CompanyValues from './home/company-values.vue'
 import GuestHouses from './home/guest-houses.vue'
 import TheAdvantages from './home/the-advantages.vue'
@@ -80,7 +86,6 @@ export default {
       ],
     }
   },
-
   mounted() {
     // if (this.$route.path.contains('#')) {
     //   // scrollIntoView(document.querySelector(link))
@@ -93,6 +98,14 @@ export default {
         document.querySelector(this.$route.fullPath.replace('/', ''))
       )
     }
+    if (process.browser) {
+      window.addEventListener('scroll', (e) => {
+        // @ts-ignore
+        this.$refs.decoration.style.transform = `translateY(${
+          window.scrollY * 0.08
+        }px)`
+      })
+    }
   },
 }
 </script>
@@ -100,7 +113,7 @@ export default {
 <style lang="scss" scoped>
 .decoration {
   position: absolute;
-  bottom: -17.6rem;
+  bottom: -6rem;
   left: 0;
   width: 100%;
   z-index: -1;
