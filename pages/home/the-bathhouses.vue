@@ -22,10 +22,10 @@
             <span class="param__title">{{ bathInfo?.maxPeople }}</span>
             <span class="param__value">Максимальная вместительность</span>
           </li>
-          <li class="mr-[1.75rem] param">
+          <!-- <li class="mr-[1.75rem] param">
             <span class="param__title">{{ poolArea }}м²</span>
             <span class="param__value">Площадь бассейна</span>
-          </li>
+          </li> -->
           <li class="param">
             <span class="param__title">{{ bathInfo?.saunaType }}</span>
             <span class="param__value">Тип бани</span>
