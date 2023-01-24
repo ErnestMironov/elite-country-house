@@ -22,7 +22,7 @@
         </li>
         <li class="param">
           <span class="param__title">{{ currentObject?.sleepingSpaces }}</span>
-          <span class="param__value">Спальни</span>
+          <span class="param__value">Спальных мест</span>
         </li>
         <!-- <li class="param">
           <span class="param__title">{{

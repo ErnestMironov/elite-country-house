@@ -29,7 +29,7 @@
               <span class="param__title">{{
                 currentHouse?.sleepingSpaces
               }}</span>
-              <span class="param__value">Спальни</span>
+              <span class="param__value">Спальных мест</span>
             </li>
           </ul>
         </div>
@@ -122,7 +122,7 @@
         </li>
         <li class="param guest-houses__param">
           <span class="param__title">{{ currentHouse?.sleepingSpaces }}</span>
-          <span class="param__value">Спальни</span>
+          <span class="param__value">Спальных мест</span>
         </li>
       </ul>
       <nuxt-link
