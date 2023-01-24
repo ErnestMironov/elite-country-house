@@ -57,7 +57,7 @@ export default {
     return {
       menu: [
         { label: 'Шале', link: '#guesthouses' },
-        { label: 'Бани и сауны', link: '#bathhouses' },
+        { label: 'Банный комплекс', link: '#bathhouses' },
         { label: 'Апартаменты', link: '#apartments' },
         { label: 'О нас', link: '#advantages' },
       ],
