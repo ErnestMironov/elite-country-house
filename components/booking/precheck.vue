@@ -196,7 +196,7 @@
           Заказ успешно создан!
         </div>
         <div class="text-[18px] text-center font-semibold mt-[30px]">
-          Ваш заказ №<span class="text-[#ebd5c5]">{{ createdOrder?.id }}</span>
+          Ваш заказ №<span class="text-[#a47d61]">{{ createdOrder?.id }}</span>
         </div>
         <div
           class="text-[18px] text-center font-semibold mx-auto mt-[10px] max-w-[400px]"
@@ -208,7 +208,7 @@
           Приятного отдыха!
         </div>
         <div class="text-[18px] text-center font-semibold mt-[20px]">
-          <a href="/" class="text-[#ebd5c5]">Вернуться на главную</a>
+          <a href="/" class="text-[#a47d61]">Вернуться на главную</a>
         </div>
       </div>
     </div>
