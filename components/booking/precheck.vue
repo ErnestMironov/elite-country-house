@@ -45,7 +45,7 @@
           Оплатил
         </button>
       </div>
-      <div v-if="!showPayment">
+      <div v-if="!showPayment && !isPaymentSuccess">
         <div class="flex justify-between items-center mb-[21px]">
           <SimpleTitle title="Пречек"></SimpleTitle>
           <img
@@ -188,8 +188,28 @@
           class="btn text-[16px] py-[18px] px-[64px] mt-[24px] ml-auto block"
           @click="createOrder"
         >
-          Перейти к оплате
+          Оформить заказ
         </button>
+      </div>
+      <div v-if="isPaymentSuccess">
+        <div class="text-[22px] text-center font-semibold">
+          Заказ успешно создан!
+        </div>
+        <div class="text-[18px] text-center font-semibold mt-[30px]">
+          Ваш заказ №<span class="text-[#ebd5c5]">{{ createdOrder?.id }}</span>
+        </div>
+        <div
+          class="text-[18px] text-center font-semibold mx-auto mt-[10px] max-w-[400px]"
+        >
+          В ближайшее время с вами свяжется наш менеджер для уточнения деталей
+          заказа.
+        </div>
+        <div class="text-[18px] text-center font-semibold mt-[10px]">
+          Приятного отдыха!
+        </div>
+        <div class="text-[18px] text-center font-semibold mt-[20px]">
+          <a href="/" class="text-[#ebd5c5]">Вернуться на главную</a>
+        </div>
       </div>
     </div>
   </div>
@@ -234,7 +254,9 @@ export default {
     return {
       bathParams: null,
       showPayment: false,
+      isPaymentSuccess: false,
       orderError: null,
+      createdOrder: null,
     }
   },
   computed: {
@@ -357,22 +379,27 @@ export default {
       try {
         switch (this.order.objectType) {
           case 0:
-            await this.$http.$post('guest-house-orders', {
+            this.createdOrder = await this.$http.$post('guest-house-orders', {
               ...mainObjectData,
               bathhouse_order: bathHouseOrder,
             })
             break
           case 1:
-            await this.$http.$post('apartment-orders', {
+            this.createdOrder = await this.$http.$post('apartment-orders', {
               ...mainObjectData,
               apartment: this.order?.objectParams?.id,
             })
             break
           case 2:
-            await this.$http.$post('bathhouse-orders', bathHouseOrder)
+            this.createdOrder = await this.$http.$post(
+              'bathhouse-orders',
+              bathHouseOrder
+            )
             break
         }
-        this.showPayment = true
+        // TODO после подключения оплаты на сайте расскоментить эту строку и закоментить следующую
+        // this.showPayment = true
+        this.isPaymentSuccess = true
       } catch (error) {
         this.orderError = error.response.data.error.message
           ? error.response.data.error.message
