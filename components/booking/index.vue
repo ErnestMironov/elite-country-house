@@ -798,11 +798,11 @@
 </template>
 
 <script>
-import { maska } from 'maska'
-import precheck from './precheck.vue'
 import { hours, months } from '@/assets/calendar'
 import calendar from '@/components/ui/calendar/calendar.vue'
 import { createHoursString } from '@/helpers/helpers'
+import { maska } from 'maska'
+import precheck from './precheck.vue'
 
 export default {
   directives: { maska },
@@ -1372,8 +1372,8 @@ export default {
       }
       this.bathhouseErrorEmpty = false
       this.addDaysInfo()
-      this.firstPickedTime = {}
-      this.secondPickedTime = {}
+      // this.firstPickedTime = {}
+      // this.secondPickedTime = {}
 
       localStorage.setItem(
         `BHDay${this.objectType}${this.objectId}`,
@@ -1837,6 +1837,12 @@ export default {
         this.firstPickedTime.date,
         this.firstPickedTime.hour
       )
+      console.log(
+        this.firstPickedTime.year,
+        this.firstPickedTime.month,
+        this.firstPickedTime.date,
+        this.firstPickedTime.hour
+      )
 
       const data = {
         people: this.bathhouseData.people,
@@ -1847,6 +1853,8 @@ export default {
         options: this.assembleBathhouseOptions(),
         totalPrice: this.bathhousePrice,
         basePrice: this.bathhouseBasePrice,
+        firstPickedTime: this.firstPickedTime,
+        secondPickedTime: this.secondPickedTime,
       }
 
       return data
@@ -1964,7 +1972,10 @@ export default {
         `BHOrder${this.objectType}${this.objectId}`
       )
       if (BHOrder) {
-        this.BHOrder = JSON.parse(BHOrder)
+        const parsedBHOrder = JSON.parse(BHOrder)
+        this.BHOrder = parsedBHOrder
+        this.firstPickedTime = parsedBHOrder.firstPickedTime
+        this.secondPickedTime = parsedBHOrder.secondPickedTime
       }
     },
     getHouseOptionsFromLS() {
@@ -2029,7 +2040,7 @@ export default {
             return
           }
         }
-        if (hour.id === this.secondPickedTime.id) {
+        if (hour?.id === this.secondPickedTime?.id) {
           this.secondPickedTime = {}
           this.includedHours = [this.firstPickedTime]
           this.calculateBathhousePrice()

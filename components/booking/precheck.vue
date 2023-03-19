@@ -26,7 +26,7 @@
         </div>
         <a
           v-if="$device.isMobile"
-          :href="paymentLink"
+          :href="paymentUrl"
           target="blank"
           class="btn text-[20px] my-[40px] mx-auto flex items-center justify-around bg-[#1b1537] py-0 px-[18px]"
         >
@@ -191,7 +191,7 @@
           Оформить заказ
         </button>
       </div>
-      <div v-if="isPaymentSuccess">
+      <!-- <div v-if="isPaymentSuccess">
         <div class="text-[22px] text-center font-semibold">
           Заказ успешно создан!
         </div>
@@ -210,7 +210,7 @@
         <div class="text-[18px] text-center font-semibold mt-[20px]">
           <a href="/" class="text-[#a47d61]">Вернуться на главную</a>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -256,7 +256,6 @@ export default {
       showPayment: false,
       isPaymentSuccess: false,
       orderError: null,
-      createdOrder: null,
     }
   },
   computed: {
@@ -294,9 +293,7 @@ export default {
       )}`
     },
     bathDay() {
-      return new Date(
-        this.order?.bathhouse_order?.dateTime
-      ).toLocaleDateString()
+      return `${this.order?.bathhouse_order?.date}.${this.order?.bathhouse_order?.month}.${this.order?.bathhouse_order?.year}`
     },
     mainObjectPersons() {
       return `${this.order?.people} ${personsPluralize(this.order?.people)}`
@@ -336,7 +333,7 @@ export default {
         : this.totalPrice
     },
 
-    paymentLink() {
+    paymentUrl() {
       return `https://qr.nspk.ru/AS1A007E0LK6NJ3L8RLAHG0RK82BSAQ9?type=01&bank=100000000008&crc=5D89&sum=${this.finalPrice}00&cur=RUB`
     },
   },
@@ -376,30 +373,37 @@ export default {
         })),
       }
 
+      let paymentUrl
+
       try {
         switch (this.order.objectType) {
           case 0:
-            this.createdOrder = await this.$http.$post('guest-house-orders', {
-              ...mainObjectData,
-              bathhouse_order: bathHouseOrder,
-            })
+            paymentUrl = (
+              await this.$http.$post('guest-house-orders', {
+                ...mainObjectData,
+                bathhouse_order: bathHouseOrder,
+              })
+            ).data.paymentUrl
             break
           case 1:
-            this.createdOrder = await this.$http.$post('apartment-orders', {
-              ...mainObjectData,
-              apartment: this.order?.objectParams?.id,
-            })
+            paymentUrl = (
+              await this.$http.$post('apartment-orders', {
+                ...mainObjectData,
+                apartment: this.order?.objectParams?.id,
+              })
+            ).data.paymentUrl
             break
           case 2:
-            this.createdOrder = await this.$http.$post(
-              'bathhouse-orders',
-              bathHouseOrder
-            )
+            paymentUrl = (
+              await this.$http.$post('bathhouse-orders', bathHouseOrder)
+            ).data.paymentUrl
             break
         }
-        // TODO после подключения оплаты на сайте расскоментить эту строку и закоментить следующую
-        // this.showPayment = true
-        this.isPaymentSuccess = true
+
+        console.log(paymentUrl)
+        if (paymentUrl) {
+          window.open(paymentUrl, '_blank')
+        }
       } catch (error) {
         this.orderError = error.response.data.error.message
           ? error.response.data.error.message
