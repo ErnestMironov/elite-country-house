@@ -934,7 +934,7 @@ export default {
     },
   },
   async beforeMount() {
-    this.objectId = this.$route.params.house
+    this.objectId = this.$route.params.house ?? this.$route.params.id
     await this.getData()
     // this.setInitialProgress()
     this.setDropdowns()
