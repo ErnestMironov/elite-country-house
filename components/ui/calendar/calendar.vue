@@ -225,7 +225,6 @@ import {months} from '@/assets/calendar';
         } else {
           this.includeBackward()
         }
-        console.dir(this.includedDays, {depth: null})
       }
       this.clearExcessDays()
       
