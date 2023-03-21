@@ -1,6 +1,6 @@
 <template>
   <section class="container mt-[7.5rem] mb-[8.125rem]">
-    <SimpleTitle title="Функционал" />
+    <SimpleTitle title="Услуги" />
     <div
       v-for="(itemsRow, rowIdx) of optionsList"
       :key="itemsRow[0]?.id + itemsRow[1]?.id"

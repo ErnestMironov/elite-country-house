@@ -1,6 +1,6 @@
 <template>
   <section class="about">
-    <SimpleTitle :title="'Почему это круто'" />
+    <SimpleTitle :title="'Осообенности'" />
     <div class="about-wrapper">
       <div class="about__images-wrapper">
         <img

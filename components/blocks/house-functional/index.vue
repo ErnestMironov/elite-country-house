@@ -2,7 +2,7 @@
   <section class="functional">
     <div class="functional-wrapper">
       <div class="functional__title-wrapper">
-        <Title :title="'Функционал'" />
+        <Title :title="'Услуги'" />
       </div>
 
       <div class="functional__border-top"></div>

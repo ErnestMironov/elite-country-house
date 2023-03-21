@@ -1,6 +1,6 @@
 <template>
   <section class="container mt-[7.5rem]">
-    <SimpleTitle title="Функционал" />
+    <SimpleTitle title="Услуги" />
     <div
       class="flex border-b border-black border-solid pb-6 mb-[7.5rem] mt-[3.75rem]"
     >
