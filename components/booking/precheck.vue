@@ -400,7 +400,6 @@ export default {
             break
         }
 
-        console.log(paymentUrl)
         if (paymentUrl) {
           window.open(paymentUrl, '_blank')
         }

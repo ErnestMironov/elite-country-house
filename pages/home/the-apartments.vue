@@ -114,9 +114,9 @@ export default {
       return this.objects.map((object) => object.images[0])
     },
   },
-  created() {
-    console.log(this.apartments)
-  },
+  // created() {
+  //   console.log(this.apartments)
+  // },
   methods: {
     changeActiveObject() {
       this.activeObject = isNaN(this.$refs.objectsSwiper.$swiper.realIndex)

@@ -131,7 +131,7 @@
             <input
               v-maska="'##:##'"
               type="text"
-              placeholder="15:00"
+              placeholder="14:00"
               @input="onArrivalInput"
             />
           </div>
@@ -145,7 +145,7 @@
             <input
               v-maska="'##:##'"
               type="text"
-              placeholder="15:00"
+              placeholder="14:00"
               @input="onLeaveInput"
             />
           </div>
@@ -880,8 +880,8 @@ export default {
         guest_house: '',
         bathhouse_order: '',
         people: null,
-        arrivalTime: '12:54:00.000',
-        leaveTime: '12:54:00.000',
+        arrivalTime: '14:00:00.000',
+        leaveTime: '14:00:00.000',
         status: 'waiting for payment',
         from: '2022-09-07',
         to: '2022-09-07',
@@ -1096,9 +1096,8 @@ export default {
       let includedDays = JSON.parse(
         localStorage.getItem(`includedDays${this.objectType}${this.objectId}`)
       )
-      console.log(includedDays)
 
-      if (includedDays) {
+      if (includedDays && includedDays.length) {
         const firstPickedDayTS = new Date(
           includedDays[0].year,
           includedDays[0].month - 1,
@@ -1203,7 +1202,6 @@ export default {
         `people${this.objectType}${this.objectId}`,
         this.userData.people
       )
-      console.log('saved')
     },
     showTimeDD(e) {
       if (this.bathhouseErrorWrong) {
@@ -1307,7 +1305,6 @@ export default {
       this.closeDropdowns()
     },
     getSelectedItem(id) {
-      console.log(this.dropdowns)
       const dd = this.dropdowns.find((x) => x.id === id)
 
       return dd ? dd.selected.value : ''
@@ -1337,7 +1334,6 @@ export default {
       // pickBathDay(e){
 
       // const pickedDay = new Date(e.target.value)
-      console.log(pickedDay)
       const now = new Date()
 
       if (
@@ -1575,8 +1571,6 @@ export default {
       // const brooms = this.bathhouseData.brooms ?? 0
       const servicesPrice = this.bathhouseSelectedOptions.reduce(
         (sum, option) => {
-          // console.log(option.price)
-          // console.log(option.value)
           return (
             sum +
             (isNaN(Number(option.value)) ? 1 : Number(option.value)) *
@@ -1807,10 +1801,10 @@ export default {
       })
 
       if (Object.keys(this.BHOrder).length > 0) {
-        console.log(
-          '🚀 ~ file: index.vue:1762 ~ bookHouse ~ this.BHOrder',
-          this.BHOrder
-        )
+        // console.log(
+        //   '🚀 ~ file: index.vue:1762 ~ bookHouse ~ this.BHOrder',
+        //   this.BHOrder
+        // )
         dataToSend.bathhouse_order = {
           ...this.BHOrder,
           ...this.bathDay,
@@ -1832,12 +1826,6 @@ export default {
     },
     assembleBathhouseData() {
       const dateTime = new Date(
-        this.firstPickedTime.year,
-        this.firstPickedTime.month,
-        this.firstPickedTime.date,
-        this.firstPickedTime.hour
-      )
-      console.log(
         this.firstPickedTime.year,
         this.firstPickedTime.month,
         this.firstPickedTime.date,
@@ -1943,7 +1931,6 @@ export default {
 
         for (const option of LSBHOptions) {
           this.bathhouseData[options[option.id]] = option.value
-          console.log(option)
           if (this.$refs[`BHOption${option.id}`][0].tagName !== 'INPUT') {
             continue
           }
@@ -1955,7 +1942,6 @@ export default {
 
           this.$refs[`BHOption${option.id}`][0].value = option.value
         }
-        console.log(this.bathhouseData)
 
         this.calculateBathhousePrice()
       }, 200)

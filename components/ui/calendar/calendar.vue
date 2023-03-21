@@ -275,7 +275,6 @@ import {months} from '@/assets/calendar';
     
     includeBackward(){
       for (let i = this.firstPickedDay.id; i >= this.secondPickedDay.id; i--){
-        console.log(i)
         if (~this.disabledDays.findIndex(x => x.id === i) && i !== this.firstPickedDay.id){
           this.secondPickedDay = this.month.find(y => y.id === i)
         }
