@@ -31,6 +31,7 @@
 <script lang="ts">
 export default {
   name: 'SuccessPage',
+  // @ts-ignore
   async asyncData({ $http, query, redirect }) {
     try {
       const { isSuccess } = (
