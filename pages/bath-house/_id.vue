@@ -26,7 +26,7 @@
     </div>
 
     <section class="container">
-      <Booking :object-type="2" />
+      <Booking :object-type="2" :object-params="data" />
     </section>
 
     <section class="container">
