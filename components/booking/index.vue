@@ -4,13 +4,10 @@
       <script src="https://realtycalendar.ru/webpack/application.js?_t=9058a171d7fb2c4af6cb"></script>
       <div id="rc-bookings-widget-root"></div>
       <script type="text/javascript">
+        if (typeof RC_BOOKINGS_WIDGET === 'undefined') {
+          window.RC_BOOKINGS_WIDGET = {}
+        }
         RC_BOOKINGS_WIDGET.init('4bc61ae42fee54a51672300e27a4282a')
-      </script>
-
-      <script src="https://realtycalendar.ru/webpack/search.js?_t=9058a171d7fb2c4af6cb"></script>
-      <div id="rc-small-bookings-widget-root"></div>
-      <script type="text/javascript">
-        RC_SMALL_BOOKINGS_WIDGET.init('4bc61ae42fee54a51672300e27a4282a')
       </script>
     </div>
     <button v-show="!booking" class="btn booking__btn" @click="startBooking">
