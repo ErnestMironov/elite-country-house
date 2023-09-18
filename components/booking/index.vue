@@ -43,21 +43,6 @@ export default {
       booking: false,
     }
   },
-  updated() {
-    const flatList = document.querySelectorAll('.rc-flat')
-
-    flatList.forEach((flat) => {
-      const innerText = flat.querySelector('.rc-flat__info__adress').innerText
-      if (
-        typeof innerText === 'string' &&
-        innerText.includes(this.objectParams.name)
-      ) {
-        return
-      }
-
-      flat.remove()
-    })
-  },
   methods: {
     startBooking() {
       this.booking = true
