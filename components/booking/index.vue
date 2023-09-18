@@ -1,23 +1,7 @@
 <template>
   <div>
     <div v-show="booking">
-      <script src="https://realtycalendar.ru/webpack/application.js?_t=9058a171d7fb2c4af6cb"></script>
       <div id="rc-bookings-widget-root"></div>
-      <script type="text/javascript">
-        let isScriptLoaded = false
-
-        const interval = setInterval(function () {
-          if (isScriptLoaded) {
-            clearInterval(interval)
-            return
-          }
-
-          if (window.RC_BOOKINGS_WIDGET !== 'undefined') {
-            isScriptLoaded = true
-            RC_BOOKINGS_WIDGET.init('4bc61ae42fee54a51672300e27a4282a')
-          }
-        }, 100) // check every 100ms
-      </script>
     </div>
     <button v-show="!booking" class="btn booking__btn" @click="startBooking">
       Забронировать
@@ -41,7 +25,21 @@ export default {
   data() {
     return {
       booking: false,
+      isScriptLoaded: false,
     }
+  },
+  mounted() {
+    const interval = setInterval(function () {
+      if (this.isScriptLoaded) {
+        clearInterval(interval)
+        return
+      }
+
+      if (window.RC_BOOKINGS_WIDGET !== 'undefined') {
+        this.isScriptLoaded = true
+        window.RC_BOOKINGS_WIDGET.init('4bc61ae42fee54a51672300e27a4282a')
+      }
+    }, 100)
   },
   methods: {
     startBooking() {

@@ -8,19 +8,24 @@ export default {
     title: 'Гедонист',
     htmlAttrs: {
       lang: 'ru',
-	},
+    },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' },
-		{ name: 'format-detection', content: 'telephone=no' },
-	  { name: 'yandex-verification', content: 'bec704d007def96a' }
+      { name: 'format-detection', content: 'telephone=no' },
+      { name: 'yandex-verification', content: 'bec704d007def96a' }
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     script: [
       {
         src: 'https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js'
-      }
+      },
+      {
+        hid: 'bookingWidget',
+        src: 'https://realtycalendar.ru/webpack/application.js?_t=9058a171d7fb2c4af6cb',
+        defer: true,
+      },
     ]
   },
 
