@@ -14,12 +14,12 @@ export default {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' },
       { name: 'format-detection', content: 'telephone=no' },
-      { name: 'yandex-verification', content: 'bec704d007def96a' }
+      { name: 'yandex-verification', content: 'd5d8bc9d179f8998' },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     script: [
       {
-        src: 'https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js'
+        src: 'https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js',
       },
       {
         hid: 'bookingWidget',
@@ -27,7 +27,7 @@ export default {
         defer: true,
       },
       {
-        type: "text/javascript",
+        type: 'text/javascript',
         innerHTML: `
           (function(m,e,t,r,i,k,a){m[i]=m[i]function(){(m[i].a=m[i].a[]).push(arguments)};
           m[i].l=1*new Date();
@@ -42,7 +42,7 @@ export default {
                 webvisor:true
           });
         `,
-      }
+      },
     ],
     noscript: [
       {
@@ -63,7 +63,7 @@ export default {
     '~/assets/styles/scss/_ui.scss',
     '~/assets/styles/scss/_colors.scss',
     '~/assets/styles/main.css',
-    'animate.css/animate.css'
+    'animate.css/animate.css',
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
