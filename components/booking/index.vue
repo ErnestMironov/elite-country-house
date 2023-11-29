@@ -40,9 +40,9 @@ export default {
   computed: {
     widgetId() {
       const objectsList = {
-        1: 146459,
-        2: 146467,
-        3: 146462,
+        1: 146462,
+        2: 146459,
+        3: 146467,
       }
 
       if (this.objectParams?.id === undefined) {
