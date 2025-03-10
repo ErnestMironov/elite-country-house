@@ -16,7 +16,7 @@
           </swiper-slide>
         </swiper>
       </client-only>
-      <div class="nav house__nav hide-on-mobile">
+      <div class="nav house__nav">
         <button id="heroSLiderPrev" class="nav__btn">
           <img src="~/assets/icons/arrow_left_dark.svg" alt="назад" />
         </button>

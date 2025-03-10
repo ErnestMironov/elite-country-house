@@ -139,6 +139,11 @@
 
     button {
       background: #ffffff90;
+
+      @include mobile {
+        left: unset;
+        right: 0;
+      }
     }
   }
 }

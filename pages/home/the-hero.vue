@@ -12,15 +12,15 @@
           </div>
         </div>
       </div>
+      <div class="nav hero__nav">
+        <button id="heroSLiderPrev" class="nav__btn">
+          <img src="~/assets/icons/arrow_left_dark.svg" alt="назад" />
+        </button>
+        <button id="heroSliderNext" class="nav__btn">
+          <img src="~/assets/icons/arrow_right_dark.svg" alt="вперед" />
+        </button>
+      </div>
     </client-only>
-    <div class="nav hero__nav hide-on-mobile">
-      <button id="heroSLiderPrev" class="nav__btn">
-        <img src="~/assets/icons/arrow_left_dark.svg" alt="назад" />
-      </button>
-      <button id="heroSliderNext" class="nav__btn">
-        <img src="~/assets/icons/arrow_right_dark.svg" alt="вперед" />
-      </button>
-    </div>
     <div class="hero__text-block">
       <h2
         class="hero__title wow animate__animated animate__fadeInLeft"

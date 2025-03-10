@@ -60,7 +60,7 @@
           </swiper-slide>
         </swiper>
       </client-only>
-      <div class="nav bathhouses__nav hide-on-mobile">
+      <div class="nav bathhouses__nav">
         <button id="bathhousesSLiderPrev" class="nav__btn">
           <img src="~/assets/icons/arrow_left_dark.svg" alt="назад" />
         </button>

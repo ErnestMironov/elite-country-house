@@ -19,7 +19,7 @@
           </swiper-slide>
         </swiper>
       </client-only>
-      <div class="nav parameters__nav hide-on-mobile">
+      <div class="nav parameters__nav">
         <button id="parametersSLiderPrev" class="nav__btn">
           <img src="~/assets/icons/arrow_left_dark.svg" alt="назад" />
         </button>

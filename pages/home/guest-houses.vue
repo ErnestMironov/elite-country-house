@@ -96,7 +96,7 @@
           </swiper>
         </client-only>
         <!-- </client-only> -->
-        <div class="nav guest-houses__nav hide-on-mobile">
+        <div class="nav guest-houses__nav">
           <button id="guestHousesSLiderPrev" class="nav__btn">
             <img src="~/assets/icons/arrow_left_dark.svg" alt="назад" />
           </button>
@@ -348,6 +348,10 @@ export default {
 
     .nav__btn {
       background: currentColor;
+    }
+
+    @include mobile {
+      transform: translateX(0);
     }
   }
 }

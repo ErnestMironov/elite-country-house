@@ -60,14 +60,14 @@
           /></swiper-slide>
         </swiper>
       </client-only>
-      <div class="nav hide-on-mobile">
+      <!-- <div class="nav"> -->
         <button id="objectsSliderPrev" class="nav__btn">
           <img src="~/assets/icons/arrow_left.svg" alt="назад" />
         </button>
         <button id="objectsSliderNext" class="nav__btn">
           <img src="~/assets/icons/arrow_right.svg" alt="вперед" />
         </button>
-      </div>
+      <!-- </div> -->
     </div>
   </section>
 </template>
